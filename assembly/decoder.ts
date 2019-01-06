@@ -1,10 +1,13 @@
+import { StringConversionTests } from "../tests/assembly/encoder.spec.as";
 
+declare function logStr(str: string): void;
+declare function logF64(val: f64): void;
 
 /**
  * Extend from this class to handle events from parser.
  * Default implementation traverses whole object tree and does nothing.
  */
-export abstract class BSONHandler {
+export abstract class JSONHandler {
     setString(name: string, value: string): void {
     }
 
@@ -40,7 +43,7 @@ export abstract class BSONHandler {
  * This implementation crashes on every unimplemented set/push method
  * to allow easier validation of input.
  */
-export class ThrowingBSONHandler extends BSONHandler {
+export class ThrowingJSONHandler extends JSONHandler {
     setString(name: string, value: string): void {
        assert(false, 'Unexpected string field ' + name + ' : "' + value + '"');
     }
@@ -59,7 +62,7 @@ export class ThrowingBSONHandler extends BSONHandler {
     }
 
     setUint8Array(name: string, value: Uint8Array): void {
-        assert(false, 'Unexpected byte array field ' + name + ' : ' + bin2str(value));
+        assert(false, 'Unexpected byte array field ' + name);
     }
 
     pushArray(name: string): bool {
@@ -73,116 +76,121 @@ export class ThrowingBSONHandler extends BSONHandler {
     }
 }
 
-export class BSONDecoder<BSONHandlerT extends BSONHandler> {
-    handler: BSONHandlerT;
+export class JSONDecoder<JSONHandlerT extends JSONHandler> {
+    handler: JSONHandlerT;
     readIndex: i32 = 0;
+    buffer: Uint8Array = null;
+    lastKey: string = null;
 
-    constructor(handler: BSONHandlerT) {
+    constructor(handler: JSONHandlerT) {
         this.handler = handler;
     }
 
     deserialize(buffer: Uint8Array, startIndex: i32 = 0): void {
         this.readIndex = startIndex;
+        this.buffer = buffer;
+        this.lastKey = null
 
-        assert(buffer.length >= 5, "Document error: Size < 5 bytes");
+        assert(this.parseValue(), "Cannot parse JSON");
+    }
 
-        let size : i32 = buffer[this.readIndex++] | i32(buffer[this.readIndex++]) << 8 | i32(buffer[this.readIndex++]) << 16 | i32(buffer[this.readIndex++]) << 24;
-        assert(size <= buffer.length, "Document error: Size mismatch");
-        assert(buffer[buffer.length - 1] == 0x00, "Document error: Missing termination");
+    private peekChar(): i32 {
+        return this.buffer[this.readIndex];
+    }
 
-        for (; ;) {
-            // get element type
-            let elementType = buffer[this.readIndex++];  // read type
-            if (elementType === 0) break;   // zero means last byte, exit
+    private readChar(): i32 {
+        assert(this.readIndex < this.buffer.length, "Unexpected input end");
+        return this.buffer[this.readIndex++];
+    }
 
-            // get element name
-            let end = this.readIndex;
-            for (; buffer[end] !== 0x00 && end < buffer.length; end++);
-            assert(end < buffer.length - 1, "Document error: Illegal key name");
-            let name = bin2str(buffer.subarray(this.readIndex, end));
-            this.readIndex = ++end;                      // skip terminating zero
+    private parseValue(): boolean {
+        return this.parseObject()
+            || this.parseArray()
+            || this.parseString()
+            || this.parseNumber()
+            || this.parseBoolean()
+            || this.parseNull()
+        // TODO: Error if input left
+    }
 
-            switch (elementType) {
-                case 0x02:                    // BSON type: String
-                    size = buffer[this.readIndex++] | i32(buffer[this.readIndex++]) << 8 | i32(buffer[this.readIndex++]) << 16 | i32(buffer[this.readIndex++]) << 24;
-                    this.handler.setString(name, bin2str(buffer.subarray(this.readIndex, this.readIndex += size - 1)));
-                    this.readIndex++;
-                    break;
+    private parseObject(): boolean {
+        if (this.peekChar() != "{".charCodeAt(0)) {
+            return false;
+        }
+        logStr("parseObject: " + this.lastKey);
+        this.handler.pushObject(this.lastKey);
+        this.readChar();
+        
+        let firstItem = true;
+        while (this.peekChar() != "}".charCodeAt(0)) {
+            if (!firstItem) {
+                assert(this.readChar() == "".charCodeAt(0), "Expected ','");
+            } else {
+                firstItem = true;
+            }
+            this.parseKey();
+            this.parseValue();
+        }
+        assert(this.readChar() == "}".charCodeAt(0), "Unexpected end of object");
+        this.handler.popObject();
+        return true;
+    }
 
-                case 0x03:                    // BSON type: Document (Object)
-                    size = buffer[this.readIndex] | i32(buffer[this.readIndex + 1]) << 8 | i32(buffer[this.readIndex + 2]) << 16 | i32(buffer[this.readIndex + 3]) << 24;
-                    if (this.handler.pushObject(name)) {
-                        this.deserialize(buffer, this.readIndex);
-                    } else {
-                        this.readIndex += size;
-                    }
-                    this.handler.popObject();
-                    break;
+    private parseKey(): void {
+        this.lastKey = this.readString();
+        assert(this.readChar() == ":".charCodeAt(0), "Expected ':'");
+    }
 
-                case 0x04:                    // BSON type: Array
-                    size = buffer[this.readIndex] | i32(buffer[this.readIndex + 1]) << 8 | i32(buffer[this.readIndex + 2]) << 16 | i32(buffer[this.readIndex + 3]) << 24;  // NO 'i' increment since the size bytes are reread during the recursion
-                    if (this.handler.pushArray(name)) {
-                        this.deserialize(buffer, this.readIndex);
-                    } else {
-                        this.readIndex += size;
-                    }
-                    this.handler.popArray();
-                    break;
+    private parseArray(): boolean {
+        // TODO
+        return false;
+    }
 
-                case 0x05:                    // BSON type: Binary data
-                    size = buffer[this.readIndex++] | i32(buffer[this.readIndex++]) << 8 | i32(buffer[this.readIndex++]) << 16 | i32(buffer[this.readIndex++]) << 24;
-                    if (buffer[this.readIndex++] === 0x04) {
-                        // BSON subtype: UUID (not supported)
-                        return
-                    }
-                    this.handler.setUint8Array(name, buffer.subarray(this.readIndex, this.readIndex += size));    // use slice() here to get a new array
-                    break;
+    private parseString(): boolean {
+        if (this.peekChar() != '"'.charCodeAt(0)) {
+            return false;
+        }
+        this.handler.setString(this.lastKey, this.readString());
+        return true;
+    }
 
-                case 0x08:                    // BSON type: Boolean
-                    this.handler.setBoolean(name, buffer[this.readIndex++] === 1);
-                    break;
-
-                case 0x0A:                    // BSON type: Null
-                    this.handler.setNull(name);
-                    break;
-
-                case 0x10:                    // BSON type: 32-bit integer
-                    this.handler.setInteger(name, buffer[this.readIndex++] | i32(buffer[this.readIndex++]) << 8 | i32(buffer[this.readIndex++]) << 16 | i32(buffer[this.readIndex++]) << 24);
-                    break;
-
-                default:
-                    assert(false, "Parsing error: Unknown element");
+    private readString(): String {
+        assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
+        let savedIndex = this.readIndex;
+        for (;;) {
+            let byte = this.readChar();
+            assert(byte >= 0x20, "Unexpected control character");
+            // TODO: Make sure unicode handled properly
+            if (byte == '"'.charCodeAt(0)) {
+                return String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1);       
+            }
+            if (byte == "\\".charCodeAt(0)) {
+                // TODO: Decode string properly
+                let skipCount = 1;
+                if (this.peekChar() == "u".charCodeAt(0)) {
+                    skipCount += 4;
+                }
+                for (; skipCount > 0; skipCount--) {
+                    this.readChar();
+                }
             }
         }
+        // Should never happen
+        return "";
     }
-}
 
-/*
- * Parse byte array as an UTF-8 string
- * @param {Uint8Array} bin UTF-8 text given as array of bytes
- * @return {String} UTF-8 Text string
- */
-export function bin2str(bin: Uint8Array): string {
-    let str = '', len = bin.length, i = 0;
-    let c: i32, c2: i32, c3: i32;
-
-    while (i < len) {
-        c = bin[i];
-        if (c < 128) {
-            str += String.fromCharCode(c);
-            i++;
-        }
-        else if ((c > 191) && (c < 224)) {
-            c2 = bin[i + 1];
-            str += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-            i += 2;
-        }
-        else {
-            c2 = bin[i + 1];
-            c3 = bin[i + 2];
-            str += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-            i += 3;
-        }
+    private parseNumber(): boolean {
+        assert(false, "Method not implemented.");
+        return false;
     }
-    return str;
+
+    private parseBoolean(): boolean {
+        assert(false, "Method not implemented.");
+        return false;
+    }
+
+    private parseNull(): boolean {
+        assert(false, "Method not implemented.");
+        return false;
+    }
 }

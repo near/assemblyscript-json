@@ -1,11 +1,11 @@
 import "allocator/arena";
 
-import { BSONDecoder, BSONHandler } from "../../assembly/decoder";
+import { JSONDecoder, JSONHandler } from "../../assembly/decoder";
 
 declare function logStr(str: string): void;
 declare function logF64(val: f64): void;
 
-class BSONTestHandler extends BSONHandler {
+class JSONTestHandler extends JSONHandler {
     isFirstKey: boolean = true
     inObject: Array<boolean> = [false]
     result: string = ""
@@ -72,7 +72,9 @@ class BSONTestHandler extends BSONHandler {
 
     private writeString(str: string): void {
         // TODO: Implement encoding
+        this.write('"');
         this.write(str);
+        this.write('"');
     }
 
     private writeBoolean(value: bool): void {
@@ -92,28 +94,39 @@ class BSONTestHandler extends BSONHandler {
 
 
 export class StringConversionTests {
-    private static handler : BSONTestHandler = new BSONTestHandler();
+    private static handler : JSONTestHandler = new JSONTestHandler();
 
     static setUp(): void {
-        this.handler = new BSONTestHandler();
+        this.handler = new JSONTestHandler();
     }
 
-    static createDecoder(): BSONDecoder<BSONTestHandler> {
-        return new BSONDecoder(this.handler);
+    static createDecoder(): JSONDecoder<JSONTestHandler> {
+        return new JSONDecoder(this.handler);
     }
 
     static shouldHandleEmptyObject(): bool {
-        this.handler.pushObject(null);
-        this.createDecoder().deserialize(hex2bin("0500000000"));
-        this.handler.popObject();
-        return this.handler.result == "{}";   
+        return this.roundripTest("{}");   
     }
   
     static shouldHandleInt32(): bool {
-        this.handler.pushObject(null);
-        this.createDecoder().deserialize(hex2bin("0e00000010696e74003412000000"));
-        this.handler.popObject();
-        return this.handler.result == "{int:4660}"
+        return this.roundripTest('{"int":4660}');   
+    }
+
+    static shouldHandleString(): bool {
+        return this.roundripTest('{"str":"foo"}');   
+    }
+
+    private static roundripTest(jsonString: string): bool {
+        let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
+        let utf8ptr = jsonString.toUTF8();
+        // TODO: std should expose memcpy?
+        for (let i = 0; i < buffer.length; i++) {
+            buffer[i] = load<u8>(utf8ptr + i);
+        }
+        this.createDecoder().deserialize(buffer);
+        assert(this.handler.result == jsonString,
+            "Expected:\n" + jsonString + "\n" + "Actual:\n" + this.handler.result);
+        return true;
     }
 }
 
