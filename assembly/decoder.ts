@@ -78,6 +78,7 @@ export class ThrowingJSONHandler extends JSONHandler {
 
 const TRUE_STR = "true";
 const FALSE_STR = "false";
+const NULL_STR = "null";
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
@@ -206,16 +207,12 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
     private parseBoolean(): boolean {
         if (this.peekChar() == FALSE_STR.charCodeAt(0)) {
-            for (let i = 0; i < FALSE_STR.length; i++) {
-                assert(FALSE_STR.charCodeAt(i) == this.readChar(), "Expected false");
-            }
+            this.readAndAssert(FALSE_STR);
             this.handler.setBoolean(this.lastKey, false);
             return true;
         }
         if (this.peekChar() == TRUE_STR.charCodeAt(0)) {
-            for (let i = 0; i < TRUE_STR.length; i++) {
-                assert(TRUE_STR.charCodeAt(i) == this.readChar(), "Expected true");
-            }
+            this.readAndAssert(TRUE_STR);
             this.handler.setBoolean(this.lastKey, true);
             return true;
         }
@@ -224,7 +221,17 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
 
     private parseNull(): boolean {
-        assert(false, "Method not implemented.");
+        if (this.peekChar() == NULL_STR.charCodeAt(0)) {
+            this.readAndAssert(NULL_STR);
+            this.handler.setNull(this.lastKey);
+            return true;
+        }
         return false;
+    }
+
+    private readAndAssert(str: string): void {
+        for (let i = 0; i < str.length; i++) {
+            assert(str.charCodeAt(i) == this.readChar(), "Expected '" + str + "'");
+        }
     }
 }

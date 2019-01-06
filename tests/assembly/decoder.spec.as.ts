@@ -124,6 +124,10 @@ export class StringConversionTests {
         return this.roundripTest('{"val":false}');
     }
 
+    static shouldHandleNull(): bool {
+        return this.roundripTest('{"val":null}');
+    }
+
     static shouldHandleString(): bool {
         return this.roundripTest('{"str":"foo"}');
     }
