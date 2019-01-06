@@ -108,6 +108,10 @@ export class StringConversionTests {
         return this.roundripTest("{}");
     }
 
+    static shouldHandleEmptyObjectWithWhitespace(): bool {
+        return this.roundripTest("{ }", "{}");
+    }
+
     static shouldHandleInt32(): bool {
         return this.roundripTest('{"int":4660}');
     }
@@ -140,8 +144,15 @@ export class StringConversionTests {
         return this.roundripTest('{"str":"foo","obj":{"a":1,"b":-123456}}');
     }
 
-    private static roundripTest(jsonString: string): bool {
-        logStr("----------------- " + jsonString);
+    static shouldHandleWhitespace(): bool {
+        return this.roundripTest(
+            ' { "str":"foo","obj": {"a":1, "b" :\n -123456} } ',
+            '{"str":"foo","obj":{"a":1,"b":-123456}}');
+    }
+
+    private static roundripTest(jsonString: string, expectedString: string = null): bool {
+        expectedString = expectedString || jsonString;
+        logStr("----------------- " + jsonString );
         let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
         let utf8ptr = jsonString.toUTF8();
         // TODO: std should expose memcpy?
@@ -149,8 +160,8 @@ export class StringConversionTests {
             buffer[i] = load<u8>(utf8ptr + i);
         }
         this.createDecoder().deserialize(buffer);
-        assert(this.handler.result == jsonString,
-            "Expected:\n" + jsonString + "\n" + "Actual:\n" + this.handler.result);
+        assert(this.handler.result == expectedString,
+            "Expected:\n" + expectedString + "\n" + "Actual:\n" + this.handler.result);
         return true;
     }
 }
