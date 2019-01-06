@@ -30,10 +30,6 @@ class JSONTestHandler extends JSONHandler {
         this.writeInteger(value);
     }
 
-    setUint8Array(name: string, value: Uint8Array): void {
-        assert(false, "Not implemented");
-    }
-
     pushArray(name: string): bool {
         this.writeKey(name);
         this.write("[");
@@ -142,6 +138,22 @@ export class StringConversionTests {
 
     static shouldHandleNestedObjects(): bool {
         return this.roundripTest('{"str":"foo","obj":{"a":1,"b":-123456}}');
+    }
+
+    static shouldHandleEmptyArray(): bool {
+        return this.roundripTest('[]');
+    }
+
+    static shouldHandleArray(): bool {
+        return this.roundripTest('[1,2,3]');
+    }
+
+    static shouldHandleNestedArrays(): bool {
+        return this.roundripTest('[[1,2,3],[4,[5,6]]]');
+    }
+
+    static shouldHandleNestedObjectsAndArrays(): bool {
+        return this.roundripTest('{"str":"foo","arr":[{"obj":{"a":1,"b":-123456}}]}');
     }
 
     static shouldHandleWhitespace(): bool {

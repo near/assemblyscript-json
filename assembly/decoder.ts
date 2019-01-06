@@ -20,9 +20,6 @@ export abstract class JSONHandler {
     setInteger(name: string, value: i32): void {
     }
 
-    setUint8Array(name: string, value: Uint8Array): void {
-    }
-
     pushArray(name: string): bool {
         return true;
     }
@@ -59,10 +56,6 @@ export class ThrowingJSONHandler extends JSONHandler {
     setInteger(name: string, value: i32): void {
        let arr: Array<i32> = [value];
        assert(false, 'Unexpected integer field ' + name + ' : ' + arr.toString());
-    }
-
-    setUint8Array(name: string, value: Uint8Array): void {
-        assert(false, 'Unexpected byte array field ' + name);
     }
 
     pushArray(name: string): bool {
@@ -152,8 +145,26 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
 
     private parseArray(): bool {
-        // TODO
-        return false;
+        if (this.peekChar() != "[".charCodeAt(0)) {
+            return false;
+        }
+        this.handler.pushArray(this.lastKey);
+        this.lastKey = null;
+        this.readChar();
+        this.skipWhitespace();
+
+        let firstItem = true;
+        while (this.peekChar() != "]".charCodeAt(0)) {
+            if (!firstItem) {
+                assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
+            } else {
+                firstItem = false;
+            }
+            this.parseValue();
+        }
+        assert(this.readChar() == "]".charCodeAt(0), "Unexpected end of array");
+        this.handler.popArray();
+        return true;;
     }
 
     private parseString(): bool {
