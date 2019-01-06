@@ -105,18 +105,39 @@ export class StringConversionTests {
     }
 
     static shouldHandleEmptyObject(): bool {
-        return this.roundripTest("{}");   
+        return this.roundripTest("{}");
     }
-  
+
     static shouldHandleInt32(): bool {
-        return this.roundripTest('{"int":4660}');   
+        return this.roundripTest('{"int":4660}');
+    }
+
+    static shouldHandleInt32Sign(): bool {
+        return this.roundripTest('{"int":-4660}');
+    }
+
+    static shouldHandleTrue(): bool {
+        return this.roundripTest('{"val":true}');
+    }
+
+    static shouldHandleFalse(): bool {
+        return this.roundripTest('{"val":false}');
     }
 
     static shouldHandleString(): bool {
-        return this.roundripTest('{"str":"foo"}');   
+        return this.roundripTest('{"str":"foo"}');
+    }
+
+    static shouldMultipleKeys(): bool {
+        return this.roundripTest('{"str":"foo","bar":"baz"}');
+    }
+
+    static shouldHandleNestedObjects(): bool {
+        return this.roundripTest('{"str":"foo","obj":{"a":1,"b":-123456}}');
     }
 
     private static roundripTest(jsonString: string): bool {
+        logStr("----------------- " + jsonString);
         let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
         let utf8ptr = jsonString.toUTF8();
         // TODO: std should expose memcpy?

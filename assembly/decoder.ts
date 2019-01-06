@@ -76,7 +76,11 @@ export class ThrowingJSONHandler extends JSONHandler {
     }
 }
 
+const TRUE_STR = "true";
+const FALSE_STR = "false";
+
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
+
     handler: JSONHandlerT;
     readIndex: i32 = 0;
     buffer: Uint8Array = null;
@@ -107,8 +111,8 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         return this.parseObject()
             || this.parseArray()
             || this.parseString()
-            || this.parseNumber()
             || this.parseBoolean()
+            || this.parseNumber()
             || this.parseNull()
         // TODO: Error if input left
     }
@@ -117,16 +121,15 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "{".charCodeAt(0)) {
             return false;
         }
-        logStr("parseObject: " + this.lastKey);
         this.handler.pushObject(this.lastKey);
         this.readChar();
-        
+
         let firstItem = true;
         while (this.peekChar() != "}".charCodeAt(0)) {
             if (!firstItem) {
-                assert(this.readChar() == "".charCodeAt(0), "Expected ','");
+                assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
             } else {
-                firstItem = true;
+                firstItem = false;
             }
             this.parseKey();
             this.parseValue();
@@ -162,7 +165,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             assert(byte >= 0x20, "Unexpected control character");
             // TODO: Make sure unicode handled properly
             if (byte == '"'.charCodeAt(0)) {
-                return String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1);       
+                return String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1);
             }
             if (byte == "\\".charCodeAt(0)) {
                 // TODO: Decode string properly
@@ -180,12 +183,43 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
 
     private parseNumber(): boolean {
-        assert(false, "Method not implemented.");
+        // TODO: Parse floats
+        let number: i32 = 0;
+        let sign: i32 = 1;
+        if (this.peekChar() == "-".charCodeAt(0)) {
+            sign = -1;
+            this.readChar();
+        }
+        let digits = 0;
+        while ("0".charCodeAt(0) <= this.peekChar() && this.peekChar() <= "9".charCodeAt(0) ) {
+            let byte = this.readChar();
+            number *= 10;
+            number += byte - "0".charCodeAt(0);
+            digits++;
+        }
+        if (digits > 0) {
+            this.handler.setInteger(this.lastKey, number * sign);
+            return true;
+        }
         return false;
     }
 
     private parseBoolean(): boolean {
-        assert(false, "Method not implemented.");
+        if (this.peekChar() == FALSE_STR.charCodeAt(0)) {
+            for (let i = 0; i < FALSE_STR.length; i++) {
+                assert(FALSE_STR.charCodeAt(i) == this.readChar(), "Expected false");
+            }
+            this.handler.setBoolean(this.lastKey, false);
+            return true;
+        }
+        if (this.peekChar() == TRUE_STR.charCodeAt(0)) {
+            for (let i = 0; i < TRUE_STR.length; i++) {
+                assert(TRUE_STR.charCodeAt(i) == this.readChar(), "Expected true");
+            }
+            this.handler.setBoolean(this.lastKey, true);
+            return true;
+        }
+
         return false;
     }
 
