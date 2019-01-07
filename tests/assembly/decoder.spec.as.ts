@@ -67,9 +67,33 @@ class JSONTestHandler extends JSONHandler {
     }
 
     private writeString(str: string): void {
-        // TODO: Implement encoding
         this.write('"');
-        this.write(str);
+        let savedIndex = 0;
+        for (let i = 0; i < str.length; i++) {
+            let char = str.charCodeAt(i);
+            let needsEscaping = char < 0x20 || char == '"'.charCodeAt(0) || char == '\\'.charCodeAt(0);
+            if (needsEscaping) {
+                this.write(str.substring(savedIndex, i));
+                savedIndex = i + 1;
+                if (char == '"'.charCodeAt(0)) {
+                    this.write('\\"');
+                } else if (char == "\\".charCodeAt(0)) {
+                    this.write("\\\\");
+                } else if (char == "\b".charCodeAt(0)) {
+                    this.write("\\b");
+                } else if (char == "\n".charCodeAt(0)) {
+                    this.write("\\n");
+                } else if (char == "\r".charCodeAt(0)) {
+                    this.write("\\r");
+                } else if (char == "\t".charCodeAt(0)) {
+                    this.write("\\t");
+                } else {
+                    // TODO: Implement encoding for other contol characters
+                    assert(false, "Unsupported control chracter");
+                }
+            }
+        }
+        this.write(str.substring(savedIndex, str.length));
         this.write('"');
     }
 
@@ -130,6 +154,18 @@ export class StringConversionTests {
 
     static shouldHandleString(): bool {
         return this.roundripTest('{"str":"foo"}');
+    }
+
+    static shouldHandleStringEscaped(): bool {
+        return this.roundripTest('"\\"\\\\\\/\\n\\t\\b\\r\\t"', '"\\"\\\\/\\n\\t\\b\\r\\t"');
+    }
+
+    static shouldHandleStringUnicodeEscaped1(): bool {
+        return this.roundripTest('"\\u0022"', '"\\""');
+    }
+
+    static shouldHandleStringUnicodeEscaped2(): bool {
+        return this.roundripTest('"\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430"', '"Полтора Землекопа"');
     }
 
     static shouldMultipleKeys(): bool {

@@ -72,6 +72,10 @@ export class ThrowingJSONHandler extends JSONHandler {
 const TRUE_STR = "true";
 const FALSE_STR = "false";
 const NULL_STR = "null";
+let CHAR_0 = "0".charCodeAt(0);
+let CHAR_9 = "9".charCodeAt(0);
+let CHAR_A = "A".charCodeAt(0);
+let CHAR_A_LOWER = "a".charCodeAt(0);
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
@@ -178,26 +182,77 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     private readString(): string {
         assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
         let savedIndex = this.readIndex;
+        let stringParts: Array<string> = new Array<string>();
         for (;;) {
             let byte = this.readChar();
             assert(byte >= 0x20, "Unexpected control character");
             // TODO: Make sure unicode handled properly
             if (byte == '"'.charCodeAt(0)) {
-                return String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1);
+                stringParts.push(
+                    String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1));
+                return stringParts.join("");
             }
             if (byte == "\\".charCodeAt(0)) {
-                // TODO: Decode string properly
-                let skipCount = 1;
-                if (this.peekChar() == "u".charCodeAt(0)) {
-                    skipCount += 4;
+                if (this.readIndex > savedIndex + 1) {
+                    stringParts.push(
+                        String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1));
                 }
-                for (; skipCount > 0; skipCount--) {
-                    this.readChar();
-                }
+                stringParts.push(this.readEscapedChar());
+                savedIndex = this.readIndex;
             }
         }
         // Should never happen
         return "";
+    }
+
+    private readEscapedChar(): string {
+        let byte = this.readChar();
+        // TODO: Use lookup table for anything except \u
+        if (byte == '"'.charCodeAt(0)) {
+            return '"';
+        }
+        if (byte == "\\".charCodeAt(0)) {
+            return "\\";
+        }
+        if (byte == "/".charCodeAt(0)) {
+            return "/";
+        }
+        if (byte == "b".charCodeAt(0)) {
+            return "\b";
+        }
+        if (byte == "n".charCodeAt(0)) {
+            return "\n";
+        }
+        if (byte == "r".charCodeAt(0)) {
+            return "\r";
+        }
+        if (byte == "t".charCodeAt(0)) {
+            return "\t";
+        }
+        if (byte == "u".charCodeAt(0)) {
+            let d1 = this.readHexDigit();
+            let d2 = this.readHexDigit();
+            let d3 = this.readHexDigit();
+            let d4 = this.readHexDigit();
+            let charCode = d1 * 0x1000 + d2 * 0x100 + d3 * 0x10 + d4;
+            return String.fromCodePoint(charCode);
+        }
+        assert(false, "Unexpected escaped character: " + String.fromCharCode(byte));
+        return "";
+    }
+
+    private readHexDigit(): i32 {
+        let byte = this.readChar();
+        let digit = byte - CHAR_0;
+        if (digit > 9) {
+            digit = byte - CHAR_A + 10;
+            if (digit < 10 || digit > 15) {
+                digit = byte - CHAR_A_LOWER + 10;
+            }
+        }
+        let arr: Array<i32> = [byte, digit];
+        assert(digit >= 0 && digit < 16, "Unexpected \\u digit");
+        return digit;
     }
 
     private parseNumber(): bool {
@@ -209,10 +264,10 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             this.readChar();
         }
         let digits = 0;
-        while ("0".charCodeAt(0) <= this.peekChar() && this.peekChar() <= "9".charCodeAt(0) ) {
+        while (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9 ) {
             let byte = this.readChar();
             number *= 10;
-            number += byte - "0".charCodeAt(0);
+            number += byte - CHAR_0;
             digits++;
         }
         if (digits > 0) {
