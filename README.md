@@ -1,6 +1,6 @@
 # assemblyscript-bson
 
-BSON encoder / decoder for AssemblyScript somewhat based on https://github.com/mpaland/bsonfy.
+JSON encoder / decoder for AssemblyScript.
 
 Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing infra for AssemblyScript.
 
@@ -8,14 +8,7 @@ Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing
 
 This is developed for use in smart contracts written in AssemblyScript for https://github.com/nearprotocol/nearcore.
 This imposes such limitations:
-- Only limited data types are supported:
-    - arrays
-    - objects
-    - 32-bit integers
-    - strings
-    - booleans
-    - null
-    - `Uint8Array`
+- Float numbers not supported
 - We assume that memory never needs to be deallocated (cause these contracts are short-lived).
 
 Note that this mostly just defines the way it's currently implemented. Contributors are welcome to fix limitations.
@@ -23,16 +16,16 @@ Note that this mostly just defines the way it's currently implemented. Contribut
 
 # Usage
 
-## Encoding BSON
+## Encoding JSON
 
 ```ts
 // Make sure memory allocator is available
 import "allocator/arena";
 // Import encoder
-import { BSONEncoder } from "path/to/module";
+import { JSONEncoder } from "path/to/module";
 
 // Create encoder
-let encoder = new BSONEncoder();
+let encoder = new JSONEncoder();
 
 // Construct necessary object
 encoder.pushObject("obj");
@@ -45,17 +38,17 @@ let bson: Uint8Array = encoder.serialize();
 
 ```
 
-## Parsing BSON
+## Parsing JSON
 
 ```ts
 // Make sure memory allocator is available
 import "allocator/arena";
 // Import decoder
-import { BSONDecoder, BSONHandler } from "path/to/module";
+import { JSONDecoder, JSONHandler } from "path/to/module";
 
-// Events need to be received by custom object extending BSONHandler.
+// Events need to be received by custom object extending JSONHandler.
 // NOTE: All methods are optional to implement.
-class MyBSONEventsHandler extends BSONHandler {
+class MyJSONEventsHandler extends JSONHandler {
     setString(name: string, value: string): void {
         // Handle field
     }
@@ -69,10 +62,6 @@ class MyBSONEventsHandler extends BSONHandler {
     }
 
     setInteger(name: string, value: i32): void {
-        // Handle field
-    }
-
-    setUint8Array(name: string, value: Uint8Array): void {
         // Handle field
     }
 
@@ -96,13 +85,13 @@ class MyBSONEventsHandler extends BSONHandler {
 }
 
 // Create decoder
-let decoder = new BSONDecoder<MyBSONEventsHandler>(new MyBSONEventsHandler());
+let decoder = new JSONDecoder<MyJSONEventsHandler>(new MyJSONEventsHandler());
 
-// Let's assume BSON data is available in this variable
-let bson: Uint8Array = ...;
+// Let's assume JSON data is available in this variable
+let json: Uint8Array = ...;
 
-// Parse BSON
-decoder.deserialize(bson); // This will send events to MyBSONEventsHandler
+// Parse JSON
+decoder.deserialize(json); // This will send events to MyJSONEventsHandler
 
 ```
 
