@@ -120,21 +120,22 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "{".charCodeAt(0)) {
             return false;
         }
-        this.handler.pushObject(this.lastKey);
-        this.readChar();
-        this.skipWhitespace();
+        if (this.handler.pushObject(this.lastKey)) {
+            this.readChar();
+            this.skipWhitespace();
 
-        let firstItem = true;
-        while (this.peekChar() != "}".charCodeAt(0)) {
-            if (!firstItem) {
-                assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
-            } else {
-                firstItem = false;
+            let firstItem = true;
+            while (this.peekChar() != "}".charCodeAt(0)) {
+                if (!firstItem) {
+                    assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
+                } else {
+                    firstItem = false;
+                }
+                this.parseKey();
+                this.parseValue();
             }
-            this.parseKey();
-            this.parseValue();
+            assert(this.readChar() == "}".charCodeAt(0), "Unexpected end of object");
         }
-        assert(this.readChar() == "}".charCodeAt(0), "Unexpected end of object");
         this.handler.popObject();
         return true;
     }
@@ -150,21 +151,22 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "[".charCodeAt(0)) {
             return false;
         }
-        this.handler.pushArray(this.lastKey);
-        this.lastKey = null;
-        this.readChar();
-        this.skipWhitespace();
+        if (this.handler.pushArray(this.lastKey)) {
+            this.lastKey = null;
+            this.readChar();
+            this.skipWhitespace();
 
-        let firstItem = true;
-        while (this.peekChar() != "]".charCodeAt(0)) {
-            if (!firstItem) {
-                assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
-            } else {
-                firstItem = false;
+            let firstItem = true;
+            while (this.peekChar() != "]".charCodeAt(0)) {
+                if (!firstItem) {
+                    assert(this.readChar() == ",".charCodeAt(0), "Expected ','");
+                } else {
+                    firstItem = false;
+                }
+                this.parseValue();
             }
-            this.parseValue();
+            assert(this.readChar() == "]".charCodeAt(0), "Unexpected end of array");
         }
-        assert(this.readChar() == "]".charCodeAt(0), "Unexpected end of array");
         this.handler.popArray();
         return true;;
     }

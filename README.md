@@ -1,4 +1,4 @@
-# assemblyscript-bson
+# assemblyscript-json
 
 JSON encoder / decoder for AssemblyScript.
 
@@ -67,7 +67,9 @@ class MyJSONEventsHandler extends JSONHandler {
 
     pushArray(name: string): bool {
         // Handle array start
-        return true; // true means that nested object needs to be traversed, false otherwise
+        // true means that nested object needs to be traversed, false otherwise
+        // Note that returning false means JSONDecoder.startIndex need to be updated by handler
+        return true;
     }
 
     popArray(): void {
@@ -76,7 +78,9 @@ class MyJSONEventsHandler extends JSONHandler {
 
     pushObject(name: string): bool {
         // Handle object start
-        return true; // true means that nested object needs to be traversed, false otherwise
+        // true means that nested object needs to be traversed, false otherwise
+        // Note that returning false means JSONDecoder.startIndex need to be updated by handler
+        return true;
     }
 
     popObject(): void {
