@@ -58,7 +58,7 @@ export class StringConversionTests {
     }
 
     static shouldHandleStringUnicodeEscaped2(): bool {
-        return this.roundripTest('"\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430"', '"Полтора Землекопа"');
+        return this.roundripTest('"\\u041f\\u043e\\u043b\\u0442\\u043e\\u0440\\u0430 \\u0417\\u0435\\u043c\\u043b\\u0435\\u043a\\u043e\\u043f\\u0430"', '"Полтора Землекопа"');
     }
 
     static shouldMultipleKeys(): bool {
@@ -92,8 +92,8 @@ export class StringConversionTests {
     }
 
     private static roundripTest(jsonString: string, expectedString: string = null): bool {
+        logStr("--------" + jsonString + (expectedString ? " " + expectedString : ""));
         expectedString = expectedString || jsonString;
-        logStr("----------------- " + jsonString );
         let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
         let utf8ptr = jsonString.toUTF8();
         // TODO: std should expose memcpy?
