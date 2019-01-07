@@ -3,9 +3,8 @@
     "asbuild:untouched": "npx asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "npx asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
-    "asbuild:test": "npm run asbuild:test:encoder && npm run asbuild:test:decoder",
-    "asbuild:test:encoder": "npx asc tests/assembly/encoder.spec.as.ts -b tests/build/encoder.wasm -t tests/build/encoder.wat --validate --sourceMap --importMemory --debug",
-    "asbuild:test:decoder": "npx asc tests/assembly/decoder.spec.as.ts -b tests/build/decoder.wasm -t tests/build/decoder.wat --validate --sourceMap --importMemory --debug",
+    "asbuild:test": "npm run asbuild:test:roundtrip",
+    "asbuild:test:roundtrip": "npx asc tests/assembly/roundtrip.spec.as.ts -b tests/build/roundtrip.wasm -t tests/build/roundtrip.wat --validate --sourceMap --importMemory --debug",
     "test": "npm run asbuild:test && ava -v --serial",
     "test:ci": "npm run asbuild:test && ava --fail-fast --serial"
   },

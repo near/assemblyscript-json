@@ -1,5 +1,3 @@
-import { StringConversionTests } from "../tests/assembly/encoder.spec.as";
-
 declare function logStr(str: string): void;
 declare function logF64(val: f64): void;
 
