@@ -57,7 +57,7 @@ export class ThrowingJSONHandler extends JSONHandler {
     }
 
     pushArray(name: string): bool {
-        assert(false, 'Unexpected array field' + name);
+        assert(false, 'Unexpected array field ' + name);
         return true;
     }
 
