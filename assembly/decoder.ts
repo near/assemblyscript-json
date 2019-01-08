@@ -75,33 +75,42 @@ let CHAR_9 = "9".charCodeAt(0);
 let CHAR_A = "A".charCodeAt(0);
 let CHAR_A_LOWER = "a".charCodeAt(0);
 
-export class JSONDecoder<JSONHandlerT extends JSONHandler> {
-
-    handler: JSONHandlerT;
+export class DecoderState {
     readIndex: i32 = 0;
     buffer: Uint8Array = null;
     lastKey: string = null;
+}
+
+export class JSONDecoder<JSONHandlerT extends JSONHandler> {
+
+    handler: JSONHandlerT;
+    state: DecoderState;
 
     constructor(handler: JSONHandlerT) {
         this.handler = handler;
     }
 
-    deserialize(buffer: Uint8Array, startIndex: i32 = 0): void {
-        this.readIndex = startIndex;
-        this.buffer = buffer;
-        this.lastKey = null
+    deserialize(buffer: Uint8Array, decoderState: DecoderState = null): void {
+        if (decoderState) {
+            this.state = decoderState;
+        } else {
+            this.state = new DecoderState();
+            this.state.readIndex = 0;
+            this.state.buffer = buffer;
+            this.state.lastKey = null;
+        }
 
         assert(this.parseValue(), "Cannot parse JSON");
         // TODO: Error if input left
     }
 
     private peekChar(): i32 {
-        return this.buffer[this.readIndex];
+        return this.state.buffer[this.state.readIndex];
     }
 
     private readChar(): i32 {
-        assert(this.readIndex < this.buffer.length, "Unexpected input end");
-        return this.buffer[this.readIndex++];
+        assert(this.state.readIndex < this.state.buffer.length, "Unexpected input end");
+        return this.state.buffer[this.state.readIndex++];
     }
 
     private parseValue(): bool {
@@ -120,7 +129,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "{".charCodeAt(0)) {
             return false;
         }
-        if (this.handler.pushObject(this.lastKey)) {
+        if (this.handler.pushObject(this.state.lastKey)) {
             this.readChar();
             this.skipWhitespace();
 
@@ -142,7 +151,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
     private parseKey(): void {
         this.skipWhitespace();
-        this.lastKey = this.readString();
+        this.state.lastKey = this.readString();
         this.skipWhitespace();
         assert(this.readChar() == ":".charCodeAt(0), "Expected ':'");
     }
@@ -151,8 +160,8 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "[".charCodeAt(0)) {
             return false;
         }
-        if (this.handler.pushArray(this.lastKey)) {
-            this.lastKey = null;
+        if (this.handler.pushArray(this.state.lastKey)) {
+            this.state.lastKey = null;
             this.readChar();
             this.skipWhitespace();
 
@@ -175,13 +184,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != '"'.charCodeAt(0)) {
             return false;
         }
-        this.handler.setString(this.lastKey, this.readString());
+        this.handler.setString(this.state.lastKey, this.readString());
         return true;
     }
 
     private readString(): string {
         assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
-        let savedIndex = this.readIndex;
+        let savedIndex = this.state.readIndex;
         let stringParts: Array<string> = new Array<string>();
         for (;;) {
             let byte = this.readChar();
@@ -189,16 +198,16 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             // TODO: Make sure unicode handled properly
             if (byte == '"'.charCodeAt(0)) {
                 stringParts.push(
-                    String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1));
+                    String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
                 return stringParts.join("");
             }
             if (byte == "\\".charCodeAt(0)) {
-                if (this.readIndex > savedIndex + 1) {
+                if (this.state.readIndex > savedIndex + 1) {
                     stringParts.push(
-                        String.fromUTF8(this.buffer.buffer.data + savedIndex, this.readIndex - savedIndex - 1));
+                        String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
                 }
                 stringParts.push(this.readEscapedChar());
-                savedIndex = this.readIndex;
+                savedIndex = this.state.readIndex;
             }
         }
         // Should never happen
@@ -271,7 +280,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             digits++;
         }
         if (digits > 0) {
-            this.handler.setInteger(this.lastKey, number * sign);
+            this.handler.setInteger(this.state.lastKey, number * sign);
             return true;
         }
         return false;
@@ -280,12 +289,12 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     private parseBoolean(): bool {
         if (this.peekChar() == FALSE_STR.charCodeAt(0)) {
             this.readAndAssert(FALSE_STR);
-            this.handler.setBoolean(this.lastKey, false);
+            this.handler.setBoolean(this.state.lastKey, false);
             return true;
         }
         if (this.peekChar() == TRUE_STR.charCodeAt(0)) {
             this.readAndAssert(TRUE_STR);
-            this.handler.setBoolean(this.lastKey, true);
+            this.handler.setBoolean(this.state.lastKey, true);
             return true;
         }
 
@@ -295,7 +304,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     private parseNull(): bool {
         if (this.peekChar() == NULL_STR.charCodeAt(0)) {
             this.readAndAssert(NULL_STR);
-            this.handler.setNull(this.lastKey);
+            this.handler.setNull(this.state.lastKey);
             return true;
         }
         return false;
