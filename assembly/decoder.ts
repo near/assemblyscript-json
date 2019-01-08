@@ -105,6 +105,9 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
 
     private peekChar(): i32 {
+        if (this.state.readIndex >= this.state.buffer.length) {
+          return -1;
+        }
         return this.state.buffer[this.state.readIndex];
     }
 
@@ -129,7 +132,9 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "{".charCodeAt(0)) {
             return false;
         }
-        if (this.handler.pushObject(this.state.lastKey)) {
+        let key = this.state.lastKey;
+        this.state.lastKey = null;
+        if (this.handler.pushObject(key)) {
             this.readChar();
             this.skipWhitespace();
 
