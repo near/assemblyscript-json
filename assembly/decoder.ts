@@ -165,8 +165,9 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         if (this.peekChar() != "[".charCodeAt(0)) {
             return false;
         }
-        if (this.handler.pushArray(this.state.lastKey)) {
-            this.state.lastKey = null;
+        let key = this.state.lastKey;
+        this.state.lastKey = null;
+        if (this.handler.pushArray(key)) {
             this.readChar();
             this.skipWhitespace();
 
