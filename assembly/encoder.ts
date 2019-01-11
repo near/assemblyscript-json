@@ -16,6 +16,10 @@ export class JSONEncoder {
         return buffer.subarray(0, buffer.length - 1);
     }
 
+    toString(): String {
+        return this.result;
+    }
+
     setString(name: string, value: string): void {
         this.writeKey(name);
         this.writeString(value);

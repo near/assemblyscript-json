@@ -104,7 +104,9 @@ export class StringConversionTests {
         let resultBuffer = this.handler.serialize();
         let resultString = String.fromUTF8(resultBuffer.buffer.data, resultBuffer.length);
         assert(resultString == expectedString,
-            "Expected:\n" + expectedString + "\n" + "Actual:\n" + resultString)
+            "Expected:\n" + expectedString + "\n" + "Actual:\n" + resultString);
+        assert(this.handler.toString() == expectedString,
+            "Expected:\n" + expectedString + "\n" + "Actual:\n" + resultString);
         return true;
     }
 }
