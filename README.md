@@ -36,6 +36,9 @@ encoder.popObject();
 // Get serialized data
 let json: Uint8Array = encoder.serialize();
 
+// Or get serialized data as string
+let jsonString: String = encoder.toString();
+
 ```
 
 ## Parsing JSON
