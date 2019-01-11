@@ -1,4 +1,4 @@
-import { BSONDecoder } from './decoder';
-import { BSONEncoder } from './encoder';
+import { JSONDecoder } from './decoder';
+import { JSONEncoder } from './encoder';
 
-export { BSONDecoder, BSONEncoder };
+export { JSONDecoder, JSONEncoder };

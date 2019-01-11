@@ -34,7 +34,7 @@ encoder.setString("str", "");
 encoder.popObject();
 
 // Get serialized data
-let bson: Uint8Array = encoder.serialize();
+let json: Uint8Array = encoder.serialize();
 
 ```
 
