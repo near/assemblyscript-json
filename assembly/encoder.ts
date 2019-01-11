@@ -112,9 +112,7 @@ export class JSONEncoder {
     }
 
     private writeInteger(value: i32): void {
-        // TODO: More efficient encoding
-        let arr: Array<i32> = [value];
-        this.write(arr.toString());
+        this.write(value.toString());
     }
 
     private write(str: string): void {
