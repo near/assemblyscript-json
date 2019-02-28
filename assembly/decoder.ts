@@ -15,7 +15,7 @@ export abstract class JSONHandler {
     setNull(name: string): void {
     }
 
-    setInteger(name: string, value: i32): void {
+    setInteger(name: string, value: i64): void {
     }
 
     pushArray(name: string): bool {
@@ -51,9 +51,8 @@ export class ThrowingJSONHandler extends JSONHandler {
        assert(false, 'Unexpected null field ' + name);
     }
 
-    setInteger(name: string, value: i32): void {
-       let arr: Array<i32> = [value];
-       assert(false, 'Unexpected integer field ' + name + ' : ' + arr.toString());
+    setInteger(name: string, value: i64): void {
+       assert(false, 'Unexpected integer field ' + name + ' : ' + value.toString());
     }
 
     pushArray(name: string): bool {
@@ -271,8 +270,8 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
     private parseNumber(): bool {
         // TODO: Parse floats
-        let number: i32 = 0;
-        let sign: i32 = 1;
+        let number: i64 = 0;
+        let sign: i64 = 1;
         if (this.peekChar() == "-".charCodeAt(0)) {
             sign = -1;
             this.readChar();

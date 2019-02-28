@@ -35,7 +35,7 @@ export class JSONEncoder {
         this.write("null");
     }
 
-    setInteger(name: string, value: i32): void {
+    setInteger(name: string, value: i64): void {
         this.writeKey(name);
         this.writeInteger(value);
     }
@@ -109,7 +109,7 @@ export class JSONEncoder {
         this.write(value ? "true" : "false");
     }
 
-    private writeInteger(value: i32): void {
+    private writeInteger(value: i64): void {
         this.write(value.toString());
     }
 
