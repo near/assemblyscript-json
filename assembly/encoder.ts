@@ -2,8 +2,12 @@ declare function logStr(str: string): void;
 declare function logF64(val: f64): void;
 
 export class JSONEncoder {
-    private isFirstKey: boolean = true
+    private isFirstKey: bool[] = new Array<bool>(1);
     private result: string[] = new Array<string>();
+
+    constructor() {
+      this.isFirstKey[0] = true;
+    }
 
     serialize(): Uint8Array {
         // TODO: Write directly to UTF8 bytes
@@ -43,30 +47,32 @@ export class JSONEncoder {
     pushArray(name: string): bool {
         this.writeKey(name);
         this.write("[");
-        this.isFirstKey = true
+        this.isFirstKey.push(true);
         return true;
     }
 
     popArray(): void {
         this.write("]");
+        this.isFirstKey.pop();
     }
 
     pushObject(name: string): bool {
         this.writeKey(name);
         this.write("{");
-        this.isFirstKey = true
+        this.isFirstKey.push(true);
         return true;
     }
 
     popObject(): void {
         this.write("}");
+        this.isFirstKey.pop();
     }
 
     private writeKey(str: string): void {
-        if (!this.isFirstKey ) {
+        if (!this.isFirstKey[this.isFirstKey.length - 1]) {
             this.write(",");
         } else {
-            this.isFirstKey = false;
+            this.isFirstKey[this.isFirstKey.length - 1] = false;
         }
         if (str != null) {
             this.writeString(str);
