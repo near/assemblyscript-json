@@ -196,16 +196,22 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     private readString(): string {
         assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
         let savedIndex = this.state.readIndex;
-        let stringParts: Array<string> = new Array<string>();
+        let stringParts: Array<string> = null;
         for (;;) {
             let byte = this.readChar();
             assert(byte >= 0x20, "Unexpected control character");
             if (byte == '"'.charCodeAt(0)) {
-                stringParts.push(
-                    String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
-                return stringParts.join("");
-            }
-            if (byte == "\\".charCodeAt(0)) {
+                let s = String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1);
+                if (stringParts != null) {
+                    stringParts.push(s);
+                    return stringParts.join("");
+                } else {
+                    return s;
+                }
+            } else if (byte == "\\".charCodeAt(0)) {
+                if (stringParts == null) {
+                    stringParts = new Array<string>();
+                }
                 if (this.state.readIndex > savedIndex + 1) {
                     stringParts.push(
                         String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
