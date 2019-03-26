@@ -103,7 +103,7 @@ export class JSONEncoder {
                     this.write("\\t");
                 } else {
                     // TODO: Implement encoding for other contol characters
-                    assert(false, "Unsupported control chracter");
+                    assert(false, "Unsupported control character code: " + char.toString());
                 }
             }
         }
