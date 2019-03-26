@@ -13,11 +13,9 @@ export class JSONEncoder {
         // TODO: Write directly to UTF8 bytes
         let result = this.toString();
         let utf8ptr = result.toUTF8();
-        let buffer = new Uint8Array(result.lengthUTF8);
-        for (let i = 0; i <  buffer.length; i++) {
-            buffer[i] = load<u8>(utf8ptr + i);
-        }
-        return buffer.subarray(0, buffer.length - 1);
+        let buffer = new Uint8Array(result.lengthUTF8 - 1);
+        memory.copy(buffer.buffer.data, utf8ptr, buffer.byteLength);
+        return buffer;
     }
 
     toString(): String {
