@@ -202,12 +202,11 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             assert(byte >= 0x20, "Unexpected control character");
             if (byte == '"'.charCodeAt(0)) {
                 let s = String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1);
-                if (stringParts != null) {
-                    stringParts.push(s);
-                    return stringParts.join("");
-                } else {
+                if (stringParts == null) {
                     return s;
                 }
+                stringParts.push(s);
+                return stringParts.join("");
             } else if (byte == "\\".charCodeAt(0)) {
                 if (stringParts == null) {
                     stringParts = new Array<string>();
