@@ -1,6 +1,7 @@
 {
   "name": "assemblyscript-json",
   "version": "0.0.2",
+  "types": "assembly/index.ts",
   "scripts": {
     "asbuild:untouched": "npx asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "npx asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
