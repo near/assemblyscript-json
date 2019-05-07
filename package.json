@@ -3,17 +3,17 @@
   "version": "0.0.2",
   "types": "assembly/index.ts",
   "scripts": {
-    "asbuild:untouched": "npx asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
-    "asbuild:optimized": "npx asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
+    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
+    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "asbuild:test": "npm run asbuild:test:roundtrip",
-    "asbuild:test:roundtrip": "npx asc tests/assembly/roundtrip.spec.as.ts -b tests/build/roundtrip.wasm -t tests/build/roundtrip.wat --validate --sourceMap --importMemory --debug",
+    "asbuild:test:roundtrip": "asc tests/assembly/roundtrip.spec.as.ts -b tests/build/roundtrip.wasm -t tests/build/roundtrip.wat --validate --sourceMap --importMemory --debug",
     "test": "npm run asbuild:test && ava -v --serial",
     "test:ci": "npm run asbuild:test && ava --fail-fast --serial"
   },
   "devDependencies": {
     "@types/node": "^10.12.3",
-    "assemblyscript": "AssemblyScript/assemblyscript",
+    "assemblyscript": "nearprotocol/assemblyscript",
     "ava": "1.0.0-rc.1",
     "ts-node": "^7.0.1",
     "typedoc": "^0.13.0",
