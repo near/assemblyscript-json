@@ -1,5 +1,3 @@
-import "allocator/arena";
-
 import { JSONDecoder } from "../decoder";
 import { JSONEncoder } from "../encoder";
 

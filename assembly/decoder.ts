@@ -1,6 +1,3 @@
-declare function logStr(str: string): void;
-declare function logF64(val: f64): void;
-
 /**
  * Extend from this class to handle events from parser.
  * Default implementation traverses whole object tree and does nothing.
