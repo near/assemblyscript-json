@@ -52,6 +52,7 @@ export class ThrowingJSONHandler extends JSONHandler {
     }
 
     setInteger(name: string, value: i64): void {
+       //@ts-ignore integer does have toString
        assert(false, 'Unexpected integer field ' + name + ' : ' + value.toString());
     }
 
@@ -76,8 +77,8 @@ let CHAR_A_LOWER = "a".charCodeAt(0);
 
 export class DecoderState {
     readIndex: i32 = 0;
-    buffer: Uint8Array = null;
-    lastKey: string = null;
+    buffer: Uint8Array;
+    lastKey: string | null = null;
 }
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {

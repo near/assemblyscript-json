@@ -18,7 +18,7 @@ export class JSONEncoder {
         return buffer;
     }
 
-    toString(): String {
+    toString(): string {
         return this.result.join("");
     }
 
@@ -101,6 +101,7 @@ export class JSONEncoder {
                     this.write("\\t");
                 } else {
                     // TODO: Implement encoding for other contol characters
+                    //@ts-ignore integer does have toString
                     assert(false, "Unsupported control character code: " + char.toString());
                 }
             }
@@ -114,6 +115,7 @@ export class JSONEncoder {
     }
 
     private writeInteger(value: i64): void {
+        //@ts-ignore integer does have toString
         this.write(value.toString());
     }
 

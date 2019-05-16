@@ -6,30 +6,11 @@
     "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
-    "asbuild:test": "npm run asbuild:test:roundtrip",
-    "asbuild:test:roundtrip": "asc tests/assembly/roundtrip.spec.as.ts -b tests/build/roundtrip.wasm -t tests/build/roundtrip.wat --validate --sourceMap --importMemory --debug",
-    "test": "npm run asbuild:test && ava -v --serial",
-    "test:ci": "npm run asbuild:test && ava --fail-fast --serial"
+    "test": "asp",
+    "test:ci": "asp --reporter=SummaryTestReporter"
   },
   "devDependencies": {
-    "@types/node": "^10.12.3",
     "assemblyscript": "nearprotocol/assemblyscript",
-    "ava": "1.0.0-rc.1",
-    "ts-node": "^7.0.1",
-    "typedoc": "^0.13.0",
-    "typescript": "^3.1.6"
-  },
-  "ava": {
-    "compileEnhancements": true,
-    "extensions": [
-      "ts"
-    ],
-    "require": [
-      "ts-node/register/transpile-only"
-    ],
-    "files": [
-      "tests/**/*.spec.ts"
-    ]
-  },
-  "dependencies": {}
+    "as-pect": "github:jtenner/as-pect"
+  }
 }
