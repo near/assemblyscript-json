@@ -107,13 +107,13 @@ decoder.deserialize(json); // This will send events to MyJSONEventsHandler
 ```ts
 import { JSON } from "path/to/module";
 
-//Can use JS parse api
+// Can use JS parse api
 let jsonObj: JSON.Object = JSON.parse(`{"hello": "world"}`);
 
-//Can then use a key to read from the object if you know it's type
+// Can then use a key to read from the object if you know it's type
 let world = jsonObj.getString("hello");
 
-//If you don't know what the type of the value
+// If you don't know what the type of the value
 let unknown = jsonObj.getValue("hello")
 
 unknown.isString // true;

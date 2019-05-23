@@ -29,79 +29,79 @@ describe("Round trip", () => {
   });
 
 
-  it("create Decoder", () => {
+  it("create decoder", () => {
     expect<bool>(decoder != null).toBe(true)
   });
 
-  it("should Handle Empty Object", () => {
+  it("should handle empty object", () => {
     expect<bool>(roundripTest("{}")).toBe(true);
   })
 
-  it("should Handle Empty Object With Whitespace", () => {
+  it("should handle empty object with whitespace", () => {
     expect<bool>(roundripTest("{ }", "{}")).toBe(true)
   })
 
-  it("should Handle Int32", () => {
+  it("should handle int32", () => {
     expect<bool>(roundripTest('{"int":4660}')).toBe(true)
   })
 
-  it("should Handle Int32Sign", () => {
+  it("should handle int32Sign", () => {
     expect<bool>(roundripTest('{"int":-4660}')).toBe(true)
   })
 
-  it("should Handle True", () => {
+  it("should handle true", () => {
     expect<bool>(roundripTest('{"val":true}')).toBe(true)
   })
 
-  it("should Handle False", () => {
+  it("should handle false", () => {
     expect<bool>(roundripTest('{"val":false}')).toBe(true)
   })
 
-  it("should Handle Null", () => {
+  it("should handle null", () => {
     expect<bool>(roundripTest('{"val":null}')).toBe(true)
   })
 
-  it("should Handle String", () => {
+  it("should handle string", () => {
     expect<bool>(roundripTest('{"str":"foo"}')).toBe(true)
   })
 
-  it("should Handle String Escaped", () => {
+  it("should handle string escaped", () => {
     expect<bool>(roundripTest('"\\"\\\\\\/\\n\\t\\b\\r\\t"', '"\\"\\\\/\\n\\t\\b\\r\\t"')).toBe(true)
   })
 
-  it("should Handle String Unicode Escaped1", () => {
+  it("should handle string unicode escaped simple", () => {
     expect<bool>(roundripTest('"\\u0022"', '"\\""')).toBe(true)
   })
 
-  it("should Handle String Unicode Escaped2", () => {
+  it("should handle string unicode escaped", () => {
     expect<bool>(roundripTest('"\\u041f\\u043e\\u043b\\u0442\\u043e\\u0440\\u0430 \\u0417\\u0435\\u043c\\u043b\\u0435\\u043a\\u043e\\u043f\\u0430"', '"Полтора Землекопа"')).toBe(true)
   })
 
-  it("should Multiple Keys", () => {
+  it("should multiple keys", () => {
     expect<bool>(roundripTest('{"str":"foo","bar":"baz"}')).toBe(true)
   })
 
-  it("should Handle Nested Objects", () => {
+  it("should handle nested objects", () => {
     expect<bool>(roundripTest('{"str":"foo","obj":{"a":1,"b":-123456}}')).toBe(true)
   })
 
-  it("should Handle Empty Array", () => {
+  it("should handle empty array", () => {
     expect<bool>(roundripTest('[]')).toBe(true)
   })
 
-  it("should Handle Array", () => {
+  it("should handle array", () => {
     expect<bool>(roundripTest('[1,2,3]')).toBe(true)
   })
 
-  it("should Handle Nested Arrays", () => {
+  it("should handle nested arrays", () => {
     expect<bool>(roundripTest('[[1,2,3],[4,[5,6]]]')).toBe(true)
   })
 
-  it("should Handle Nested Objects And Arrays", () => {
+  it("should handle nested objects and arrays", () => {
     expect<bool>(roundripTest('{"str":"foo","arr":[{"obj":{"a":1,"b":-123456}}]}')).toBe(true)
   })
 
-  it("should Handle Whitespace", () => {
+  it("should handle whitespace", () => {
     expect<bool>(roundripTest(
       ' { "str":"foo","obj": {"a":1, "b" :\n -123456} } ',
       '{"str":"foo","obj":{"a":1,"b":-123456}}')).toBe(true);

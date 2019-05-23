@@ -73,9 +73,9 @@ let CHAR_A = "A".charCodeAt(0);
 let CHAR_A_LOWER = "a".charCodeAt(0);
 
 export class DecoderState {
-    readIndex: i32 = 0;
-    buffer: Uint8Array;
-    lastKey: string | null = null;
+    constructor(public buffer: Uint8Array,
+                public readIndex: i32 = 0,
+                public lastKey: string | null = null){}
 }
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
@@ -87,14 +87,11 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         this.handler = handler;
     }
 
-    deserialize(buffer: Uint8Array, decoderState: DecoderState = null): void {
-        if (decoderState) {
-            this.state = decoderState;
+    deserialize(buffer: Uint8Array, decoderState: DecoderState | null = null): void {
+        if (decoderState != null) {
+            this.state = decoderState!;
         } else {
-            this.state = new DecoderState();
-            this.state.readIndex = 0;
-            this.state.buffer = buffer;
-            this.state.lastKey = null;
+            this.state = new DecoderState(buffer);
         }
 
         assert(this.parseValue(), "Cannot parse JSON");
