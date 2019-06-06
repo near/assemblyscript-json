@@ -1,6 +1,3 @@
-declare function logStr(str: string): void;
-declare function logF64(val: f64): void;
-
 export class JSONEncoder {
     private isFirstKey: bool[] = new Array<bool>(1);
     private result: string[] = new Array<string>();
@@ -18,7 +15,7 @@ export class JSONEncoder {
         return buffer;
     }
 
-    toString(): String {
+    toString(): string {
         return this.result.join("");
     }
 
@@ -101,6 +98,7 @@ export class JSONEncoder {
                     this.write("\\t");
                 } else {
                     // TODO: Implement encoding for other contol characters
+                    //@ts-ignore integer does have toString
                     assert(false, "Unsupported control character code: " + char.toString());
                 }
             }
@@ -114,6 +112,7 @@ export class JSONEncoder {
     }
 
     private writeInteger(value: i64): void {
+        //@ts-ignore integer does have toString
         this.write(value.toString());
     }
 
