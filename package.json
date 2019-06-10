@@ -10,7 +10,7 @@
     "test:ci": "asp --reporter=SummaryTestReporter"
   },
   "devDependencies": {
-    "assemblyscript": "nearprotocol/assemblyscript",
-    "as-pect": "github:jtenner/as-pect"
+    "as-pect": "github:jtenner/as-pect",
+    "assemblyscript": "github:AssemblyScript/assemblyscript"
   }
 }

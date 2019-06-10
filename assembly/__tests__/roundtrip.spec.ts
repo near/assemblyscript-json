@@ -1,21 +1,19 @@
 import { JSONDecoder } from "../decoder";
 import { JSONEncoder } from "../encoder";
+import { Buffer } from '../util';
 
 let handler: JSONEncoder;
 let decoder: JSONDecoder<JSONEncoder>;
+let buffer: Uint8Array;
+let resultBuffer: Uint8Array;
+let resultString: string;
 
-function roundripTest(jsonString: string, expectedString: string | null = null): bool {
-  log<string>("--------" + jsonString + (expectedString ? " " + expectedString : ""));
-  expectedString = expectedString || jsonString;
-  let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
-  let utf8ptr = jsonString.toUTF8();
-  memory.copy(buffer.buffer.data, utf8ptr, buffer.byteLength);
+function roundripTest(jsonString: string, _expectedString: string | null = null): bool {
+  const expectedString: string = _expectedString == null ? jsonString : _expectedString!;
+  buffer = Buffer.fromString(jsonString);
   decoder.deserialize(buffer);
-  let resultBuffer = handler.serialize();
-  let resultString = String.fromUTF8(
-    resultBuffer.buffer.data,
-    resultBuffer.length
-  );
+  resultBuffer = handler.serialize();
+  resultString = Buffer.toString(resultBuffer);
   expect<string>(resultString).toStrictEqual(expectedString);
   expect<string>(handler.toString()).toStrictEqual(expectedString);
   return true;

@@ -1,3 +1,5 @@
+import { Buffer } from "./util";
+
 /**
  * Extend from this class to handle events from parser.
  * Default implementation traverses whole object tree and does nothing.
@@ -73,13 +75,16 @@ let CHAR_A = "A".charCodeAt(0);
 let CHAR_A_LOWER = "a".charCodeAt(0);
 
 export class DecoderState {
-    constructor(public buffer: Uint8Array,
-                public readIndex: i32 = 0,
-                public lastKey: string | null = null){}
+    lastKey: string;
+    readIndex: i32 = 0;
+    constructor(public buffer: Uint8Array){}
+
+    get ptr(): usize {
+        return Buffer.getPtr(this.buffer);
+    }
 }
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
-
     handler: JSONHandlerT;
     state: DecoderState;
 
@@ -89,7 +94,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
 
     deserialize(buffer: Uint8Array, decoderState: DecoderState | null = null): void {
         if (decoderState != null) {
-            this.state = decoderState!;
+            this.state = decoderState;
         } else {
             this.state = new DecoderState(buffer);
         }
@@ -127,6 +132,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             return false;
         }
         let key = this.state.lastKey;
+        //@ts-ignore can be null
         this.state.lastKey = null;
         if (this.handler.pushObject(key)) {
             this.readChar();
@@ -160,6 +166,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             return false;
         }
         let key = this.state.lastKey;
+        //@ts-ignore can be null
         this.state.lastKey = null;
         if (this.handler.pushArray(key)) {
             this.readChar();
@@ -191,12 +198,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     private readString(): string {
         assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
         let savedIndex = this.state.readIndex;
+        //@ts-ignore can be null
         let stringParts: Array<string> = null;
         for (;;) {
             let byte = this.readChar();
             assert(byte >= 0x20, "Unexpected control character");
             if (byte == '"'.charCodeAt(0)) {
-                let s = String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1);
+                let s = String.fromUTF8(this.state.ptr + savedIndex, this.state.readIndex - savedIndex - 1);
                 if (stringParts == null) {
                     return s;
                 }
@@ -208,7 +216,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
                 }
                 if (this.state.readIndex > savedIndex + 1) {
                     stringParts.push(
-                        String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
+                        String.fromUTF8(this.state.ptr + savedIndex, this.state.readIndex - savedIndex - 1));
                 }
                 stringParts.push(this.readEscapedChar());
                 savedIndex = this.state.readIndex;

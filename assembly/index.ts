@@ -1,5 +1,6 @@
 import { JSONDecoder, JSONHandler } from './decoder';
 import { JSONEncoder } from './encoder';
+import { Buffer } from './util';
 
 export namespace JSON {
   export const enum Val_Type {
@@ -10,7 +11,7 @@ export namespace JSON {
     ARRAY = 4,
     OBJECT = 5
   }
-
+  
   export abstract class Value {
     constructor(public type: Val_Type) { }
 
@@ -204,8 +205,7 @@ export namespace JSON {
   }
 
   export function parse(str: string): Obj {
-    let buffer: Uint8Array = new Uint8Array(str.lengthUTF8);
-    memory.copy(buffer.buffer.data, str.toUTF8(), buffer.byteLength);
+    let buffer: Uint8Array = Buffer.fromString(str);
     let handler = new Handler();
     let decoder = new JSONDecoder<Handler>(handler);
     decoder.deserialize(buffer);
