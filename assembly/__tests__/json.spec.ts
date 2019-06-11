@@ -6,15 +6,16 @@ describe("JSON", (): void => {
     describe("parse should handle", (): void => {
         it("strings", () => {
             let obj = JSON.parse(jsonStr);
-            expect<string>(obj.get("hello").str).toStrictEqual("world");
+            let hello = obj.get("hello");
+            expect<string>(hello.str).toStrictEqual("world");
         });
 
         it("arrays", () => {
-            let str = '{"Hello": ["World"]}'
+            let str = '{"Hello": ["World"]}';
             let obj = JSON.parse(str);
             let arr = obj.get("Hello").arr;
             expect<number>(arr.length).toBe(1)
-            expect<bool>(arr[0].isString).toBe(true);
+            expect<bool>(arr[0] instanceof JSON.Str).toBe(true);
             let Str = arr[0]
             expect<string>(Str.str).toStrictEqual("World");
         });

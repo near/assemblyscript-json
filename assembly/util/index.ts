@@ -14,7 +14,12 @@ export namespace Buffer {
     export function getArrayBufferPtr(arr: ArrayBuffer): usize {
         return  changetype<usize>(arr);
     }
+
     export function getPtr(arr: Uint8Array): usize {
         return  getArrayBufferPtr(arr.buffer) + arr.byteOffset
+    }
+
+    export function readString(arr: Uint8Array, start: usize, end: usize): string {
+        return String.fromUTF8(changetype<usize>(arr.buffer) + arr.byteOffset + start, end - start);
     }
 }

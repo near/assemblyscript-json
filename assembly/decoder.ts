@@ -82,6 +82,10 @@ export class DecoderState {
     get ptr(): usize {
         return Buffer.getPtr(this.buffer);
     }
+
+    readString(start: usize, end: usize = this.readIndex): string {
+        return Buffer.readString(this.buffer, start, end - 1);
+    }
 }
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
@@ -204,7 +208,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             let byte = this.readChar();
             assert(byte >= 0x20, "Unexpected control character");
             if (byte == '"'.charCodeAt(0)) {
-                let s = String.fromUTF8(this.state.ptr + savedIndex, this.state.readIndex - savedIndex - 1);
+                let s = this.state.readString(savedIndex);
                 if (stringParts == null) {
                     return s;
                 }
@@ -215,8 +219,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
                     stringParts = new Array<string>();
                 }
                 if (this.state.readIndex > savedIndex + 1) {
-                    stringParts.push(
-                        String.fromUTF8(this.state.ptr + savedIndex, this.state.readIndex - savedIndex - 1));
+                    stringParts.push(this.state.readString(savedIndex));
                 }
                 stringParts.push(this.readEscapedChar());
                 savedIndex = this.state.readIndex;
