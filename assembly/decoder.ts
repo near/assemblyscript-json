@@ -100,6 +100,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         }
 
         assert(this.parseValue(), "Cannot parse JSON");
+
         // TODO: Error if input left
     }
 
@@ -201,7 +202,10 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
             let byte = this.readChar();
             assert(byte >= 0x20, "Unexpected control character");
             if (byte == '"'.charCodeAt(0)) {
-                let s = String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1);
+                let s = String.fromUTF8(
+                    <usize>this.state.buffer.buffer + this.state.buffer.byteOffset + savedIndex,
+                    this.state.readIndex - savedIndex - 1
+                );
                 if (stringParts == null) {
                     return s;
                 }
@@ -213,7 +217,11 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
                 }
                 if (this.state.readIndex > savedIndex + 1) {
                     stringParts.push(
-                        String.fromUTF8(this.state.buffer.buffer.data + savedIndex, this.state.readIndex - savedIndex - 1));
+                        String.fromUTF8(
+                            <usize>this.state.buffer.buffer + this.state.buffer.byteOffset + savedIndex,
+                            this.state.readIndex - savedIndex - 1
+                        )
+                    );
                 }
                 stringParts.push(this.readEscapedChar());
                 savedIndex = this.state.readIndex;

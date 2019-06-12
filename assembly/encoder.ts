@@ -14,7 +14,7 @@ export class JSONEncoder {
         let result = this.toString();
         let utf8ptr = result.toUTF8();
         let buffer = new Uint8Array(result.lengthUTF8 - 1);
-        memory.copy(buffer.buffer.data, utf8ptr, buffer.byteLength);
+        memory.copy(<usize>buffer.buffer, utf8ptr, buffer.byteLength);
         return buffer;
     }
 
