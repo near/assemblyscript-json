@@ -7,8 +7,8 @@ export class JSONEncoder {
     private result: string[];
 
     constructor() {
-        this.result = changetype<Array<string>>(__retain(changetype<usize>(new Array<string>())));
-        this._isFirstKey = changetype<Array<i32>>(__retain(changetype<usize>(new Array<i32>(10))));
+        store<usize>(changetype<usize>(this), __retain(changetype<usize>(new Array<string>())), offsetof<JSONEncoder>("result"));
+        store<usize>(changetype<usize>(this), __retain(changetype<usize>(new Array<i32>(10))), offsetof<JSONEncoder>("_isFirstKey"));
         this._isFirstKey.push(1);
     }
 
@@ -19,8 +19,7 @@ export class JSONEncoder {
     serialize(): Uint8Array {
         // TODO: Write directly to UTF8 bytes
         let result = this.toString();
-        let buffer = __retain(changetype<usize>(Buffer.fromString(result)));
-        // __release(changetype<usize>(this.result));
+        let buffer = Buffer.fromString(result);
         return changetype<Uint8Array>(buffer);
     }
 

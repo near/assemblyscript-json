@@ -2,7 +2,7 @@
 
 export namespace Buffer {
     export function fromString(str: string): Uint8Array {
-        let arr = new Uint8Array(str.lengthUTF8 - 1 );
+        let arr: Uint8Array= new Uint8Array(str.lengthUTF8 - 1 );
         memory.copy(Buffer.getPtr(arr), str.toUTF8(), str.lengthUTF8 - 1);
         return arr;
     }
@@ -12,11 +12,13 @@ export namespace Buffer {
     }
     
     export function getArrayBufferPtr(arr: ArrayBuffer): usize {
-        return  changetype<usize>(arr);
+        let ptr = changetype<usize>(arr);
+        return ptr;
     }
 
     export function getPtr(arr: Uint8Array): usize {
-        return  getArrayBufferPtr(arr.buffer) + arr.byteOffset
+        let ptr = getArrayBufferPtr(arr.buffer);
+        return ptr + arr.byteOffset
     }
 
     export function readString(arr: Uint8Array, start: usize, end: usize): string {

@@ -17,15 +17,15 @@ export namespace JSON {
     data: i64
 
     get str(): string {
-      return load<string>(changetype<usize>(this));
+      return load<string>(<usize>(this));
     }
 
     get arr(): Array<Value> {
-      return load<Array<Value>>(changetype<usize>(this));
+      return load<Array<Value>>(<usize>(this));
     }
 
     get bool(): bool {
-      return load<bool>(changetype<usize>(this));
+      return load<bool>(<usize>(this));
     }
 
     get num(): i64 {
@@ -33,11 +33,11 @@ export namespace JSON {
     }
 
     get obj(): Map<string, Value> {
-      return load<Map<string, Value>>(changetype<usize>(this));
+      return load<Map<string, Value>>(<usize>(this));
     }
 
     get keys(): Array<string> {
-      return load<Array<string>>(changetype<usize>(this), sizeof<usize>());
+      return load<Array<string>>(<usize>(this), sizeof<usize>());
     }
 
     // // "null" is a reserved keyword.
@@ -68,7 +68,7 @@ export namespace JSON {
   export class Str extends Value {
     constructor(_str: string) {
       super();
-      store<usize>(changetype<usize>(this), __retain(changetype<usize>(_str)));
+      store<usize>(<usize>(this), __retain(<usize>(_str)));
     }
   }
 
@@ -88,14 +88,14 @@ export namespace JSON {
   export class Bool extends Value {
     constructor(_bool: bool) {
       super();
-      store<bool>(changetype<usize>(this), _bool);
+      store<bool>(<usize>(this), _bool);
     }
   }
 
   export class Arr extends Value {
     constructor() {
       super();
-      store<usize>(changetype<usize>(this), __retain(changetype<usize>(new Array<Value>())));
+      store<usize>(<usize>(this), __retain(changetype<usize>(new Array<Value>())));
     }
   }
 
@@ -105,8 +105,8 @@ export namespace JSON {
 
     constructor() {
       super();
-      store<usize>(changetype<usize>(this), __retain(changetype<usize>(new Map<string, Value>())));
-      store<usize>(changetype<usize>(this), __retain(changetype<usize>(new Array<string>())), sizeof<usize>());
+      store<usize>(<usize>(this), __retain(changetype<usize>(new Map<string, Value>())));
+      store<usize>(<usize>(this), __retain(changetype<usize>(new Array<string>())), sizeof<usize>());
     }
 
     set(key: string, value: Value): void {
@@ -204,7 +204,7 @@ export namespace JSON {
     let decoder = new JSONDecoder<Handler>(handler);
     // __retain(changetype<usize>(decoder));
     decoder.deserialize(buffer);
-    let res = changetype<Obj>(__retain(changetype<usize>(handler.peek)))
+    let res = handler.peek as Obj
     // __release(changetype<usize>(buffer));
     // __release(changetype<usize>(handler));
     // __release(changetype<usize>(decoder));

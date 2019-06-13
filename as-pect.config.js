@@ -16,7 +16,9 @@ module.exports = {
     /** This is required. Do not change this. The filename is ignored, but required by the compiler. */
     "--binaryFile": ["output.wasm"],
     /** To enable wat file output, use the following flag. The filename is ignored, but required by the compiler. */
-    "--runtime": ["full"] // Acceptable values are: full, half, stub (arena), and none
+    "--textFile": ["output.wat"],
+    "--runtime": ["full"], // Acceptable values are: full, half, stub (arena), and none
+    // "--runPasses": ["dce"]
   },
   /**
    * A set of regexp that will disclude source files from testing.
