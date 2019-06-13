@@ -17,8 +17,9 @@ module.exports = {
     "--binaryFile": ["output.wasm"],
     /** To enable wat file output, use the following flag. The filename is ignored, but required by the compiler. */
     "--textFile": ["output.wat"],
-    "--runtime": ["full"], // Acceptable values are: full, half, stub (arena), and none
+    "--runtime": ["stub"], // Acceptable values are: full, half, stub (arena), and none
     // "--runPasses": ["dce"]
+    "--path": ["node_modules"]
   },
   /**
    * A set of regexp that will disclude source files from testing.

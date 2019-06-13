@@ -10,7 +10,10 @@
     "test:ci": "asp --reporter=SummaryTestReporter"
   },
   "devDependencies": {
-    "as-pect": "github:jtenner/as-pect",
+    "as-pect": "github:WebAssemblyOS/as-pect#dev-frontend",
     "assemblyscript": "github:AssemblyScript/assemblyscript"
+  },
+  "dependencies": {
+    "bignum": "github:WebAssemblyOS/bignum.wasm"
   }
 }

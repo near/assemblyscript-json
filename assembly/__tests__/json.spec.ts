@@ -48,3 +48,12 @@ describe("JSON", (): void => {
         })
     });
 });
+
+
+describe("Transitive dependencies",() => {
+    it("should find second level dependencies", () => {
+      let u128 = JSON.u128FromString("128");
+      expect<i32>(u128.toI32()).toBe(128);
+    })
+    
+  })

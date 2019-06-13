@@ -1,6 +1,9 @@
 import { JSONDecoder, JSONHandler } from './decoder';
 import { JSONEncoder } from './encoder';
 import { Buffer } from './util';
+
+import { u128 } from "bignum";
+// let x = new u128();
 /// <reference types="../node_modules/assemblyscript/std/assembly/rt/index.d.ts" />
 
 export namespace JSON {
@@ -11,6 +14,10 @@ export namespace JSON {
     NULL = 3,
     ARRAY = 4,
     OBJECT = 5
+  }
+  
+  export function u128FromString(str: string): u128 {
+    return u128.fromString(str);
   }
   
   export abstract class Value {
