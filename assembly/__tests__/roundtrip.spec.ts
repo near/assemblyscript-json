@@ -7,16 +7,16 @@ let decoder: JSONDecoder<JSONEncoder>;
 function roundripTest(jsonString: string, expectedString: string | null = null): bool {
     log<string>("--------" + jsonString + (expectedString ? " " + expectedString! : ""));
     expectedString = expectedString || jsonString;
-    let buffer: Uint8Array = new Uint8Array(jsonString.lengthUTF8);
-    let utf8ptr = jsonString.toUTF8();
-    memory.copy(<usize>buffer.buffer, utf8ptr, buffer.byteLength);
+    let buffer: Uint8Array = new Uint8Array(String.UTF8.byteLength(jsonString));
+    log<i32>(String.UTF8.byteLength(jsonString));
+    let encoding = String.UTF8.encode(jsonString);
+    memory.copy(buffer.dataStart, <usize>encoding, buffer.byteLength);
     decoder.deserialize(buffer);
     let resultBuffer = handler.serialize();
-    let resultString = String.fromUTF8(
-        <usize>resultBuffer.buffer + resultBuffer.byteOffset,
-        resultBuffer.length
-    );
+    let resultString = String.UTF8.decode(resultBuffer.buffer);
     assert(expectedString != null);
+    log<string>("expected string: " + (expectedString? expectedString! : "null"));
+    log<string>("result string: " + resultString);
     if (expectedString) {
         expect<string>(resultString).toStrictEqual(expectedString);
         expect<string>(handler.toString()).toStrictEqual(expectedString);
@@ -31,7 +31,6 @@ describe("Round trip", () => {
         handler = new JSONEncoder();
         decoder = new JSONDecoder<JSONEncoder>(handler);
     });
-
 
     it("create decoder", () => {
         expect<bool>(decoder != null).toBe(true);

@@ -12,11 +12,10 @@ export class JSONEncoder {
     serialize(): Uint8Array {
         // TODO: Write directly to UTF8 bytes
         let result = this.toString();
-        return <Uint8Array>String.UTF8.encode(result);
-        // let utf8ptr = result.toUTF8();
-        // let buffer = new Uint8Array(result.lengthUTF8 - 1);
-        // memory.copy(<usize>buffer.buffer, utf8ptr, buffer.byteLength);
-        // return buffer;
+        let buffer = new Uint8Array(String.UTF8.byteLength(result));
+        let encoding = String.UTF8.encode(result);
+        memory.copy(buffer.dataStart, <usize>encoding, buffer.byteLength);
+        return buffer;
     }
 
     toString(): String {
