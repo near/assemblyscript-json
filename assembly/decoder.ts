@@ -69,16 +69,16 @@ let CHAR_A = "A".charCodeAt(0);
 let CHAR_A_LOWER = "a".charCodeAt(0);
 
 export class DecoderState {
-    lastKey: string;
-    readIndex: i32 = 0;
-    constructor(public buffer: Uint8Array){}
+  lastKey: string = "";
+  readIndex: i32 = 0;
+  constructor(public buffer: Uint8Array){}
 
-    get ptr(): usize {
-        return Buffer.getPtr(this.buffer);
-    }
+  get ptr(): usize {
+      return Buffer.getPtr(this.buffer);
+  }
 
-    readString(start: usize, end: usize = this.readIndex): string {
-    return String.fromUTF8(this.ptr + start, end - start - 1);
+  readString(start: usize, end: usize = this.readIndex): string {
+    return Buffer.readString(this.buffer, start, end - 1);
   }
 }
 
@@ -131,7 +131,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
     let key = this.state.lastKey;
     //@ts-ignore can be null
-    this.state.lastKey = null;
+    this.state.lastKey = "";
     if (this.handler.pushObject(key)) {
       this.readChar();
       this.skipWhitespace();
@@ -165,7 +165,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
     let key = this.state.lastKey;
     //@ts-ignore can be null
-    this.state.lastKey = null;
+    this.state.lastKey = "";
     if (this.handler.pushArray(key)) {
       this.readChar();
       this.skipWhitespace();
@@ -193,25 +193,22 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     return true;
     }
 
-    private readString(): string {
-        assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
-        let savedIndex = this.state.readIndex;
-        //@ts-ignore can be null
-        let stringParts: Array<string> = null;
+  private readString(): string {
+    assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
+    let savedIndex = this.state.readIndex;
+    //@ts-ignore can be null
+    let stringParts: Array<string> = new Array<string>();
     for (;;) {
       let byte = this.readChar();
       assert(byte >= 0x20, "Unexpected control character");
       if (byte == '"'.charCodeAt(0)) {
         let s = this.state.readString(savedIndex);
-        if (stringParts == null) {
+        if (stringParts.length == 0) {
           return s;
         }
         stringParts.push(s);
         return stringParts.join("");
       } else if (byte == "\\".charCodeAt(0)) {
-        if (stringParts == null) {
-          stringParts = new Array<string>();
-        }
         if (this.state.readIndex > savedIndex + 1) {
           stringParts.push(this.state.readString(savedIndex));
         }

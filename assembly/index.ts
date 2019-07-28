@@ -1,55 +1,39 @@
 import { JSONDecoder, JSONHandler } from './decoder';
-import { JSONEncoder } from './encoder';
 import { Buffer } from './util';
 
-import { u128 } from "bignum";
-// let x = new u128();
 /// <reference types="../node_modules/assemblyscript/std/assembly/rt/index.d.ts" />
 
 export namespace JSON {
-  export const enum Val_Type {
-    STRING = 0,
-    NUMBER = 1,
-    BOOL = 2,
-    NULL = 3,
-    ARRAY = 4,
-    OBJECT = 5
-  }
-  
-  export function u128FromString(str: string): u128 {
-    return u128.fromString(str);
-  }
   
   export abstract class Value {
-    data: i64
+
+    private load<T>(): T {
+      return load<T>(changetype<usize>(this));
+    }
 
     get str(): string {
-      return load<string>(<usize>(this));
+      return this.load<string>();
     }
 
     get arr(): Array<Value> {
-      return load<Array<Value>>(<usize>(this));
+      return this.load<Array<Value>>();
     }
 
     get bool(): bool {
-      return load<bool>(<usize>(this));
+      return this.load<bool>();
     }
 
     get num(): i64 {
-        return this.data
+      return this.load<i64>()
     }
 
     get obj(): Map<string, Value> {
-      return load<Map<string, Value>>(<usize>(this));
-    }
-
-    get keys(): Array<string> {
-      return load<Array<string>>(<usize>(this), sizeof<usize>());
+      return this.load<Map<string, Value>>();
     }
 
     // // "null" is a reserved keyword.
     get nul(): bool {
-        return true;
+      return this instanceof Null;
     }
 
     static String(str: string): Value {
@@ -73,16 +57,14 @@ export namespace JSON {
   }
 
   export class Str extends Value {
-    constructor(_str: string) {
+    constructor(public _str: string) {
       super();
-      store<usize>(<usize>(this), __retain(<usize>(_str)));
     }
   }
 
   export class Number extends Value {
-    constructor(_num: i64) {
+    constructor(public _num: i64) {
       super();
-      this.data = _num;
     }
   }
 
@@ -93,27 +75,27 @@ export namespace JSON {
   }
 
   export class Bool extends Value {
-    constructor(_bool: bool) {
+    constructor(public _bool: bool) {
       super();
-      store<bool>(<usize>(this), _bool);
     }
   }
 
   export class Arr extends Value {
+    _arr: Array<Value>;
     constructor() {
       super();
-      store<usize>(<usize>(this), __retain(changetype<usize>(new Array<Value>())));
+      this._arr = new Array<Value>();
     }
   }
 
   export class Obj extends Value {
-    // _obj: Map<string, Value>;
-    // keys: Array<string>;
+    _obj: Map<string, Value>;
+    keys: Array<string>;
 
     constructor() {
       super();
-      store<usize>(<usize>(this), __retain(changetype<usize>(new Map<string, Value>())));
-      store<usize>(<usize>(this), __retain(changetype<usize>(new Array<string>())), sizeof<usize>());
+      this._obj = new Map();
+      this.keys = new Array();
     }
 
     set(key: string, value: Value): void {
@@ -189,7 +171,7 @@ export namespace JSON {
     }
 
     addValue(name: string, obj: Value): void {
-      if (name == null && obj instanceof Obj) {
+      if (name.length == 0 && obj instanceof Obj) {
         this.stack.push(obj);
         return;
       }
@@ -197,7 +179,6 @@ export namespace JSON {
         (this.peek as Obj).set(name, obj)
       }
       else if (this.peek instanceof Arr) {
-        // __retain(changetype<usize>(obj));
         this.peek.arr.push(obj);
       }
     }
@@ -205,21 +186,15 @@ export namespace JSON {
 
   export function parse(str: string): Obj {
     let buffer: Uint8Array = Buffer.fromString(str);
-    __retain(changetype<usize>(buffer));
     let handler = new Handler();
-    __retain(changetype<usize>(handler));
     let decoder = new JSONDecoder<Handler>(handler);
-    // __retain(changetype<usize>(decoder));
     decoder.deserialize(buffer);
     let res = handler.peek as Obj
-    // __release(changetype<usize>(buffer));
-    // __release(changetype<usize>(handler));
-    // __release(changetype<usize>(decoder));
-
     return res;
   }
 }
 
 
 
-export { JSONDecoder, JSONEncoder };
+export * from "./decoder";
+export * from "./encoder";

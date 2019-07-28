@@ -15,37 +15,21 @@ function countOf<T>(item: T): void {
 
 function roundripTest(jsonString: string, _expectedString: string  = ""): bool {
   const expectedString: string =
-    _expectedString == "" ? jsonString : _expectedString;
-  // __retain(changetype<usize>(expectedString));
+  _expectedString == "" ? jsonString : _expectedString;
+
   let buffer: Uint8Array = Buffer.fromString(jsonString);
-  __retain(changetype<usize>(buffer));
-  // countOf<Uint8Array>(buffer);
-  // countOf<Uint8Array>(buffer);
+
   let handler = new JSONEncoder();
-  __retain(changetype<usize>(handler));
   let decoder = new JSONDecoder<JSONEncoder>(handler);
-  // log("handler")
-  // countOf<JSONEncoder>(handler);
-  // countOf<JSONDecoder<JSONEncoder>>(decoder);
 
-  __retain(changetype<usize>(decoder));
   decoder.deserialize(buffer, null);
-  // countOf<Uint8Array>(buffer);
+
   let resultBuffer = handler.serialize();
-  __retain(changetype<usize>(resultBuffer));
 
-  // countOf<Uint8Array>(resultBuffer);
   let resultString: string = Buffer.toString(resultBuffer);
-  __retain(changetype<usize>(resultString));
 
-  // countOf<Uint8Array>(resultBuffer);
-  // log(expectedString + " " + resultString);
-  // log(expectedString == resultString);
   expect<string>(resultString).toStrictEqual(expectedString);
   expect<string>(handler.toString()).toStrictEqual(expectedString);
-  // __release(changetype<usize>(buffer));
-  // __release(changetype<usize>(handler));
-  // __release(changetype<usize>(decoder));
 
   return true;
 }
