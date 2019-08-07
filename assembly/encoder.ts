@@ -25,7 +25,7 @@ export class JSONEncoder {
         return this.result.join("");
     }
 
-    setString(name: string, value: string): void {
+    setString(name: string | null, value: string): void {
         this.writeKey(name);
         this.writeString(value);
     }
@@ -35,17 +35,17 @@ export class JSONEncoder {
         this.writeBoolean(value);
     }
 
-    setNull(name: string): void {
+    setNull(name: string | null): void {
         this.writeKey(name);
         this.write("null");
     }
 
-    setInteger(name: string, value: i64): void {
+    setInteger(name: string| null, value: i64): void {
         this.writeKey(name);
         this.writeInteger(value);
     }
 
-    pushArray(name: string): bool {
+    pushArray(name: string | null): bool {
         this.writeKey(name);
         this.write("[");
         this._isFirstKey.push(1);
@@ -57,7 +57,7 @@ export class JSONEncoder {
         this._isFirstKey.pop();
     }
 
-    pushObject(name: string): bool {
+    pushObject(name: string | null): bool {
         this.writeKey(name);
         this.write("{");
         this._isFirstKey.push(1);
@@ -69,14 +69,14 @@ export class JSONEncoder {
         this._isFirstKey.pop();
     }
 
-    private writeKey(str: string): void {
+    private writeKey(str: string | null): void {
         if (!this.isFirstKey) {
             this.write(",");
         } else {
             this._isFirstKey[this._isFirstKey.length - 1] = 0;
         }
         if (str != null && str.length > 0) {
-            this.writeString(str);
+            this.writeString(str!);
             this.write(":");
         }
     }
