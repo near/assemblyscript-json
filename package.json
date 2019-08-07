@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "@as-pect/cli": "^2.3.1",
-    "assemblyscript": "github:AssemblyScript/assemblyscript",
-    "bignum": "github:WebAssemblyOS/bignum.wasm"
+    "assemblyscript": "github:AssemblyScript/assemblyscript"
   }
 }
