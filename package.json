@@ -9,7 +9,7 @@
     "test": "asp"
   },
   "devDependencies": {
-    "assemblyscript": "github:assemblyscript/assemblyscript",
+    "assemblyscript": "github:nearprotocol/assemblyscript",
     "@as-pect/cli": "^2.2.0"
   },
   "dependencies": {}
