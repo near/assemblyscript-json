@@ -30,7 +30,7 @@ export class JSONEncoder {
         this.writeString(value);
     }
 
-    setBoolean(name: string, value: bool): void {
+    setBoolean(name: string | null, value: bool): void {
         this.writeKey(name);
         this.writeBoolean(value);
     }
@@ -40,7 +40,7 @@ export class JSONEncoder {
         this.write("null");
     }
 
-    setInteger(name: string| null, value: i64): void {
+    setInteger(name: string | null, value: i64): void {
         this.writeKey(name);
         this.writeInteger(value);
     }
