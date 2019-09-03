@@ -16,9 +16,10 @@ module.exports = {
     /** This is required. Do not change this. The filename is ignored, but required by the compiler. */
     "--binaryFile": ["output.wasm"],
     /** To enable wat file output, use the following flag. The filename is ignored, but required by the compiler. */
-    // "--textFile": ["output.wat"],
-    /** To select an appropriate runtime, use the --runtime compiler flag. */
-    "--runtime": ["stub"] // Acceptable values are: full, half, stub (arena), and none
+    "--textFile": ["output.wat"],
+    "--runtime": ["stub"], // Acceptable values are: full, half, stub (arena), and none,
+    "--baseDir": process.cwd()
+    // "--runPasses": ["dce"]
   },
   /**
    * A set of regexp that will disclude source files from testing.
@@ -32,22 +33,26 @@ module.exports = {
    * All performance statistics reporting can be configured here.
    */
   performance: {
-    /** Enable performance statistics gathering for every test. */
+    /** Enable performance statistics gathering. */
     enabled: false,
-    /** Set the maximum number of samples to run for every test. */
+    /** Set the maximum number of samples to run for each test. */
     maxSamples: 10000,
-    /** Set the maximum test run time in milliseconds for every test. */
+    /** Set the maximum test run time in milliseconds. */
     maxTestRunTime: 2000,
-    /** Report the median time in the default reporter for every test. */
+    /** Set the number of decimal places to round to. */
+    roundDecimalPlaces: 3,
+    /** Report the median time in the default reporter. */
     reportMedian: true,
-    /** Report the average time in milliseconds for every test. */
+    /** Report the average time in milliseconds. */
     reportAverage: true,
-    /** Report the standard deviation for every test. */
+    /** Report the standard deviation. */
     reportStandardDeviation: false,
-    /** Report the maximum run time in milliseconds for every test. */
+    /** Report the maximum run time in milliseconds. */
     reportMax: false,
-    /** Report the minimum run time in milliseconds for every test. */
+    /** Report the minimum run time in milliseconds. */
     reportMin: false,
+    /** Report the variance. */
+    reportVariance: false,
   },
   /**
    * Add a custom reporter here if you want one. The following example is in typescript.
@@ -66,8 +71,4 @@ module.exports = {
    * }
    */
   // reporter: new CustomReporter(),
-  /**
-   * Specify if the binary wasm file should be written to the file system.
-   */
-  outputBinary: false,
 };

@@ -1,79 +1,82 @@
-declare function logStr(str: string): void;
-declare function logF64(val: f64): void;
+import { Buffer } from './util/index';
+/// <reference path="../node_modules/assemblyscript/std/assembly/rt/index.d.ts" />
+
 
 export class JSONEncoder {
-    private isFirstKey: bool[] = new Array<bool>(1);
-    private result: string[] = new Array<string>();
+    private _isFirstKey: i32[];
+    private result: string[];
 
     constructor() {
-      this.isFirstKey[0] = true;
+        this._isFirstKey = new Array<i32>(10);
+        this.result = new Array<string>();
+        this._isFirstKey.push(1);
+    }
+
+    get isFirstKey(): bool {
+        return <bool>this._isFirstKey[this._isFirstKey.length - 1];
     }
 
     serialize(): Uint8Array {
         // TODO: Write directly to UTF8 bytes
-        let result = this.toString();
-        let utf8ptr = result.toUTF8();
-        let buffer = new Uint8Array(result.lengthUTF8 - 1);
-        memory.copy(<usize>buffer.buffer, utf8ptr, buffer.byteLength);
-        return buffer;
+        return Buffer.fromString(this.toString());
     }
 
-    toString(): String {
+    toString(): string {
         return this.result.join("");
     }
 
-    setString(name: string, value: string): void {
+    setString(name: string | null, value: string): void {
         this.writeKey(name);
         this.writeString(value);
     }
 
-    setBoolean(name: string, value: bool): void {
+    setBoolean(name: string | null, value: bool): void {
         this.writeKey(name);
         this.writeBoolean(value);
     }
 
-    setNull(name: string): void {
+    setNull(name: string | null): void {
         this.writeKey(name);
         this.write("null");
     }
 
-    setInteger(name: string, value: i64): void {
+    setInteger(name: string | null, value: i64): void {
         this.writeKey(name);
         this.writeInteger(value);
     }
 
-    pushArray(name: string): bool {
+    pushArray(name: string | null): bool {
         this.writeKey(name);
         this.write("[");
-        this.isFirstKey.push(true);
+        this._isFirstKey.push(1);
         return true;
     }
 
     popArray(): void {
         this.write("]");
-        this.isFirstKey.pop();
+        this._isFirstKey.pop();
     }
 
-    pushObject(name: string): bool {
+    pushObject(name: string | null): bool {
         this.writeKey(name);
         this.write("{");
-        this.isFirstKey.push(true);
+        this._isFirstKey.push(1);
         return true;
     }
 
     popObject(): void {
         this.write("}");
-        this.isFirstKey.pop();
+        this._isFirstKey.pop();
     }
 
-    private writeKey(str: string): void {
-        if (!this.isFirstKey[this.isFirstKey.length - 1]) {
+    private writeKey(str: string | null): void {
+        if (!this.isFirstKey) {
             this.write(",");
         } else {
-            this.isFirstKey[this.isFirstKey.length - 1] = false;
+            this._isFirstKey[this._isFirstKey.length - 1] = 0;
         }
-        if (str != null) {
-            this.writeString(str);
+        if (str != null && str.length > 0) {
+            this.writeString(str!);
             this.write(":");
         }
     }
@@ -101,6 +104,7 @@ export class JSONEncoder {
                     this.write("\\t");
                 } else {
                     // TODO: Implement encoding for other contol characters
+                    //@ts-ignore integer does have toString
                     assert(false, "Unsupported control character code: " + char.toString());
                 }
             }
@@ -114,6 +118,7 @@ export class JSONEncoder {
     }
 
     private writeInteger(value: i64): void {
+        //@ts-ignore integer does have toString
         this.write(value.toString());
     }
 
