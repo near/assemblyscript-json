@@ -10,5 +10,5 @@ cache:
 run_tests:
   stage: test
   script:
-    - npm install
-    - npm run test
+    - yarn
+    - yarn test
