@@ -2,27 +2,27 @@
 # yarn lockfile v1
 
 
-"@as-pect/assembly@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-2.5.0.tgz#10fd721eafd69386f7c2cd15cb1ac09c3ee136b8"
-  integrity sha512-yL5YNxRzIdGsQz7WKzJUKaJn0vsG+aMj+DDSF2WRoS7kRnVdgYV0Fo6iXuSIG+OXBQRHvbouua8YLC28g8eMgg==
+"@as-pect/assembly@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-2.6.0.tgz#c1c98f883c5c0164951731a61f112b224cc95eef"
+  integrity sha512-CEkmBudRb9MNE6WlhKoXJ+ZH+3/Munc6J8ROtLvTfSMvFrsWfKL9mIe7q/LqT4tiyPox6g+4kBjq+b1lB8YFMA==
 
-"@as-pect/cli@^2.3.1":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-2.5.0.tgz#4dffc9766bf77d8805f4c881bb6b41db6ecdfb4f"
-  integrity sha512-6PAs68/3uU38DmJBfTiFTnoFnGpHK2vvxgulxXy9irQddjTJYOoqFFX39BAXCpSWZs5A6kjlN3aw3QSsd/dLSA==
+"@as-pect/cli@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-2.6.0.tgz#d083c932c9f925c2c93173c0e4a33874177690c4"
+  integrity sha512-9NJjuBGQPTeRB8bPUt7RkXH6CeCOd8XTAqHIYupE560vjsqguhWZqHBd6QfJ5g09K37Nr+fDnHxgDjUmb7BEkw==
   dependencies:
-    "@as-pect/assembly" "^2.5.0"
-    "@as-pect/core" "^2.5.0"
+    "@as-pect/assembly" "^2.6.0"
+    "@as-pect/core" "^2.6.0"
     chalk "^2.4.2"
-    glob "^7.1.4"
+    glob "^7.1.5"
 
-"@as-pect/core@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-2.5.0.tgz#7185f94afff0eb0f2098bd858a833cc353e20f10"
-  integrity sha512-4DIq5Wax1FhCL+V84GvDzBixv0x7SPrGSZmtq5F9DzCtsGA+iRsefn7nnFIp1oGGe4xSGxgVIjBqx/8vexs7+g==
+"@as-pect/core@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-2.6.0.tgz#2739f05a383e30e3b6caf33279297bc22f1a1709"
+  integrity sha512-DLKYnUl7vk/gCXvZ8T+0Cpmr0KOr6yeFhttVq1fGs/GQGJawIMQMt6cE7+y12WCTQ3f9p3GLz+CpAN2DX0sfMA==
   dependencies:
-    "@as-pect/assembly" "^2.5.0"
+    "@as-pect/assembly" "^2.6.0"
     chalk "^2.4.2"
     long "^4.0.0"
   optionalDependencies:
@@ -115,10 +115,10 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
-glob@^7.1.4:
-  version "7.1.4"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.4.tgz#aa608a2f6c577ad357e1ae5a5c26d9a8d1969255"
-  integrity sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==
+glob@^7.1.4, glob@^7.1.5:
+  version "7.1.6"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
+  integrity sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
