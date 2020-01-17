@@ -74,7 +74,7 @@ export class DecoderState {
   constructor(public buffer: Uint8Array){}
 
   get ptr(): usize {
-      return Buffer.getPtr(this.buffer);
+      return Buffer.getDataPtr(this.buffer);
   }
 
   readString(start: usize, end: usize = this.readIndex): string {
