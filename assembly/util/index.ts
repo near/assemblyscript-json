@@ -16,8 +16,7 @@ export namespace Buffer {
      * @see https://docs.assemblyscript.org/details/memory#internals
      */
     export function getDataPtr(arr: Uint8Array): usize {
-        //@ts-ignore Does exist
-        return arr.dataStart
+        return changetype<usize>(arr.buffer) + arr.byteOffset;
     }
 
     export function readString(arr: Uint8Array, start: usize, end: usize): string {
