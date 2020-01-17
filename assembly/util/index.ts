@@ -1,10 +1,8 @@
-
-
 export namespace Buffer {
     export function fromString(str: string): Uint8Array {
         let arr: Uint8Array= new Uint8Array(String.UTF8.byteLength(str, false));
         let ptr = changetype<usize>(String.UTF8.encode(str, false));
-        memory.copy(Buffer.getPtr(arr), ptr, String.UTF8.byteLength(str, false));
+        memory.copy(getDataPtr(arr), ptr, String.UTF8.byteLength(str, false));
         return arr;
     }
 
@@ -12,12 +10,17 @@ export namespace Buffer {
         return String.UTF8.decode(arr.buffer, false);
     }
 
-    export function getPtr(arr: Uint8Array): usize {
+    /**
+     * Returns a pointer to the start of the raw data (i.e. after the header)
+     *
+     * @see https://docs.assemblyscript.org/details/memory#internals
+     */
+    export function getDataPtr(arr: Uint8Array): usize {
         //@ts-ignore Does exist
         return arr.dataStart
     }
 
     export function readString(arr: Uint8Array, start: usize, end: usize): string {
-        return String.UTF8.decodeUnsafe(getPtr(arr) + start, end - start);
+        return String.UTF8.decodeUnsafe(getDataPtr(arr) + start, end - start);
     }
 }
