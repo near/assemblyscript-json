@@ -1,9 +1,11 @@
 export namespace Buffer {
     export function fromString(str: string): Uint8Array {
-        let arr: Uint8Array= new Uint8Array(String.UTF8.byteLength(str, false));
-        let ptr = changetype<usize>(String.UTF8.encode(str, false));
-        memory.copy(getDataPtr(arr), ptr, String.UTF8.byteLength(str, false));
-        return arr;
+        const buffer = String.UTF8.encode(str, false);
+
+        // Workaround for https://github.com/AssemblyScript/assemblyscript/issues/1066
+        if (buffer.byteLength === 0) return new Uint8Array(0);
+
+        return Uint8Array.wrap(buffer);
     }
 
     export function toString(arr: Uint8Array): string {
