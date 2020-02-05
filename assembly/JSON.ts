@@ -98,6 +98,15 @@ class _JSON {
   }
 }
 
+function fieldSize<T>(field: T): i32 {
+  return sizeof<T>();
+}
+
+function _store<T>(ptr: usize, value: T): void {
+  store<T>(ptr, value);
+}
+
+
 //@ts-ignore
 @global
 export namespace JSON {
@@ -139,6 +148,67 @@ export namespace JSON {
       }
       if (this instanceof Obj) {
         return (<Obj>this).toString();
+      }
+      throw new Error("Not a value.");
+    }
+
+    private _getValue<T>(instance: T): T {
+      return this.getValue<T>();
+    }
+
+    getValue<T>(): T {
+      var res: T;
+      //@ts-ignore
+      if (isString<T>(res)){
+        if (this instanceof Str) {
+          //@ts-ignore
+          return <T>(<Str>this)._str;
+        }
+        unreachable();
+        return res;
+      } else {
+        if (isBoolean<T>()){
+          if (this instanceof Bool) {
+            //@ts-ignore
+            return <T>(<Bool>this)._bool;
+          }
+          unreachable();
+        }
+        if (isInteger<T>()) {
+          if (this instanceof Num) {
+            //@ts-ignore
+            return <T>(<Num>this)._num;
+          }
+          unreachable();
+        }
+        if (this instanceof Null) {
+          //@ts-ignore
+          return <T>null; //changetype<T>(null);
+        }
+        if (isReference<T>()) {
+          //@ts-ignore
+          if (isArrayLike<T>(res) ) {
+            if (this instanceof Arr){
+              return (<Arr>this).toArray<T>();
+            }
+            throw new Error("Type " + nameof<T>() + " is not array like.");
+          }
+          if (this instanceof Obj) {
+            //@ts-ignore
+            const keys = keysof<T>();
+            res = instantiate<T>();
+            for (let i = 0; i < keys.length; i ++ ) {
+              // log(keys[i]);
+              // @ts-ignore TODO: remove
+              const field = apply<T>(res, keys[i]);
+              // //@ts-ignore
+              // const size = fieldSize<T>(field);
+              apply<T>(res, keys[i], this._getValue(field));
+              
+            }
+            return res;
+          }
+        }
       }
       throw new Error("Not a value.");
     }
@@ -198,6 +268,16 @@ export namespace JSON {
     toString(): string {
       return "[" + this._arr.map<string>((val: Value,i: i32,_arr: Value[]): string  => val.toString()).join(",") + "]";
     }
+
+    toArray<T>(): T {
+      const res: T = instantiate<T>();
+      const valArr = (<Arr>this)._arr;
+      for (let i: i32 = 0; i < valArr.length; i++) {
+        //@ts-ignore
+        res.push(valArr[i].getValue<valueof<T>>());
+      }
+      return res;
+    }
   }
 
   export class Obj extends Value {
@@ -227,11 +307,12 @@ export namespace JSON {
       this._obj.set(key, value);
     }
 
-    get(key: string): Value | null {
+    get<T>(key: string): T | null {
       if (!this._obj.has(key)) {
-        return null;
+        return <T>null;
       }
-      return this._obj.get(key);
+      return this._obj.get(key).getValue<T>();
+
     }
 
     toString(): string {

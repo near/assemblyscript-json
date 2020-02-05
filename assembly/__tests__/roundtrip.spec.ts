@@ -190,6 +190,43 @@ describe("JSON.parse", () => {
       expect(parseToString('{"arr": [42]}')).toStrictEqual(obj.toString());
     });
 
+    describe("get", () => {
+      it("should handle primitives", () => {
+        // expect(primObj.get<i32>("number")).toBe(42, "should return a number.");
+        expect(primObj.get<string>("string")).toStrictEqual("Hello", "should return a string.");
+        // expect(primObj.get<bool>("boolean")).toBe(true, "should return a boolean");
+        // expect(primObj.get<bool>("oops")).toBe(false);
+      });
+
+      it("should handle arrays", () => {
+        const arrObj = <JSON.Obj>JSON.parse(`{
+                                    "arr": [12, 34, 56, 78, 90]
+                                  }`);
+        expect(arrObj.get<i32[]>("arr")).toStrictEqual([12, 34, 56, 78, 90]);
+      });
+    });
+
   });
 
+});
+
+class Object {
+  i32: i32;
+  bool: bool;
+  string: string;
+}
+
+describe("Field types", () => {
+  it("should handle primitives", () => {
+    const parsed = JSON.parse(`
+    {
+      "i32": 42,
+      "bool": true,
+      "string": "hello"
+    }`);
+    const obj = parsed.getValue<Object>();
+    const keys: string[] = keysof<Object>();
+    log(keys[2]);
+    // expect(obj.string).toStrictEqual("hello");
+  });
 });
