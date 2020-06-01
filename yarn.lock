@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-3.2.1.tgz#a4f906f9e8a9063517fa833d47a47a08812359ac"
   integrity sha512-qok+WPvKV1BLQ+nnpn+hc0PLSZ69Pim4eT72PruA1C+hvMu6HCbNKDFcj4lrL7XNMKuibPf0633SW14asC0//w==
 
-"@as-pect/cli@^3.2.3":
+"@as-pect/cli@~3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-3.2.3.tgz#9fc54c7c877cf9417c2e074eb206e9788c0df31c"
   integrity sha512-ll5kQ8fj+YWJyxJYqW8/Qv+kH323XJhSL1tbswYwA43lOHbmtoTD0lqRtxtxVHz9U+aDtvCS4xEP/S/3cCm9Sw==
