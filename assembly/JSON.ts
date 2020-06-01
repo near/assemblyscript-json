@@ -121,27 +121,7 @@ export namespace JSON {
       return new Obj();
     }
 
-    toString(): string {
-      if (this instanceof Str) {
-        return (<Str>this).toString();
-      }
-      if (this instanceof Num) {
-        return (<Num>this).toString();
-      }
-      if (this instanceof Bool) {
-        return (<Bool>this).toString();
-      }
-      if (this instanceof Null) {
-        return (<Null>this).toString();
-      }
-      if (this instanceof Arr) {
-        return (<Arr>this).toString();
-      }
-      if (this instanceof Obj) {
-        return (<Obj>this).toString();
-      }
-      throw new Error("Not a value.");
-    }
+    abstract  toString(): string;
   }
 
   export class Str extends Value {
@@ -259,7 +239,6 @@ export namespace JSON {
       return Value.String(<string>val);
     }
     if (val == null) {
-      log("is null")
       return Value.Null();
     }
     if (isArrayLike<T>(val)) {

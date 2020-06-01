@@ -75,7 +75,7 @@ export class JSONEncoder {
         } else {
             this._isFirstKey[this._isFirstKey.length - 1] = 0;
         }
-        if (str != null && str.length > 0) {
+        if (str != null && (<string>str).length > 0) {
             this.writeString(str!);
             this.write(":");
         }
