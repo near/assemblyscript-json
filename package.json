@@ -9,7 +9,7 @@
     "test": "asp"
   },
   "devDependencies": {
-    "@as-pect/cli": "^2.3.1",
+    "@as-pect/cli": "^3.2.3",
     "assemblyscript": "^0.10.0"
   }
 }

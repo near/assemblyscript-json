@@ -164,24 +164,24 @@ describe("JSON.parse", () => {
 
     it("should handle primitive values", () => {
       expect(
-        JSON.parse(`{
+        parseToString(`{
                       "number": 42, 
                       "boolean": true, 
                       "string": "Hello"
-                    }`)).toStrictEqual(primObj);
+                    }`)).toStrictEqual(primObj.toString());
     });
 
     it("should handle nested objects", () => {
       const outerObj = JSON.Value.Object();
       outerObj.set("innerObject", primObj);
       expect(
-        JSON.parse(`{
+        parseToString(`{
                       "innerObject": {
                           "number": 42, 
                           "boolean": true, 
                           "string": "Hello" 
                       }
-                    }`).toString()).toStrictEqual(outerObj.toString());
+                    }`)).toStrictEqual(outerObj.toString());
     });
     
     it("should handle arrays", () => {
