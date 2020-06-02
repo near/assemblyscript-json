@@ -121,7 +121,27 @@ export namespace JSON {
       return new Obj();
     }
 
-    abstract  toString(): string;
+    toString(): string {
+      if (this instanceof Str) {
+        return (<Str>this).toString();
+      }
+      if (this instanceof Num) {
+        return (<Num>this).toString();
+      }
+      if (this instanceof Bool) {
+        return (<Bool>this).toString();
+      }
+      if (this instanceof Null) {
+        return (<Null>this).toString();
+      }
+      if (this instanceof Arr) {
+        return (<Arr>this).toString();
+      }
+      if (this instanceof Obj) {
+        return (<Obj>this).toString();
+      }
+      throw new Error("Not a value.");
+    }
   }
 
   export class Str extends Value {
