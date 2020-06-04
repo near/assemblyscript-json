@@ -2,52 +2,52 @@
 # yarn lockfile v1
 
 
-"@as-pect/assembly@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-3.2.1.tgz#a4f906f9e8a9063517fa833d47a47a08812359ac"
-  integrity sha512-qok+WPvKV1BLQ+nnpn+hc0PLSZ69Pim4eT72PruA1C+hvMu6HCbNKDFcj4lrL7XNMKuibPf0633SW14asC0//w==
+"@as-pect/assembly@^3.2.6":
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/assembly/-/assembly-3.2.6.tgz#e24983380d85455f955d8a63f7439f6da6f7a008"
+  integrity sha512-FzbRpMC1r0eLodkwyhXN28uC6I7eyrf2VFoO5d9BNlM828AbQDTBeaUtkvbQxzPAF+Tx0gjV5Ku+CPV+Fi45kw==
 
 "@as-pect/cli@^3.2.4":
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-3.2.4.tgz#ad7a2d1da9d78563d217f8019c6da83e72110f4a"
-  integrity sha512-WUvEMMDBYC2NPJ2IYwX/dvWtV4CLj+14nc58j4PmJRj8NfNGMllYcl8ZFHSU0rqn9aVGmg+Njs2PokfkkmWjmQ==
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/cli/-/cli-3.2.6.tgz#87ba213525b5de52693584023e395cecb0273d28"
+  integrity sha512-SC71PWHYrzITOgJHNKLEBw7yfB+s9jIqBpY7V4Ra30WeBhuvA3Ap/oHD3HAqweVm3InIENKbc/Jp5y0Age5zIA==
   dependencies:
-    "@as-pect/assembly" "^3.2.1"
-    "@as-pect/core" "^3.2.2"
+    "@as-pect/assembly" "^3.2.6"
+    "@as-pect/core" "^3.2.6"
     chalk "^4.0.0"
     glob "^7.1.6"
   optionalDependencies:
-    "@as-pect/csv-reporter" "^3.2.2"
-    "@as-pect/json-reporter" "^3.2.2"
+    "@as-pect/csv-reporter" "^3.2.6"
+    "@as-pect/json-reporter" "^3.2.6"
 
-"@as-pect/core@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-3.2.2.tgz#5e064b84a39ba3f6d53ff12d07ef2f6f9aedf94e"
-  integrity sha512-Gr6ha3WGS/omSLvquDC6WPqZt1vP/hxvWovxgUuqNJ1APymMTjbvP2W86pjKLqvSaZj1gETAr5703PxhnnoL4g==
+"@as-pect/core@^3.2.6":
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/core/-/core-3.2.6.tgz#76f79667f1bb3aa541ddff3001bde8dc4e73811f"
+  integrity sha512-3eC6TmByAoNT8590rX1SeRLO8dsVDJ4CnNEpBvitFAwIIBhq5PdjrJvW1kRJMTt6Qu1bPtoE5LU3m6SnTsvW4g==
   dependencies:
-    "@as-pect/assembly" "^3.2.1"
-    "@as-pect/snapshots" "^3.2.2"
+    "@as-pect/assembly" "^3.2.6"
+    "@as-pect/snapshots" "^3.2.6"
     chalk "^4.0.0"
     long "^4.0.0"
 
-"@as-pect/csv-reporter@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@as-pect/csv-reporter/-/csv-reporter-3.2.2.tgz#7dcf5d1d601343ed96902a049e57439b6d262416"
-  integrity sha512-LAQcYnJ6PvgEh0ieOHaw5gloFlQIvQpi/gdmBBwdme5wFhiMu7eyJIfBkwjafcqc8B4ZEIWGCuj0s+zuXyDGFQ==
+"@as-pect/csv-reporter@^3.2.6":
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/csv-reporter/-/csv-reporter-3.2.6.tgz#83c9b7153f7920709dcb01f94d215e3cfde35459"
+  integrity sha512-ZH7cbVQHtl0AXuw0RN9+XdoMUMt70PKMzyE/N3UEU7YnxCVXu0pJCcdsAR6D8qLNc29UG4BsT6ZqhJWHztc2+g==
   dependencies:
-    "@as-pect/core" "^3.2.2"
+    "@as-pect/core" "^3.2.6"
 
-"@as-pect/json-reporter@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@as-pect/json-reporter/-/json-reporter-3.2.2.tgz#d3cfb831ac9ed0fda13415c21013f46d26e04a67"
-  integrity sha512-YXm8NO9SyAo5PTSxpu1BJPXQfE+wFATzgSDtejqcsnEtEXb4FprzPpVjU6Et7NIOQBPgAM/4k33ose64noFYzw==
+"@as-pect/json-reporter@^3.2.6":
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/json-reporter/-/json-reporter-3.2.6.tgz#a7f1f08c9ba2ce8324d6741627f056530161503f"
+  integrity sha512-QQWvBn8UMrKwcdlhPqaXHh5LrsFxInhAg9I0jR3erxiJprQW2CumEzmSiiLmXsJixlVmByVWP0z0Yc5gwGRrVw==
   dependencies:
-    "@as-pect/core" "^3.2.2"
+    "@as-pect/core" "^3.2.6"
 
-"@as-pect/snapshots@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@as-pect/snapshots/-/snapshots-3.2.2.tgz#72a8dff598ac878ec5962fbb6a717460aab700a7"
-  integrity sha512-uJQwwbgX0gGRVD4Au8r3g9TbPCseBuChSDVjfaNAZifaQ0JKrrzB4tga2PVDrWrZHIgYvajTph5tsN3x9pJ5nA==
+"@as-pect/snapshots@^3.2.6":
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/@as-pect/snapshots/-/snapshots-3.2.6.tgz#9211d921b19ad4b3260a54deccd229df43a0e3de"
+  integrity sha512-96DC3aDOlpS3TORtbSNKI0mYrfG8FyURnOigMGnNI7jtoj0GV/AcqK75T6dx5uRpXD/K+fW2ZtT0yd+bCc6WBQ==
   dependencies:
     diff "^4.0.2"
     nearley "^2.19.3"
