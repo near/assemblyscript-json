@@ -175,13 +175,13 @@ describe("JSON.parse", () => {
       const outerObj = JSON.Value.Object();
       outerObj.set("innerObject", primObj);
       expect(
-        parseToString(`{
+        JSON.parse(`{
                       "innerObject": {
                           "number": 42, 
                           "boolean": true, 
                           "string": "Hello" 
                       }
-                    }`)).toStrictEqual(outerObj.toString());
+                    }`)).toStrictEqual(outerObj);
     });
     
     it("should handle arrays", () => {
