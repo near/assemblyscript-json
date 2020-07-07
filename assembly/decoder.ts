@@ -63,10 +63,10 @@ export class ThrowingJSONHandler extends JSONHandler {
 const TRUE_STR = "true";
 const FALSE_STR = "false";
 const NULL_STR = "null";
-let CHAR_0 = "0".charCodeAt(0);
-let CHAR_9 = "9".charCodeAt(0);
-let CHAR_A = "A".charCodeAt(0);
-let CHAR_A_LOWER = "a".charCodeAt(0);
+const CHAR_0: i32 = 48; //"0".charCodeAt(0);
+const CHAR_9: i32 = 57; //"9".charCodeAt(0);
+const CHAR_A: i32 = 65; //"A".charCodeAt(0);
+const CHAR_A_LOWER: i32 = 97; //"a".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
@@ -84,13 +84,21 @@ export class DecoderState {
 
 export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   handler: JSONHandlerT;
-  state: DecoderState;
+  _state: DecoderState | null = null;
 
   constructor(handler: JSONHandlerT) {
         this.handler = handler;
-    }
+  }
 
-    deserialize(buffer: Uint8Array, decoderState: DecoderState | null = null): void {
+  get state(): DecoderState {
+    return <DecoderState>this._state;
+  }
+
+  set state(state: DecoderState) {
+    this._state = state;
+  }
+
+  deserialize(buffer: Uint8Array, decoderState: DecoderState | null = null): void {
         if (decoderState != null) {
             this.state = decoderState;
         } else {
