@@ -66,9 +66,9 @@ ansi-styles@^4.1.0:
     color-convert "^2.0.1"
 
 assemblyscript@^0.13.3:
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.13.3.tgz#49572ee51d0bae3a890924527664e17fc7c6dfec"
-  integrity sha512-4Lj7Ci0rW/Ww/++PB3kkcm6EJ+xOnIzbZ+hmg/Q7cAaTaCNNphzjILQkn5Qn6ysKC8vGlcf1Nvwa6XnGCf+d4Q==
+  version "0.13.6"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.13.6.tgz#2654bb13e99d23e45433b8fdd58f82cff129262d"
+  integrity sha512-08dr8yrzwXNbeQQYP/5fy0DO4FC/AWpRYLGfzMQBTNbC37y1d1z8GFR9Lm7zAPZiT4lpqnikpgLaTP5S6AWg4Q==
   dependencies:
     binaryen "93.0.0-nightly.20200609"
     long "^4.0.0"
