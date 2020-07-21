@@ -3,8 +3,8 @@
   "version": "0.3.2",
   "types": "assembly/index.ts",
   "scripts": {
-    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
-    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
+    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --debug",
+    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --optimize",
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized",
     "test": "asp"
   },

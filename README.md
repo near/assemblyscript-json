@@ -2,25 +2,22 @@
 
 JSON encoder / decoder for AssemblyScript.
 
-Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing infra for AssemblyScript.
-
 # Limitations
 
 This is developed for use in smart contracts written in AssemblyScript for https://github.com/nearprotocol/nearcore.
 This imposes such limitations:
+
 - Float numbers not supported
+
 - We assume that memory never needs to be deallocated (cause these contracts are short-lived).
 
 Note that this mostly just defines the way it's currently implemented. Contributors are welcome to fix limitations.
-
 
 # Usage
 
 ## Encoding JSON
 
 ```ts
-// Make sure memory allocator is available
-import "allocator/arena";
 // Import encoder
 import { JSONEncoder } from "path/to/module";
 
@@ -44,10 +41,8 @@ let jsonString: String = encoder.toString();
 ## Parsing JSON
 
 ```ts
-// Make sure memory allocator is available
-import "allocator/arena";
 // Import decoder
-import { JSONDecoder, JSONHandler } from "path/to/module";
+import { JSONDecoder, JSONHandler } from "assemblyscript-json";
 
 // Events need to be received by custom object extending JSONHandler.
 // NOTE: All methods are optional to implement.
@@ -105,7 +100,7 @@ decoder.deserialize(json); // This will send events to MyJSONEventsHandler
 ## JSON namespace
 
 ```ts
-import { JSON } from "path/to/module";
+import { JSON } from "assemblyscript-json";
 
 // Can use JS parse api
 let jsonObj: JSON.Object = JSON.parse(`{"hello": "world"}`);
