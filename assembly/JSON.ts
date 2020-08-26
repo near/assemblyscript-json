@@ -1,7 +1,6 @@
 import { Buffer } from "./util";
 import { JSONDecoder } from "./decoder";
 
-
 class Handler {
   stack: JSON.Value[] = new Array<JSON.Value>();
 
@@ -79,12 +78,12 @@ class Handler {
   }
 }
 
-class _JSON {
-  private static handler: Handler = new Handler();
-  private static decoder: JSONDecoder<Handler> = new JSONDecoder<Handler>(_JSON.handler);
+namespace _JSON {
+  @lazy export const handler: Handler = new Handler();
+  @lazy export const decoder: JSONDecoder<Handler> = new JSONDecoder<Handler>(_JSON.handler);
   
   /** Parses a string or Uint8Array and returns a Json Value. */
-  static parse<T = Uint8Array>(str: T): JSON.Value {
+  export function parse<T = Uint8Array>(str: T): JSON.Value {
     var arr: Uint8Array;
     if (isString<T>(str)){
       arr = Buffer.fromString(<string>str);
