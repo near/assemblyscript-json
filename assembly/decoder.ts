@@ -60,13 +60,20 @@ export class ThrowingJSONHandler extends JSONHandler {
     }
 }
 
-const TRUE_STR = "true";
-const FALSE_STR = "false";
-const NULL_STR = "null";
-const CHAR_0: i32 = 48; //"0".charCodeAt(0);
-const CHAR_9: i32 = 57; //"9".charCodeAt(0);
-const CHAR_A: i32 = 65; //"A".charCodeAt(0);
-const CHAR_A_LOWER: i32 = 97; //"a".charCodeAt(0);
+//@ts-ignore: decorator
+@lazy const TRUE_STR = "true";
+//@ts-ignore: decorator
+@lazy const FALSE_STR = "false";
+//@ts-ignore: decorator
+@lazy const NULL_STR = "null";
+//@ts-ignore: decorator
+@lazy const CHAR_0: i32 = 48; //"0".charCodeAt(0);
+//@ts-ignore: decorator
+@lazy const CHAR_9: i32 = 57; //"9".charCodeAt(0);
+//@ts-ignore: decorator
+@lazy const CHAR_A: i32 = 65; //"A".charCodeAt(0);
+//@ts-ignore: decorator
+@lazy const CHAR_A_LOWER: i32 = 97; //"a".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
