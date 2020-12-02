@@ -201,7 +201,19 @@ export class Str extends Value {
   }
 
   toString(): string {
-    return `"${this._str}"`;
+    let escaped: i32[] = [];
+    for (let i = 0; i < this._str.length; i++) {
+      const charCode = this._str.charCodeAt(i);
+      if (
+        charCode == 0x22 || // "    quotation mark  U+0022
+        charCode == 0x5C || // \    reverse solidus U+005C
+        charCode < 0x20 // control characters
+      ) {
+        escaped.push(0x5c); // add a reverse solidus (backslash) to escape reserved chars 
+      }
+      escaped.push(charCode);
+    }
+    return "\"" + String.fromCharCodes(escaped) + "\"";
   }
 
   valueOf(): string {
