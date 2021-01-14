@@ -8,11 +8,11 @@ Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing
 
 This is developed for use in smart contracts written in AssemblyScript for https://github.com/nearprotocol/nearcore.
 This imposes such limitations:
+
 - Float numbers not supported
 - We assume that memory never needs to be deallocated (cause these contracts are short-lived).
 
 Note that this mostly just defines the way it's currently implemented. Contributors are welcome to fix limitations.
-
 
 # Usage
 
@@ -38,7 +38,6 @@ let json: Uint8Array = encoder.serialize();
 
 // Or get serialized data as string
 let jsonString: String = encoder.toString();
-
 ```
 
 ## Parsing JSON
@@ -114,7 +113,7 @@ let jsonObj: JSON.Object = JSON.parse(`{"hello": "world"}`);
 let world = jsonObj.getString("hello");
 
 // If you don't know what the type of the value
-let unknown = jsonObj.getValue("hello")
+let unknown = jsonObj.getValue("hello");
 
-unknown.isString // true;
+unknown.isString; // true;
 ```

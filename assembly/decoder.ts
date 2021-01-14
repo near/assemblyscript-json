@@ -32,32 +32,38 @@ export abstract class JSONHandler {
  * to allow easier validation of input.
  */
 export class ThrowingJSONHandler extends JSONHandler {
-    setString(name: string, value: string): void {
-       assert(false, 'Unexpected string field ' + name + ' : "' + value + '"');
-    }
+  setString(name: string, value: string): void {
+    assert(false, "Unexpected string field " + name + ' : "' + value + '"');
+  }
 
-    setBoolean(name: string, value: bool): void {
-       assert(false, 'Unexpected bool field ' + name + ' : ' + (value ? 'true' : 'false'));
-    }
+  setBoolean(name: string, value: bool): void {
+    assert(
+      false,
+      "Unexpected bool field " + name + " : " + (value ? "true" : "false")
+    );
+  }
 
-    setNull(name: string): void {
-       assert(false, 'Unexpected null field ' + name);
-    }
+  setNull(name: string): void {
+    assert(false, "Unexpected null field " + name);
+  }
 
-    setInteger(name: string, value: i64): void {
-       //@ts-ignore integer does have toString
-       assert(false, 'Unexpected integer field ' + name + ' : ' + value.toString());
-    }
+  setInteger(name: string, value: i64): void {
+    //@ts-ignore integer does have toString
+    assert(
+      false,
+      "Unexpected integer field " + name + " : " + value.toString()
+    );
+  }
 
-    pushArray(name: string): bool {
-        assert(false, 'Unexpected array field ' + name);
-        return true;
-    }
+  pushArray(name: string): bool {
+    assert(false, "Unexpected array field " + name);
+    return true;
+  }
 
-    pushObject(name: string): bool {
-        assert(false, 'Unexpected object field ' + name);
-        return true;
-    }
+  pushObject(name: string): bool {
+    assert(false, "Unexpected object field " + name);
+    return true;
+  }
 }
 
 //@ts-ignore: decorator
@@ -78,10 +84,10 @@ export class ThrowingJSONHandler extends JSONHandler {
 export class DecoderState {
   lastKey: string = "";
   readIndex: i32 = 0;
-  constructor(public buffer: Uint8Array){}
+  constructor(public buffer: Uint8Array) {}
 
   get ptr(): usize {
-      return Buffer.getDataPtr(this.buffer);
+    return Buffer.getDataPtr(this.buffer);
   }
 
   readString(start: usize, end: usize = this.readIndex): string {
@@ -94,7 +100,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   _state: DecoderState | null = null;
 
   constructor(handler: JSONHandlerT) {
-        this.handler = handler;
+    this.handler = handler;
   }
 
   get state(): DecoderState {
@@ -105,10 +111,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     this._state = state;
   }
 
-  deserialize(buffer: Uint8Array, decoderState: DecoderState | null = null): void {
-        if (decoderState != null) {
-            this.state = decoderState;
-        } else {
+  deserialize(
+    buffer: Uint8Array,
+    decoderState: DecoderState | null = null
+  ): void {
+    if (decoderState != null) {
+      this.state = decoderState;
+    } else {
       this.state = new DecoderState(buffer);
     }
 
@@ -121,24 +130,28 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       return -1;
     }
     return this.state.buffer[this.state.readIndex];
-    }
+  }
 
-    private readChar(): i32 {
-        assert(this.state.readIndex < this.state.buffer.length, "Unexpected input end");
-        return this.state.buffer[this.state.readIndex++];
-    }
+  private readChar(): i32 {
+    assert(
+      this.state.readIndex < this.state.buffer.length,
+      "Unexpected input end"
+    );
+    return this.state.buffer[this.state.readIndex++];
+  }
 
-    private parseValue(): bool {
-        this.skipWhitespace();
-        let result = this.parseObject()
-            || this.parseArray()
-            || this.parseString()
-            || this.parseBoolean()
-            || this.parseNumber()
-            || this.parseNull()
-        this.skipWhitespace();
-        return result;
-    }
+  private parseValue(): bool {
+    this.skipWhitespace();
+    let result =
+      this.parseObject() ||
+      this.parseArray() ||
+      this.parseString() ||
+      this.parseBoolean() ||
+      this.parseNumber() ||
+      this.parseNull();
+    this.skipWhitespace();
+    return result;
+  }
 
   private parseObject(): bool {
     if (this.peekChar() != "{".charCodeAt(0)) {
@@ -206,10 +219,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     }
     this.handler.setString(this.state.lastKey, this.readString());
     return true;
-    }
+  }
 
   private readString(): string {
-    assert(this.readChar() == '"'.charCodeAt(0), "Expected double-quoted string");
+    assert(
+      this.readChar() == '"'.charCodeAt(0),
+      "Expected double-quoted string"
+    );
     let savedIndex = this.state.readIndex;
     //@ts-ignore can be null
     let stringParts: Array<string> = new Array<string>();
@@ -291,13 +307,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     let sign: i64 = 1;
     if (this.peekChar() == "-".charCodeAt(0)) {
       sign = -1;
-            this.readChar();
-        }
-        let digits = 0;
-        while (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9 ) {
-            let byte = this.readChar();
-            number *= 10;
-            number += byte - CHAR_0;
+      this.readChar();
+    }
+    let digits = 0;
+    while (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) {
+      let byte = this.readChar();
+      number *= 10;
+      number += byte - CHAR_0;
       digits++;
     }
     if (digits > 0) {
@@ -341,9 +357,11 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     while (this.isWhitespace(this.peekChar())) {
       this.readChar();
     }
-    }
+  }
 
-    private isWhitespace(charCode: i32): bool {
-        return charCode == 0x9 || charCode == 0xa || charCode == 0xd || charCode == 0x20;
-    }
+  private isWhitespace(charCode: i32): bool {
+    return (
+      charCode == 0x9 || charCode == 0xa || charCode == 0xd || charCode == 0x20
+    );
+  }
 }

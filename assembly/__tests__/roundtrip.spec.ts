@@ -3,8 +3,7 @@ import { JSONEncoder } from "../encoder";
 import { Buffer } from "../util";
 import { JSON } from "../JSON";
 
-
-function roundtripTest(jsonString: string, _expectedString: string  = ""): void {
+function roundtripTest(jsonString: string, _expectedString: string = ""): void {
   const expectedString = _expectedString == "" ? jsonString : _expectedString;
   let buffer: Uint8Array = Buffer.fromString(jsonString);
   let handler = new JSONEncoder();
@@ -25,7 +24,7 @@ describe("Round trip", () => {
   });
 
   it("should handle empty object with whitespace", () => {
-    roundtripTest("{ }", "{}")
+    roundtripTest("{ }", "{}");
   });
 
   it("should handle int32", () => {
@@ -54,10 +53,7 @@ describe("Round trip", () => {
   });
 
   it("should handle string escaped", () => {
-    roundtripTest(
-      '"\\"\\\\\\/\\n\\t\\b\\r\\t"',
-      '"\\"\\\\/\\n\\t\\b\\r\\t"'
-    );
+    roundtripTest('"\\"\\\\\\/\\n\\t\\b\\r\\t"', '"\\"\\\\/\\n\\t\\b\\r\\t"');
   });
 
   it("should handle string unicode escaped simple", () => {
@@ -65,11 +61,10 @@ describe("Round trip", () => {
   });
 
   it("should handle string unicode escaped", () => {
-   roundtripTest(
+    roundtripTest(
       '"\\u041f\\u043e\\u043b\\u0442\\u043e\\u0440\\u0430 \\u0417\\u0435\\u043c\\u043b\\u0435\\u043a\\u043e\\u043f\\u0430"',
       '"Полтора Землекопа"'
     );
-   
   });
 
   it("should multiple keys", () => {
@@ -111,7 +106,7 @@ function parseToString(input: string): string {
   return JSON.parse(input).toString();
 }
 
-describe("JSON.parse", () => {      
+describe("JSON.parse", () => {
   beforeAll(() => {
     primObj = JSON.Value.Object();
     primArr = <JSON.Arr>JSON.from<i32[]>([42]);
@@ -122,11 +117,15 @@ describe("JSON.parse", () => {
 
   describe("Primitive Values", () => {
     it("should handle numbers", () => {
-      expect((<JSON.Num>JSON.parse("123456789"))._num).toStrictEqual((<JSON.Num>JSON.from(123456789))._num);
+      expect((<JSON.Num>JSON.parse("123456789"))._num).toStrictEqual(
+        (<JSON.Num>JSON.from(123456789))._num
+      );
     });
 
     it("should handle strings", () => {
-      expect(parseToString("\"hello\"")).toStrictEqual(JSON.from("hello").toString());
+      expect(parseToString('"hello"')).toStrictEqual(
+        JSON.from("hello").toString()
+      );
     });
 
     it("should handle booleans", () => {
@@ -142,11 +141,12 @@ describe("JSON.parse", () => {
 
   describe("Arrays", () => {
     it("should handle empty ones", () => {
-      expect(parseToString("[]")).toStrictEqual(JSON.from<i32[]>([]).toString());
+      expect(parseToString("[]")).toStrictEqual(
+        JSON.from<i32[]>([]).toString()
+      );
     });
 
     it("should handle non-empty ones", () => {
-
       expect(parseToString("[42]")).toStrictEqual(primArr.toString());
     });
 
@@ -156,7 +156,7 @@ describe("JSON.parse", () => {
       expect(parseToString("[[42]]")).toStrictEqual(outterArr.toString());
     });
   });
-  
+
   describe("Objects", () => {
     it("should handle empty objects", () => {
       expect(parseToString("{}")).toStrictEqual(JSON.Value.Object().toString());
@@ -168,7 +168,8 @@ describe("JSON.parse", () => {
                       "number": 42, 
                       "boolean": true, 
                       "string": "Hello"
-                    }`)).toStrictEqual(primObj.toString());
+                    }`)
+      ).toStrictEqual(primObj.toString());
     });
 
     it("should handle nested objects", () => {
@@ -181,15 +182,14 @@ describe("JSON.parse", () => {
                           "boolean": true, 
                           "string": "Hello" 
                       }
-                    }`)).toStrictEqual(outerObj);
+                    }`)
+      ).toStrictEqual(outerObj);
     });
-    
+
     it("should handle arrays", () => {
       const obj = JSON.Value.Object();
       obj.set("arr", primArr);
       expect(parseToString('{"arr": [42]}')).toStrictEqual(obj.toString());
     });
-
   });
-
 });

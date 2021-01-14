@@ -8,8 +8,16 @@
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized",
     "test": "asp"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "devDependencies": {
     "@as-pect/cli": "^4.0.0",
-    "assemblyscript": "^0.15.0"
+    "assemblyscript": "^0.15.0",
+    "husky": "^4.3.7",
+    "prettier": "2.2.1",
+    "pretty-quick": "^3.1.0"
   }
 }
