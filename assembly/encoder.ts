@@ -1,5 +1,4 @@
 import { Buffer } from "./util/index";
-/// <reference path="../node_modules/assemblyscript/std/assembly/rt/index.d.ts" />
 
 export class JSONEncoder {
   private _isFirstKey: i32[];
@@ -121,7 +120,6 @@ export class JSONEncoder {
   }
 
   private writeInteger(value: i64): void {
-    // @ts-ignore integer does have toString
     this.write(value.toString());
   }
 

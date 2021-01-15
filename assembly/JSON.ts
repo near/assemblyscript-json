@@ -78,8 +78,10 @@ class Handler {
 }
 
 namespace _JSON {
+  // @ts-ignore decorator is valid
   @lazy
   export const handler: Handler = new Handler();
+  // @ts-ignore decorator is valid
   @lazy
   export const decoder: JSONDecoder<Handler> = new JSONDecoder<Handler>(
     _JSON.handler
@@ -93,9 +95,9 @@ namespace _JSON {
     } else {
       arr = changetype<Uint8Array>(str);
     }
-    this.decoder.deserialize(arr);
-    const res = this.decoder.handler.peek;
-    this.decoder.handler.reset();
+    _JSON.decoder.deserialize(arr);
+    const res = _JSON.decoder.handler.peek;
+    _JSON.decoder.handler.reset();
     return res;
   }
 }
