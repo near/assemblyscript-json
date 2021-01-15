@@ -6,18 +6,22 @@
     "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized",
+    "lint": "eslint --max-warnings 0 --ext ts \"assembly/**/*.ts\"",
+    "lint:fix": "yarn lint --fix",
     "test": "asp"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "yarn lint || (yarn lint --fix && exit 1)"
     }
   },
   "devDependencies": {
     "@as-pect/cli": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
     "assemblyscript": "^0.15.0",
+    "eslint": "^7.17.0",
     "husky": "^4.3.7",
-    "prettier": "2.2.1",
-    "pretty-quick": "^3.1.0"
+    "typescript": "^4.1.3"
   }
 }

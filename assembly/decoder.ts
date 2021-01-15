@@ -48,7 +48,7 @@ export class ThrowingJSONHandler extends JSONHandler {
   }
 
   setInteger(name: string, value: i64): void {
-    //@ts-ignore integer does have toString
+    // @ts-ignore integer does have toString
     assert(
       false,
       "Unexpected integer field " + name + " : " + value.toString()
@@ -66,20 +66,20 @@ export class ThrowingJSONHandler extends JSONHandler {
   }
 }
 
-//@ts-ignore: decorator
+// @ts-ignore: decorator
 @lazy const TRUE_STR = "true";
-//@ts-ignore: decorator
+// @ts-ignore: decorator
 @lazy const FALSE_STR = "false";
-//@ts-ignore: decorator
+// @ts-ignore: decorator
 @lazy const NULL_STR = "null";
-//@ts-ignore: decorator
-@lazy const CHAR_0: i32 = 48; //"0".charCodeAt(0);
-//@ts-ignore: decorator
-@lazy const CHAR_9: i32 = 57; //"9".charCodeAt(0);
-//@ts-ignore: decorator
-@lazy const CHAR_A: i32 = 65; //"A".charCodeAt(0);
-//@ts-ignore: decorator
-@lazy const CHAR_A_LOWER: i32 = 97; //"a".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_0: i32 = 48; // "0".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_9: i32 = 57; // "9".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_A: i32 = 65; // "A".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_A_LOWER: i32 = 97; // "a".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
@@ -158,7 +158,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       return false;
     }
     let key = this.state.lastKey;
-    //@ts-ignore can be null
+    // @ts-ignore can be null
     this.state.lastKey = "";
     if (this.handler.pushObject(key)) {
       this.readChar();
@@ -192,7 +192,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       return false;
     }
     let key = this.state.lastKey;
-    //@ts-ignore can be null
+    // @ts-ignore can be null
     this.state.lastKey = "";
     if (this.handler.pushArray(key)) {
       this.readChar();
@@ -227,7 +227,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       "Expected double-quoted string"
     );
     let savedIndex = this.state.readIndex;
-    //@ts-ignore can be null
+    // @ts-ignore can be null
     let stringParts: Array<string> = new Array<string>();
     for (;;) {
       let byte = this.readChar();
@@ -296,7 +296,6 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
         digit = byte - CHAR_A_LOWER + 10;
       }
     }
-    let arr: Array<i32> = [byte, digit];
     assert(digit >= 0 && digit < 16, "Unexpected \\u digit");
     return digit;
   }

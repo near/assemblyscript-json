@@ -100,7 +100,7 @@ namespace _JSON {
   }
 }
 
-//@ts-ignore
+// @ts-ignore
 @global
 export namespace JSON {
   export abstract class Value {
@@ -274,7 +274,7 @@ export namespace JSON {
     if (isArrayLike<T>(val)) {
       const arr = Value.Array();
       for (let i: i32 = 0; i < val.length; i++) {
-        //@ts-ignore
+        // @ts-ignore
         arr.push(from<valueof<T>>(val[i]));
       }
       return arr;

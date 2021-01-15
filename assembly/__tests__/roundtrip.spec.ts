@@ -133,7 +133,7 @@ describe("JSON.parse", () => {
       expect(parseToString("false")).toStrictEqual(JSON.from(false).toString());
     });
 
-    //TODO: JSON.from(null) should equal JSON.NUll();
+    // TODO: JSON.from(null) should equal JSON.NUll();
     it("should handle null", () => {
       expect(parseToString("null")).toStrictEqual("null");
     });
