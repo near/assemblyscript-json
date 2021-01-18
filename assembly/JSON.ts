@@ -39,7 +39,7 @@ class Handler {
     if (this.stack.length == 0) {
       this.stack.push(obj);
     } else {
-      this.addValue(name, obj)
+      this.addValue(name, obj);
       this.stack.push(obj);
     }
     return true;
@@ -71,33 +71,38 @@ class Handler {
     }
     if (this.peek instanceof JSON.Obj) {
       (this.peek as JSON.Obj).set(name, obj);
-    }
-    else if (this.peek instanceof JSON.Arr) {
+    } else if (this.peek instanceof JSON.Arr) {
       (<JSON.Arr>this.peek).push(obj);
     }
   }
 }
 
 namespace _JSON {
-  @lazy export const handler: Handler = new Handler();
-  @lazy export const decoder: JSONDecoder<Handler> = new JSONDecoder<Handler>(_JSON.handler);
-  
+  // @ts-ignore decorator is valid
+  @lazy
+  export const handler: Handler = new Handler();
+  // @ts-ignore decorator is valid
+  @lazy
+  export const decoder: JSONDecoder<Handler> = new JSONDecoder<Handler>(
+    _JSON.handler
+  );
+
   /** Parses a string or Uint8Array and returns a Json Value. */
   export function parse<T = Uint8Array>(str: T): JSON.Value {
     var arr: Uint8Array;
-    if (isString<T>(str)){
+    if (isString<T>(str)) {
       arr = Buffer.fromString(<string>str);
     } else {
       arr = changetype<Uint8Array>(str);
     }
-    this.decoder.deserialize(arr);
-    const res = this.decoder.handler.peek;
-    this.decoder.handler.reset();
+    _JSON.decoder.deserialize(arr);
+    const res = _JSON.decoder.handler.peek;
+    _JSON.decoder.handler.reset();
     return res;
   }
 }
 
-//@ts-ignore
+// @ts-ignore
 @global
 export namespace JSON {
   export abstract class Value {
@@ -149,7 +154,7 @@ export namespace JSON {
     }
 
     toString(): string {
-      return "\"" + this._str + "\"";
+      return '"' + this._str + '"';
     }
   }
 
@@ -172,7 +177,7 @@ export namespace JSON {
       return "null";
     }
   }
- 
+
   export class Bool extends Value {
     constructor(public _bool: bool) {
       super();
@@ -195,7 +200,15 @@ export namespace JSON {
     }
 
     toString(): string {
-      return "[" + this._arr.map<string>((val: Value,i: i32,_arr: Value[]): string  => val.toString()).join(",") + "]";
+      return (
+        "[" +
+        this._arr
+          .map<string>((val: Value, i: i32, _arr: Value[]): string =>
+            val.toString()
+          )
+          .join(",") +
+        "]"
+      );
     }
   }
 
@@ -210,14 +223,13 @@ export namespace JSON {
     }
 
     set<T>(key: string, value: T): void {
-      if (isReference<T>(value)){
+      if (isReference<T>(value)) {
         if (value instanceof Value) {
           this._set(key, <Value>value);
           return;
         }
       }
       this._set(key, from<T>(value));
-
     }
     private _set(key: string, value: Value): void {
       if (!this._obj.has(key)) {
@@ -236,7 +248,9 @@ export namespace JSON {
     toString(): string {
       const objs: string[] = [];
       for (let i: i32 = 0; i < this.keys.length; i++) {
-        objs.push("\"" + this.keys[i] + "\":" + this._obj.get(this.keys[i]).toString());
+        objs.push(
+          '"' + this.keys[i] + '":' + this._obj.get(this.keys[i]).toString()
+        );
       }
       return "{" + objs.join(",") + "}";
     }
@@ -246,7 +260,6 @@ export namespace JSON {
     }
   }
 
-  
   export function from<T>(val: T): Value {
     if (isBoolean<T>(val)) {
       return Value.Bool(<bool>val);
@@ -263,7 +276,7 @@ export namespace JSON {
     if (isArrayLike<T>(val)) {
       const arr = Value.Array();
       for (let i: i32 = 0; i < val.length; i++) {
-        //@ts-ignore
+        // @ts-ignore
         arr.push(from<valueof<T>>(val[i]));
       }
       return arr;
@@ -273,11 +286,11 @@ export namespace JSON {
      */
     return Value.Object();
   }
-  //@ts-ignore
+
+  // @ts-ignore
   @inline
   /** Parses a string or Uint8Array and returns a Json Value. */
   export function parse<T = Uint8Array>(str: T): Value {
     return _JSON.parse(str);
   }
 }
-

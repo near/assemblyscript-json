@@ -17,7 +17,7 @@ module.exports = {
     /** To enable wat file output, use the following flag. The filename is ignored, but required by the compiler. */
     "--textFile": ["output.wat"],
     "--runtime": ["stub"], // Acceptable values are: full, half, stub (arena), and none,
-    "--baseDir": process.cwd()
+    "--baseDir": process.cwd(),
     // "--runPasses": ["dce"]
   },
   /**
