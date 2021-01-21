@@ -13,6 +13,8 @@ export abstract class JSONHandler {
 
   setInteger(name: string, value: i64): void {}
 
+  setFloat(name: string, value: f64): void {}
+
   pushArray(name: string): bool {
     return true;
   }
@@ -55,6 +57,14 @@ export class ThrowingJSONHandler extends JSONHandler {
     );
   }
 
+  setFloat(name: string, value: f64): void {
+    // @ts-ignore integer does have toString
+    assert(
+      false,
+      "Unexpected float field " + name + " : " + value.toString()
+    );
+  }
+
   pushArray(name: string): bool {
     assert(false, "Unexpected array field " + name);
     return true;
@@ -80,6 +90,8 @@ export class ThrowingJSONHandler extends JSONHandler {
 @lazy const CHAR_A: i32 = 65; // "A".charCodeAt(0);
 // @ts-ignore: decorator
 @lazy const CHAR_A_LOWER: i32 = 97; // "a".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_PERIOD: i32 = 46; // ".".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
@@ -301,22 +313,41 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   }
 
   private parseNumber(): bool {
-    // TODO: Parse floats
-    let number: i64 = 0;
-    let sign: i64 = 1;
+    let number: f64 = 0;
+    let sign: f64 = 1;
+    let decimalPlace: f64 = 1;
     if (this.peekChar() == "-".charCodeAt(0)) {
       sign = -1;
       this.readChar();
     }
     let digits = 0;
-    while (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) {
-      let byte = this.readChar();
-      number *= 10;
-      number += byte - CHAR_0;
-      digits++;
+    while (CHAR_PERIOD == this.peekChar() || (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9)) {
+      if (CHAR_PERIOD == this.peekChar()) {
+        // Lower the decimal place
+        decimalPlace = decimalPlace / 10;
+
+        // Read the character to continue reading
+        this.readChar();
+      } else {
+        let byte = this.readChar();
+        let value: f64 = byte - CHAR_0;
+        if (decimalPlace == 1) {
+          number *= 10;
+          number += value;
+        } else {
+          value *= decimalPlace;
+          number += value;
+          decimalPlace = decimalPlace / 10;
+        }
+        digits++;
+      }
     }
     if (digits > 0) {
-      this.handler.setInteger(this.state.lastKey, number * sign);
+      if (decimalPlace == 1) {
+        this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
+      } else {
+        this.handler.setFloat(this.state.lastKey, number * sign);
+      }
       return true;
     }
     return false;

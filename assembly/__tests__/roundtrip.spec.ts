@@ -32,8 +32,17 @@ describe("Round trip", () => {
     roundtripTest('{"int":4660}');
   });
 
+  it("should handle float32", () => {
+    // expectFn(():void => {
+    roundtripTest('{"float":24.24}');
+  });
+
   it("should handle int32Sign", () => {
     roundtripTest('{"int":-4660}');
+  });
+
+  it("should handle float32Sign", () => {
+    roundtripTest('{"float":-24.24}');
   });
 
   it("should handle true", () => {
@@ -117,8 +126,20 @@ describe("JSON.parse", () => {
 
   describe("Primitive Values", () => {
     it("should handle numbers", () => {
-      expect((<JSON.Num>JSON.parse("123456789"))._num).toStrictEqual(
-        (<JSON.Num>JSON.from(123456789))._num
+      expect((<JSON.Num>JSON.parse("123456789.0"))._num).toStrictEqual(
+        (<JSON.Num>JSON.from(123456789.0))._num
+      );
+    });
+
+    it("should handle floats", () => {
+      expect((<JSON.Float>JSON.parse("123456789.0"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456789.0))._num
+      );
+    });
+
+    it("should handle integers", () => {
+      expect((<JSON.Integer>JSON.parse("123456789"))._num).toStrictEqual(
+        (<JSON.Integer>JSON.from(123456789))._num
       );
     });
 
