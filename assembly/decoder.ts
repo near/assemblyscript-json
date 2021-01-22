@@ -315,38 +315,34 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   private parseNumber(): bool {
     let number: f64 = 0;
     let sign: f64 = 1;
-    let decimalPlace: f64 = 1;
+    // Also keeping the number as a string, because we will want to use the
+    // AS parseFloat as it handles precision best.
+    let numberAsString: string = "";
     if (this.peekChar() == "-".charCodeAt(0)) {
       sign = -1;
-      this.readChar();
+      numberAsString += String.fromCharCode(this.readChar());
     }
     let digits = 0;
     while (CHAR_PERIOD == this.peekChar() || (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9)) {
       if (CHAR_PERIOD == this.peekChar()) {
-        // Lower the decimal place
-        decimalPlace = decimalPlace / 10;
-
         // Read the character to continue reading
-        this.readChar();
+        numberAsString += String.fromCharCode(this.readChar());
       } else {
         let byte = this.readChar();
+        numberAsString += String.fromCharCode(byte);
         let value: f64 = byte - CHAR_0;
-        if (decimalPlace == 1) {
+        if (!numberAsString.includes(".")) {
           number *= 10;
           number += value;
-        } else {
-          value *= decimalPlace;
-          number += value;
-          decimalPlace = decimalPlace / 10;
         }
         digits++;
       }
     }
     if (digits > 0) {
-      if (decimalPlace == 1) {
-        this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
+      if (numberAsString.includes(".")) {
+        this.handler.setFloat(this.state.lastKey, parseFloat(numberAsString));
       } else {
-        this.handler.setFloat(this.state.lastKey, number * sign);
+        this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
       }
       return true;
     }
