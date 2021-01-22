@@ -92,6 +92,10 @@ export class ThrowingJSONHandler extends JSONHandler {
 @lazy const CHAR_A_LOWER: i32 = 97; // "a".charCodeAt(0);
 // @ts-ignore: decorator
 @lazy const CHAR_PERIOD: i32 = 46; // ".".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_E: i32 = 69; // "E".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_E_LOWER: i32 = 101; // "e".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
@@ -315,23 +319,31 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   private parseNumber(): bool {
     let number: f64 = 0;
     let sign: f64 = 1;
+    let isFloat: boolean = false;
     // Also keeping the number as a string, because we will want to use the
     // AS parseFloat as it handles precision best.
     let numberAsString: string = "";
+
     if (this.peekChar() == "-".charCodeAt(0)) {
       sign = -1;
       numberAsString += String.fromCharCode(this.readChar());
     }
     let digits = 0;
-    while (CHAR_PERIOD == this.peekChar() || (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9)) {
-      if (CHAR_PERIOD == this.peekChar()) {
-        // Read the character to continue reading
-        numberAsString += String.fromCharCode(this.readChar());
+    while (
+      (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) ||
+      CHAR_PERIOD == this.peekChar() ||
+      CHAR_E == this.peekChar() ||
+      CHAR_E_LOWER == this.peekChar()
+    ) {
+
+      let charCode = this.readChar();
+      numberAsString += String.fromCharCode(charCode);
+
+      if (charCode == CHAR_E || charCode == CHAR_E_LOWER || charCode == CHAR_PERIOD) {
+        isFloat = true;
       } else {
-        let byte = this.readChar();
-        numberAsString += String.fromCharCode(byte);
-        let value: f64 = byte - CHAR_0;
-        if (!numberAsString.includes(".")) {
+        if (!isFloat) {
+          let value: f64 = charCode - CHAR_0;
           number *= 10;
           number += value;
         }
@@ -339,7 +351,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       }
     }
     if (digits > 0) {
-      if (numberAsString.includes(".")) {
+      if (isFloat) {
         this.handler.setFloat(this.state.lastKey, parseFloat(numberAsString));
       } else {
         this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
