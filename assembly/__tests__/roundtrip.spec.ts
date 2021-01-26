@@ -45,6 +45,20 @@ describe("Round trip", () => {
     roundtripTest('{"float":-24.24}');
   });
 
+  it("should handle scientific notation float", () => {
+    // Without Pluses
+    roundtripTest(
+      '{"floatLowerE":1.23456e5,"floatUpperE":1.23456E5}', 
+      '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
+    );
+
+    // With Pluses
+    roundtripTest(
+      '{"floatLowerE":1.23456e+5,"floatUpperE":1.23456E+5}', 
+      '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
+    );
+  });
+
   it("should handle true", () => {
     roundtripTest('{"val":true}');
   });
@@ -136,6 +150,19 @@ describe("JSON.parse", () => {
         (<JSON.Float>JSON.from(123456789.0))._num
       );
     });
+
+    it("should handle scientific notation floats", () => {
+      // Without +, and lower e
+      expect((<JSON.Float>JSON.parse("1.23456e5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // With +, and upper E
+      expect((<JSON.Float>JSON.parse("1.23456E+5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+    });
+
 
     it("should handle integers", () => {
       expect((<JSON.Integer>JSON.parse("123456789"))._num).toStrictEqual(

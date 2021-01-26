@@ -93,6 +93,8 @@ export class ThrowingJSONHandler extends JSONHandler {
 // @ts-ignore: decorator
 @lazy const CHAR_PERIOD: i32 = 46; // ".".charCodeAt(0);
 // @ts-ignore: decorator
+@lazy const CHAR_PLUS: i32 = 43; // "+".charCodeAt(0);
+// @ts-ignore: decorator
 @lazy const CHAR_E: i32 = 69; // "E".charCodeAt(0);
 // @ts-ignore: decorator
 @lazy const CHAR_E_LOWER: i32 = 101; // "e".charCodeAt(0);
@@ -332,6 +334,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     while (
       (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) ||
       CHAR_PERIOD == this.peekChar() ||
+      CHAR_PLUS == this.peekChar() ||
       CHAR_E == this.peekChar() ||
       CHAR_E_LOWER == this.peekChar()
     ) {
@@ -339,7 +342,7 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       let charCode = this.readChar();
       numberAsString += String.fromCharCode(charCode);
 
-      if (charCode == CHAR_E || charCode == CHAR_E_LOWER || charCode == CHAR_PERIOD) {
+      if (charCode == CHAR_E || charCode == CHAR_E_LOWER || charCode == CHAR_PERIOD || charCode == CHAR_PLUS) {
         isFloat = true;
       } else {
         if (!isFloat) {
