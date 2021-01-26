@@ -83,12 +83,6 @@ export class ThrowingJSONHandler extends JSONHandler {
 // @ts-ignore: decorator
 @lazy const NULL_STR = "null";
 // @ts-ignore: decorator
-@lazy const NaN_STR = "NaN";
-// @ts-ignore: decorator
-@lazy const INFINITY_STR = "Infinity";
-// @ts-ignore: decorator
-@lazy const NEGATIVE_INFINITY_STR = "-Infinity";
-// @ts-ignore: decorator
 @lazy const CHAR_0: i32 = 48; // "0".charCodeAt(0);
 // @ts-ignore: decorator
 @lazy const CHAR_9: i32 = 57; // "9".charCodeAt(0);
@@ -156,17 +150,6 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       return -1;
     }
     return this.state.buffer[this.state.readIndex];
-  }
-
-  private peekString(numChars: i32): string {
-    let response: string = "";
-
-    for(let i = 0; i < numChars && this.state.readIndex + i < this.state.buffer.length; i++) {
-      let charCode = this.state.buffer[this.state.readIndex + i];
-      response += String.fromCharCode(charCode);
-    }
-
-    return response;
   }
 
   private readChar(): i32 {
@@ -338,25 +321,6 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   }
 
   private parseNumber(): bool {
-
-    // Check for our special strings
-    // Peek out the characters of our longest number string
-    let numberPeekString = this.peekString(NEGATIVE_INFINITY_STR.length);
-
-    if (numberPeekString.startsWith(NaN_STR)) {
-      this.readAndAssert(NaN_STR);
-      this.handler.setFloat(this.state.lastKey, F64.NaN);
-      return true;
-    } else if(numberPeekString.startsWith(INFINITY_STR)) {
-      this.readAndAssert(INFINITY_STR);
-      this.handler.setFloat(this.state.lastKey, F64.POSITIVE_INFINITY);
-      return true;
-    } else if(numberPeekString.startsWith(NEGATIVE_INFINITY_STR)) {
-      this.readAndAssert(NEGATIVE_INFINITY_STR);
-      this.handler.setFloat(this.state.lastKey, F64.NEGATIVE_INFINITY);
-      return true;
-    }
-
     let number: f64 = 0;
     let sign: f64 = 1;
     let isFloat: boolean = false;
