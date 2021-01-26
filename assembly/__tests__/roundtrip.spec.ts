@@ -59,6 +59,20 @@ describe("Round trip", () => {
     );
   });
 
+  it("should handle special floats", () => {
+    roundtripTest('{"nan":NaN}');
+
+    roundtripTest('{"infinity":Infinity}');
+
+    roundtripTest('{"negativeInfinity":-Infinity}');
+
+    roundtripTest(
+      '{"negativeZero":-0}',
+      '{"negativeZero":0.0}',
+    );
+  });
+
+
   it("should handle true", () => {
     roundtripTest('{"val":true}');
   });
@@ -173,6 +187,23 @@ describe("JSON.parse", () => {
       );
     });
 
+    it("should handle special floats", () => {
+      expect((<JSON.Float>JSON.parse("-0"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(-0.0))._num
+      );
+
+      expect((<JSON.Float>JSON.parse("NaN"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(F64.NaN))._num
+      );
+
+      expect((<JSON.Float>JSON.parse("Infinity"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(F64.POSITIVE_INFINITY))._num
+      );
+
+      expect((<JSON.Float>JSON.parse("-Infinity"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(F64.NEGATIVE_INFINITY))._num
+      );
+    });
 
     it("should handle integers", () => {
       expect((<JSON.Integer>JSON.parse("123456789"))._num).toStrictEqual(
