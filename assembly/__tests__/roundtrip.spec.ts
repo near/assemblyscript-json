@@ -46,16 +46,16 @@ describe("Round trip", () => {
   });
 
   it("should handle scientific notation float", () => {
-    // Without Pluses
+    // Lower and Upper E
     roundtripTest(
       '{"floatLowerE":1.23456e5,"floatUpperE":1.23456E5}', 
       '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
     );
 
-    // With Pluses
+    // Complex Scientific Notation
     roundtripTest(
-      '{"floatLowerE":1.23456e+5,"floatUpperE":1.23456E+5}', 
-      '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
+      '{"floatEMinus":123456e-5,"floatEPlus":1.23456E+5}', 
+      '{"floatEMinus":1.23456,"floatEPlus":123456.0}'
     );
   });
 
@@ -152,14 +152,24 @@ describe("JSON.parse", () => {
     });
 
     it("should handle scientific notation floats", () => {
-      // Without +, and lower e
+      // Supports lower e
       expect((<JSON.Float>JSON.parse("1.23456e5"))._num).toStrictEqual(
         (<JSON.Float>JSON.from(123456.0))._num
       );
 
-      // With +, and upper E
-      expect((<JSON.Float>JSON.parse("1.23456E+5"))._num).toStrictEqual(
+      // Supports Upper e
+      expect((<JSON.Float>JSON.parse("1.23456E5"))._num).toStrictEqual(
         (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // Supports Complex +
+      expect((<JSON.Float>JSON.parse("1.23456e+5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // Supports Complex -
+      expect((<JSON.Float>JSON.parse("123456E-5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(1.23456))._num
       );
     });
 
