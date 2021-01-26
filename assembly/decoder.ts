@@ -343,15 +343,15 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
     // Peek out the characters of our longest number string
     let numberPeekString = this.peekString(NEGATIVE_INFINITY_STR.length);
 
-    if (numberPeekString.indexOf(NaN_STR) === 0) {
+    if (numberPeekString.startsWith(NaN_STR)) {
       this.readAndAssert(NaN_STR);
       this.handler.setFloat(this.state.lastKey, F64.NaN);
       return true;
-    } else if(numberPeekString.indexOf(INFINITY_STR) === 0) {
+    } else if(numberPeekString.startsWith(INFINITY_STR)) {
       this.readAndAssert(INFINITY_STR);
       this.handler.setFloat(this.state.lastKey, F64.POSITIVE_INFINITY);
       return true;
-    } else if(numberPeekString.indexOf(NEGATIVE_INFINITY_STR) === 0) {
+    } else if(numberPeekString.startsWith(NEGATIVE_INFINITY_STR)) {
       this.readAndAssert(NEGATIVE_INFINITY_STR);
       this.handler.setFloat(this.state.lastKey, F64.NEGATIVE_INFINITY);
       return true;
