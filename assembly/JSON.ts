@@ -30,7 +30,12 @@ class Handler {
   }
 
   setInteger(name: string, value: i64): void {
-    const obj = JSON.Value.Number(value);
+    const obj = JSON.Value.Integer(value);
+    this.addValue(name, obj);
+  }
+
+  setFloat(name: string, value: f64): void {
+    const obj = JSON.Value.Float(value);
     this.addValue(name, obj);
   }
 
@@ -109,8 +114,14 @@ export namespace JSON {
     static String(str: string): Str {
       return new Str(str);
     }
-    static Number(num: i64): Num {
+    static Number(num: f64): Num {
       return new Num(num);
+    }
+    static Float(num: f64): Float {
+      return new Float(num);
+    }
+    static Integer(num: i64): Integer {
+      return new Integer(num);
     }
     static Bool(b: bool): Bool {
       return new Bool(b);
@@ -159,6 +170,19 @@ export namespace JSON {
   }
 
   export class Num extends Value {
+    constructor(public _num: f64) {
+      super();
+    }
+
+    toString(): string {
+      return this._num.toString();
+    }
+  }
+
+  export class Float extends Num {
+  }
+
+  export class Integer extends Value {
     constructor(public _num: i64) {
       super();
     }
@@ -265,7 +289,10 @@ export namespace JSON {
       return Value.Bool(<bool>val);
     }
     if (isInteger<T>(val)) {
-      return Value.Number(val);
+      return Value.Integer(val);
+    }
+    if (isFloat<T>(val)) {
+      return Value.Float(val);
     }
     if (isString<T>(val)) {
       return Value.String(<string>val);

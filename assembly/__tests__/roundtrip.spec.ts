@@ -32,9 +32,40 @@ describe("Round trip", () => {
     roundtripTest('{"int":4660}');
   });
 
+  it("should handle float32", () => {
+    // expectFn(():void => {
+    roundtripTest('{"float":24.24}');
+  });
+
   it("should handle int32Sign", () => {
     roundtripTest('{"int":-4660}');
   });
+
+  it("should handle float32Sign", () => {
+    roundtripTest('{"float":-24.24}');
+  });
+
+  it("should handle scientific notation float", () => {
+    // Lower and Upper E
+    roundtripTest(
+      '{"floatLowerE":1.23456e5,"floatUpperE":1.23456E5}', 
+      '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
+    );
+
+    // Complex Scientific Notation
+    roundtripTest(
+      '{"floatEMinus":123456e-5,"floatEPlus":1.23456E+5}', 
+      '{"floatEMinus":1.23456,"floatEPlus":123456.0}'
+    );
+  });
+
+  it("should handle special floats", () => {
+    roundtripTest(
+      '{"negativeZero":-0}',
+      '{"negativeZero":0.0}',
+    );
+  });
+
 
   it("should handle true", () => {
     roundtripTest('{"val":true}');
@@ -117,8 +148,48 @@ describe("JSON.parse", () => {
 
   describe("Primitive Values", () => {
     it("should handle numbers", () => {
-      expect((<JSON.Num>JSON.parse("123456789"))._num).toStrictEqual(
-        (<JSON.Num>JSON.from(123456789))._num
+      expect((<JSON.Num>JSON.parse("123456789.0"))._num).toStrictEqual(
+        (<JSON.Num>JSON.from(123456789.0))._num
+      );
+    });
+
+    it("should handle floats", () => {
+      expect((<JSON.Float>JSON.parse("123456789.0"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456789.0))._num
+      );
+    });
+
+    it("should handle scientific notation floats", () => {
+      // Supports lower e
+      expect((<JSON.Float>JSON.parse("1.23456e5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // Supports Upper e
+      expect((<JSON.Float>JSON.parse("1.23456E5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // Supports Complex +
+      expect((<JSON.Float>JSON.parse("1.23456e+5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(123456.0))._num
+      );
+
+      // Supports Complex -
+      expect((<JSON.Float>JSON.parse("123456E-5"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(1.23456))._num
+      );
+    });
+
+    it("should handle special floats", () => {
+      expect((<JSON.Float>JSON.parse("-0"))._num).toStrictEqual(
+        (<JSON.Float>JSON.from(-0.0))._num
+      );
+    });
+
+    it("should handle integers", () => {
+      expect((<JSON.Integer>JSON.parse("123456789"))._num).toStrictEqual(
+        (<JSON.Integer>JSON.from(123456789))._num
       );
     });
 
