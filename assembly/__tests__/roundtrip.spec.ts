@@ -1,7 +1,7 @@
 import { JSONDecoder } from "../decoder";
 import { JSONEncoder } from "../encoder";
 import { Buffer } from "../util";
-import { JSON } from "../JSON";
+import * as JSON from "../JSON";
 
 function roundtripTest(jsonString: string, _expectedString: string = ""): void {
   const expectedString = _expectedString == "" ? jsonString : _expectedString;

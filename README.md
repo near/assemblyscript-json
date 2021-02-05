@@ -1,18 +1,22 @@
 # assemblyscript-json
 
+![npm version](https://img.shields.io/npm/v/assemblyscript-json) ![npm downloads per month](https://img.shields.io/npm/dm/assemblyscript-json)
+
 JSON encoder / decoder for AssemblyScript.
 
 Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing infra for AssemblyScript.
 
-# Limitations
+## Installation
 
-This is developed for use in smart contracts written in AssemblyScript for https://github.com/nearprotocol/nearcore.
-This imposes such limitations:
+`assemblyscript-json` is available as a [npm package](https://www.npmjs.com/package/assemblyscript-json). You can install `assemblyscript-json` in your AssemblyScript project by running:
 
-- Float numbers not supported
-- We assume that memory never needs to be deallocated (cause these contracts are short-lived).
+`npm install --save assemblyscript-json`
 
-Note that this mostly just defines the way it's currently implemented. Contributors are welcome to fix limitations.
+## Usage
+
+
+
+Feel free to look through the [tests](https://github.com/nearprotocol/assemblyscript-json/tree/master/assembly/__tests__) for more usage examples.
 
 # Usage
 
@@ -117,3 +121,7 @@ let unknown = jsonObj.getValue("hello");
 
 unknown.isString; // true;
 ```
+
+## License
+
+[MIT](./LICENSE)

@@ -2,7 +2,7 @@ import { Buffer } from "./util";
 import { JSONDecoder } from "./decoder";
 
 class Handler {
-  stack: JSON.Value[] = new Array<JSON.Value>();
+  stack: Value[] = new Array<Value>();
 
   reset(): void {
     while (this.stack.length > 0) {
@@ -10,32 +10,32 @@ class Handler {
     }
   }
 
-  get peek(): JSON.Value {
+  get peek(): Value {
     return this.stack[this.stack.length - 1];
   }
 
   setString(name: string, value: string): void {
-    const obj: JSON.Value = JSON.Value.String(value);
+    const obj: Value = Value.String(value);
     this.addValue(name, obj);
   }
 
   setBoolean(name: string, value: bool): void {
-    const obj = JSON.Value.Bool(value);
+    const obj = Value.Bool(value);
     this.addValue(name, obj);
   }
 
   setNull(name: string): void {
-    const obj = JSON.Value.Null();
+    const obj = Value.Null();
     this.addValue(name, obj);
   }
 
   setInteger(name: string, value: i64): void {
-    const obj = JSON.Value.Number(value);
+    const obj = Value.Number(value);
     this.addValue(name, obj);
   }
 
   pushArray(name: string): bool {
-    const obj: JSON.Value = JSON.Value.Array();
+    const obj: Value = Value.Array();
     if (this.stack.length == 0) {
       this.stack.push(obj);
     } else {
@@ -52,7 +52,7 @@ class Handler {
   }
 
   pushObject(name: string): bool {
-    const obj: JSON.Value = JSON.Value.Object();
+    const obj: Value = Value.Object();
     this.addValue(name, obj);
     this.stack.push(obj);
     return true;
@@ -64,15 +64,15 @@ class Handler {
     }
   }
 
-  addValue(name: string, obj: JSON.Value): void {
+  addValue(name: string, obj: Value): void {
     if (name.length == 0 && this.stack.length == 0) {
       this.stack.push(obj);
       return;
     }
-    if (this.peek instanceof JSON.Obj) {
-      (this.peek as JSON.Obj).set(name, obj);
-    } else if (this.peek instanceof JSON.Arr) {
-      (<JSON.Arr>this.peek).push(obj);
+    if (this.peek instanceof Obj) {
+      (this.peek as Obj).set(name, obj);
+    } else if (this.peek instanceof Arr) {
+      (<Arr>this.peek).push(obj);
     }
   }
 }
@@ -88,7 +88,7 @@ namespace _JSON {
   );
 
   /** Parses a string or Uint8Array and returns a Json Value. */
-  export function parse<T = Uint8Array>(str: T): JSON.Value {
+  export function parse<T = Uint8Array>(str: T): Value {
     var arr: Uint8Array;
     if (isString<T>(str)) {
       arr = Buffer.fromString(<string>str);
@@ -102,93 +102,96 @@ namespace _JSON {
   }
 }
 
-// @ts-ignore
-@global
-export namespace JSON {
-  export abstract class Value {
-    static String(str: string): Str {
-      return new Str(str);
-    }
-    static Number(num: i64): Num {
-      return new Num(num);
-    }
-    static Bool(b: bool): Bool {
-      return new Bool(b);
-    }
-    static Null(): Null {
-      return new Null();
-    }
-    static Array(): Arr {
-      return new Arr();
-    }
-    static Object(): Obj {
-      return new Obj();
-    }
-
-    toString(): string {
-      if (this instanceof Str) {
-        return (<Str>this).toString();
-      }
-      if (this instanceof Num) {
-        return (<Num>this).toString();
-      }
-      if (this instanceof Bool) {
-        return (<Bool>this).toString();
-      }
-      if (this instanceof Null) {
-        return (<Null>this).toString();
-      }
-      if (this instanceof Arr) {
-        return (<Arr>this).toString();
-      }
-      if (this instanceof Obj) {
-        return (<Obj>this).toString();
-      }
-      throw new Error("Not a value.");
-    }
+export abstract class Value {
+  static String(str: string): Str {
+    return new Str(str);
+  }
+  static Number(num: f64): Num {
+    return new Num(num);
+  }
+  static Float(num: f64): Float {
+    return new Float(num);
+  }
+  static Integer(num: i64): Integer {
+    return new Integer(num);
+  }
+  static Bool(b: bool): Bool {
+    return new Bool(b);
+  }
+  static Null(): Null {
+    return new Null();
+  }
+  static Array(): Arr {
+    return new Arr();
+  }
+  static Object(): Obj {
+    return new Obj();
   }
 
-  export class Str extends Value {
-    constructor(public _str: string) {
-      super();
+  toString(): string {
+    if (this instanceof Str) {
+      return (<Str>this).toString();
     }
+    if (this instanceof Num) {
+      return (<Num>this).toString();
+    }
+    if (this instanceof Bool) {
+      return (<Bool>this).toString();
+    }
+    if (this instanceof Null) {
+      return (<Null>this).toString();
+    }
+    if (this instanceof Arr) {
+      return (<Arr>this).toString();
+    }
+    if (this instanceof Obj) {
+      return (<Obj>this).toString();
+    }
+    throw new Error("Not a value.");
+  }
+}
 
-    toString(): string {
-      return '"' + this._str + '"';
-    }
+export class Str extends Value {
+  constructor(public _str: string) {
+    super();
   }
 
-  export class Num extends Value {
-    constructor(public _num: i64) {
-      super();
-    }
+  toString(): string {
+    return '"' + this._str + '"';
+  }
+}
 
-    toString(): string {
-      return this._num.toString();
-    }
+export class Num extends Value {
+  constructor(public _num: i64) {
+    super();
   }
 
-  export class Null extends Value {
-    constructor() {
-      super();
-    }
+  toString(): string {
+    return this._num.toString();
+  }
+}
 
-    toString(): string {
-      return "null";
-    }
+export class Null extends Value {
+  constructor() {
+    super();
   }
 
-  export class Bool extends Value {
-    constructor(public _bool: bool) {
-      super();
-    }
+  toString(): string {
+    return "null";
+  }
+}
 
-    toString(): string {
-      return this._bool.toString();
-    }
+export class Bool extends Value {
+  constructor(public _bool: bool) {
+    super();
   }
 
-  export class Arr extends Value {
+  toString(): string {
+    return this._bool.toString();
+  }
+}
+
+export class Arr extends Value {
     _arr: Array<Value>;
     constructor() {
       super();
@@ -210,9 +213,9 @@ export namespace JSON {
         "]"
       );
     }
-  }
+}
 
-  export class Obj extends Value {
+export class Obj extends Value {
     _obj: Map<string, Value>;
     keys: Array<string>;
 
@@ -258,39 +261,38 @@ export namespace JSON {
     has(key: string): bool {
       return this._obj.has(key);
     }
-  }
+}
 
-  export function from<T>(val: T): Value {
-    if (isBoolean<T>(val)) {
-      return Value.Bool(<bool>val);
+export function from<T>(val: T): Value {
+  if (isBoolean<T>(val)) {
+    return Value.Bool(<bool>val);
+  }
+  if (isInteger<T>(val)) {
+    return Value.Number(val);
+  }
+  if (isString<T>(val)) {
+    return Value.String(<string>val);
+  }
+  if (val == null) {
+    return Value.Null();
+  }
+  if (isArrayLike<T>(val)) {
+    const arr = Value.Array();
+    for (let i: i32 = 0; i < val.length; i++) {
+      // @ts-ignore
+      arr.push(from<valueof<T>>(val[i]));
     }
-    if (isInteger<T>(val)) {
-      return Value.Number(val);
-    }
-    if (isString<T>(val)) {
-      return Value.String(<string>val);
-    }
-    if (val == null) {
-      return Value.Null();
-    }
-    if (isArrayLike<T>(val)) {
-      const arr = Value.Array();
-      for (let i: i32 = 0; i < val.length; i++) {
-        // @ts-ignore
-        arr.push(from<valueof<T>>(val[i]));
-      }
-      return arr;
-    }
-    /**
+    return arr;
+  }
+  /**
      * TODO: add object support.
      */
-    return Value.Object();
-  }
+  return Value.Object();
+}
 
-  // @ts-ignore
-  @inline
-  /** Parses a string or Uint8Array and returns a Json Value. */
-  export function parse<T = Uint8Array>(str: T): Value {
-    return _JSON.parse(str);
-  }
+// @ts-ignore
+@inline
+/** Parses a string or Uint8Array and returns a Json Value. */
+export function parse<T = Uint8Array>(str: T): Value {
+  return _JSON.parse(str);
 }

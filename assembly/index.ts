@@ -1,3 +1,4 @@
 export * from "./decoder";
 export * from "./encoder";
-export * from "./JSON";
+import * as JSON from "./JSON";
+export { JSON };
