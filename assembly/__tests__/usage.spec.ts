@@ -8,7 +8,7 @@ describe("README Usage Examples", () => {
     /* Using the JSON Object */
 
     // Parse an object using the JSON object
-    let jsonObj: JSON.Obj = JSON.parse('{"hello": "world"}');
+    let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse('{"hello": "world"}'));
 
     // Can then use a key to read from the object if you know it's type
     let world = jsonObj.getString("hello");
