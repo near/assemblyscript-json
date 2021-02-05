@@ -30,7 +30,12 @@ class Handler {
   }
 
   setInteger(name: string, value: i64): void {
-    const obj = Value.Number(value);
+    const obj = Value.Integer(value);
+    this.addValue(name, obj);
+  }
+
+  setFloat(name: string, value: f64): void {
+    const obj = Value.Float(value);
     this.addValue(name, obj);
   }
 
@@ -162,6 +167,19 @@ export class Str extends Value {
 }
 
 export class Num extends Value {
+  constructor(public _num: f64) {
+    super();
+  }
+
+  toString(): string {
+    return this._num.toString();
+  }
+}
+
+export class Float extends Num {
+}
+
+export class Integer extends Value {
   constructor(public _num: i64) {
     super();
   }
@@ -268,7 +286,10 @@ export function from<T>(val: T): Value {
     return Value.Bool(<bool>val);
   }
   if (isInteger<T>(val)) {
-    return Value.Number(val);
+    return Value.Integer(val);
+  }
+  if (isFloat<T>(val)) {
+    return Value.Float(val);
   }
   if (isString<T>(val)) {
     return Value.String(<string>val);

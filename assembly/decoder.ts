@@ -13,6 +13,8 @@ export abstract class JSONHandler {
 
   setInteger(name: string, value: i64): void {}
 
+  setFloat(name: string, value: f64): void {}
+
   pushArray(name: string): bool {
     return true;
   }
@@ -55,6 +57,14 @@ export class ThrowingJSONHandler extends JSONHandler {
     );
   }
 
+  setFloat(name: string, value: f64): void {
+    // @ts-ignore integer does have toString
+    assert(
+      false,
+      "Unexpected float field " + name + " : " + value.toString()
+    );
+  }
+
   pushArray(name: string): bool {
     assert(false, "Unexpected array field " + name);
     return true;
@@ -80,6 +90,16 @@ export class ThrowingJSONHandler extends JSONHandler {
 @lazy const CHAR_A: i32 = 65; // "A".charCodeAt(0);
 // @ts-ignore: decorator
 @lazy const CHAR_A_LOWER: i32 = 97; // "a".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_PERIOD: i32 = 46; // ".".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_MINUS: i32 = 45; // "-".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_PLUS: i32 = 43; // "+".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_E: i32 = 69; // "E".charCodeAt(0);
+// @ts-ignore: decorator
+@lazy const CHAR_E_LOWER: i32 = 101; // "e".charCodeAt(0);
 
 export class DecoderState {
   lastKey: string = "";
@@ -301,22 +321,47 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   }
 
   private parseNumber(): bool {
-    // TODO: Parse floats
-    let number: i64 = 0;
-    let sign: i64 = 1;
-    if (this.peekChar() == "-".charCodeAt(0)) {
+    let number: f64 = 0;
+    let sign: f64 = 1;
+    let isFloat: boolean = false;
+    // Also keeping the number as a string, because we will want to use the
+    // AS parseFloat as it handles precision best.
+    let numberAsString: string = "";
+
+    if (this.peekChar() == CHAR_MINUS) {
       sign = -1;
-      this.readChar();
+      numberAsString += String.fromCharCode(this.readChar());
     }
     let digits = 0;
-    while (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) {
-      let byte = this.readChar();
-      number *= 10;
-      number += byte - CHAR_0;
-      digits++;
+    while (
+      (CHAR_0 <= this.peekChar() && this.peekChar() <= CHAR_9) ||
+      CHAR_PERIOD == this.peekChar() ||
+      CHAR_MINUS == this.peekChar() ||
+      CHAR_PLUS == this.peekChar() ||
+      CHAR_E == this.peekChar() ||
+      CHAR_E_LOWER == this.peekChar()
+    ) {
+
+      let charCode = this.readChar();
+      numberAsString += String.fromCharCode(charCode);
+
+      if (charCode == CHAR_E || charCode == CHAR_E_LOWER || charCode == CHAR_PERIOD || charCode == CHAR_PLUS || charCode == CHAR_MINUS) {
+        isFloat = true;
+      } else {
+        if (!isFloat) {
+          let value: f64 = charCode - CHAR_0;
+          number *= 10;
+          number += value;
+        }
+        digits++;
+      }
     }
     if (digits > 0) {
-      this.handler.setInteger(this.state.lastKey, number * sign);
+      if (isFloat || numberAsString == "-0") {
+        this.handler.setFloat(this.state.lastKey, parseFloat(numberAsString));
+      } else {
+        this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
+      }
       return true;
     }
     return false;
