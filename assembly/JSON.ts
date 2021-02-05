@@ -154,7 +154,7 @@ export namespace JSON {
     }
 
     toString(): string {
-      return '"' + this._str + '"';
+      return this._str;
     }
   }
 
