@@ -133,26 +133,65 @@ export abstract class Value {
     return new Obj();
   }
 
-  toString(): string {
+  get isString(): boolean {
     if (this instanceof Str) {
-      return (<Str>this).toString();
+      return true;
     }
+    return false;
+  }
+
+  get isNum(): boolean {
     if (this instanceof Num) {
-      return (<Num>this).toString();
+      return true;
     }
+    return false;
+  }
+
+  get isFloat(): boolean {
+    if (this instanceof Float) {
+      return true;
+    }
+    return false;
+  }
+
+  get isInteger(): boolean {
+    if (this instanceof Integer) {
+      return true;
+    }
+    return false;
+  }
+
+  get isBool(): boolean {
     if (this instanceof Bool) {
-      return (<Bool>this).toString();
+      return true;
     }
+    return false;
+  }
+
+  get isNull(): boolean {
     if (this instanceof Null) {
-      return (<Null>this).toString();
+      return true;
     }
+    return false;
+  }
+
+  get isArr(): boolean {
     if (this instanceof Arr) {
-      return (<Arr>this).toString();
+      return true;
     }
+    return false;
+  }
+
+  get isObj(): boolean {
     if (this instanceof Obj) {
-      return (<Obj>this).toString();
+      return true;
     }
-    throw new Error("Not a value.");
+    return false;
+  }
+
+  toString(): string {
+    throw new Error("Values must be casted to their JSON type for .toString()");
+    return "";
   }
 }
 
@@ -164,6 +203,10 @@ export class Str extends Value {
   toString(): string {
     return '"' + this._str + '"';
   }
+
+  valueOf(): string {
+    return this._str;
+  }
 }
 
 export class Num extends Value {
@@ -173,6 +216,10 @@ export class Num extends Value {
 
   toString(): string {
     return this._num.toString();
+  }
+
+  valueOf(): f64 {
+    return this._num;
   }
 }
 
@@ -187,6 +234,10 @@ export class Integer extends Value {
   toString(): string {
     return this._num.toString();
   }
+
+  valueOf(): i64 {
+    return this._num;
+  }
 }
 
 export class Null extends Value {
@@ -197,6 +248,10 @@ export class Null extends Value {
   toString(): string {
     return "null";
   }
+
+  valueOf(): null {
+    return null;
+  }
 }
 
 export class Bool extends Value {
@@ -206,6 +261,10 @@ export class Bool extends Value {
 
   toString(): string {
     return this._bool.toString();
+  }
+
+  valueOf(): bool {
+    return this._bool;
   }
 }
 
@@ -231,6 +290,10 @@ export class Arr extends Value {
         "]"
       );
     }
+
+    valueOf(): Array<Value> {
+      return this._arr;
+    }
 }
 
 export class Obj extends Value {
@@ -242,6 +305,21 @@ export class Obj extends Value {
       this._obj = new Map();
       this.keys = new Array();
     }
+
+    toString(): string {
+      const objs: string[] = [];
+      for (let i: i32 = 0; i < this.keys.length; i++) {
+        objs.push(
+          '"' + this.keys[i] + '":' + this._obj.get(this.keys[i]).toString()
+        );
+      }
+      return "{" + objs.join(",") + "}";
+    }
+
+    valueOf(): Map<string, Value> {
+      return this._obj;
+    }
+
 
     set<T>(key: string, value: T): void {
       if (isReference<T>(value)) {
@@ -259,6 +337,10 @@ export class Obj extends Value {
       this._obj.set(key, value);
     }
 
+    has(key: string): bool {
+      return this._obj.has(key);
+    }
+
     get(key: string): Value | null {
       if (!this._obj.has(key)) {
         return null;
@@ -266,18 +348,56 @@ export class Obj extends Value {
       return this._obj.get(key);
     }
 
-    toString(): string {
-      const objs: string[] = [];
-      for (let i: i32 = 0; i < this.keys.length; i++) {
-        objs.push(
-          '"' + this.keys[i] + '":' + this._obj.get(this.keys[i]).toString()
-        );
-      }
-      return "{" + objs.join(",") + "}";
+    getValue(key: string): Value | null {
+      return this.get(key);
     }
 
-    has(key: string): bool {
-      return this._obj.has(key);
+    getString(key: string): Str | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isString) {
+        return changetype<Str>(jsonValue);
+      }
+      return null;
+    }
+
+    getNum(key: string): Num | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isNum) {
+        return changetype<Num>(jsonValue);
+      }
+      return null;
+    }
+
+    getFloat(key: string): Float | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isFloat) {
+        return changetype<Float>(jsonValue);
+      }
+      return null;
+    }
+
+    getInteger(key: string): Integer | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isInteger) {
+        return changetype<Integer>(jsonValue);
+      }
+      return null;
+    }
+
+    getBool(key: string): Bool | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isBool) {
+        return changetype<Bool>(jsonValue);
+      }
+      return null;
+    }
+
+    getArr(key: string): Arr | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isArr) {
+        return changetype<Arr>(jsonValue);
+      }
+      return null;
     }
 }
 

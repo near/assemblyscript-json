@@ -1,3 +1,5 @@
+assemblyscript-json / [Exports](modules.md)
+
 # assemblyscript-json
 
 ![npm version](https://img.shields.io/npm/v/assemblyscript-json) ![npm downloads per month](https://img.shields.io/npm/dm/assemblyscript-json)
@@ -51,7 +53,6 @@ let valueOrNull: JSON.Value | null = jsonObj.getValue("hello");
 ```
 
 ### Encoding JSON
-
 
 ```typescript
 import { JSONEncoder } from "assemblyscript-json";
