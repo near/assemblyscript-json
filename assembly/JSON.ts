@@ -201,7 +201,7 @@ export class Str extends Value {
   }
 
   toString(): string {
-    return '"' + this._str + '"';
+    return this._str;
   }
 
   valueOf(): string {
