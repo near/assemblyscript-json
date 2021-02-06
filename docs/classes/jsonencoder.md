@@ -1,4 +1,4 @@
-[assemblyscript-json](../README.md) / [Exports](../modules.md) / JSONEncoder
+[assemblyscript-json](../README.md) / JSONEncoder
 
 # Class: JSONEncoder
 
@@ -49,7 +49,7 @@
 
 **Returns:** [*JSONEncoder*](jsonencoder.md)
 
-Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L5)
+Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L5)
 
 ## Properties
 
@@ -57,7 +57,7 @@ Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob
 
 • `Private` **\_isFirstKey**: *number*[]
 
-Defined in: [encoder.ts:4](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L4)
+Defined in: [encoder.ts:4](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L4)
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 • `Private` **result**: *string*[]
 
-Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L5)
+Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L5)
 
 ## Accessors
 
@@ -75,7 +75,7 @@ Defined in: [encoder.ts:5](https://github.com/torch2424/assemblyscript-json/blob
 
 **Returns:** bool
 
-Defined in: [encoder.ts:13](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L13)
+Defined in: [encoder.ts:13](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L13)
 
 ## Methods
 
@@ -85,7 +85,7 @@ Defined in: [encoder.ts:13](https://github.com/torch2424/assemblyscript-json/blo
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:58](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L58)
+Defined in: [encoder.ts:58](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L58)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:70](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L70)
+Defined in: [encoder.ts:70](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L70)
 
 ___
 
@@ -111,7 +111,7 @@ Name | Type |
 
 **Returns:** bool
 
-Defined in: [encoder.ts:51](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L51)
+Defined in: [encoder.ts:51](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L51)
 
 ___
 
@@ -127,7 +127,7 @@ Name | Type |
 
 **Returns:** bool
 
-Defined in: [encoder.ts:63](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L63)
+Defined in: [encoder.ts:63](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L63)
 
 ___
 
@@ -137,7 +137,7 @@ ___
 
 **Returns:** *Uint8Array*
 
-Defined in: [encoder.ts:17](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L17)
+Defined in: [encoder.ts:17](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L17)
 
 ___
 
@@ -154,7 +154,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:31](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L31)
+Defined in: [encoder.ts:31](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L31)
 
 ___
 
@@ -171,7 +171,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:46](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L46)
+Defined in: [encoder.ts:46](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L46)
 
 ___
 
@@ -188,7 +188,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:41](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L41)
+Defined in: [encoder.ts:41](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L41)
 
 ___
 
@@ -204,7 +204,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:36](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L36)
+Defined in: [encoder.ts:36](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L36)
 
 ___
 
@@ -221,7 +221,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:26](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L26)
+Defined in: [encoder.ts:26](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L26)
 
 ___
 
@@ -231,7 +231,7 @@ ___
 
 **Returns:** *string*
 
-Defined in: [encoder.ts:22](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L22)
+Defined in: [encoder.ts:22](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L22)
 
 ___
 
@@ -247,7 +247,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:135](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L135)
+Defined in: [encoder.ts:135](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L135)
 
 ___
 
@@ -263,7 +263,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:123](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L123)
+Defined in: [encoder.ts:123](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L123)
 
 ___
 
@@ -279,7 +279,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:131](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L131)
+Defined in: [encoder.ts:131](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L131)
 
 ___
 
@@ -295,7 +295,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:127](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L127)
+Defined in: [encoder.ts:127](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L127)
 
 ___
 
@@ -311,7 +311,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:75](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L75)
+Defined in: [encoder.ts:75](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L75)
 
 ___
 
@@ -327,4 +327,4 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [encoder.ts:87](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/encoder.ts#L87)
+Defined in: [encoder.ts:87](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/encoder.ts#L87)

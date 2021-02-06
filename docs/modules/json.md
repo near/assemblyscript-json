@@ -1,4 +1,4 @@
-[assemblyscript-json](../README.md) / [Exports](../modules.md) / JSON
+[assemblyscript-json](../README.md) / JSON
 
 # Namespace: JSON
 
@@ -41,7 +41,7 @@ Name | Type |
 
 **Returns:** [*Value*](../classes/json.value.md)
 
-Defined in: [JSON.ts:404](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L404)
+Defined in: [JSON.ts:404](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L404)
 
 ___
 
@@ -63,4 +63,4 @@ Name | Type |
 
 **Returns:** [*Value*](../classes/json.value.md)
 
-Defined in: [JSON.ts:437](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L437)
+Defined in: [JSON.ts:437](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L437)

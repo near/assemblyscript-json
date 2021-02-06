@@ -1,4 +1,4 @@
-[assemblyscript-json](../README.md) / [Exports](../modules.md) / [JSON](../modules/json.md) / Obj
+[assemblyscript-json](../README.md) / [JSON](../modules/json.md) / Obj
 
 # Class: Obj
 
@@ -66,7 +66,7 @@
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L301)
+Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L301)
 
 ## Properties
 
@@ -74,7 +74,7 @@ Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/
 
 • **\_obj**: *Map*<*string*, [*Value*](json.value.md)\>
 
-Defined in: [JSON.ts:300](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L300)
+Defined in: [JSON.ts:300](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L300)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 • **keys**: *string*[]
 
-Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L301)
+Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L301)
 
 ## Accessors
 
@@ -92,7 +92,7 @@ Defined in: [JSON.ts:301](https://github.com/torch2424/assemblyscript-json/blob/
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:178](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L178)
+Defined in: [JSON.ts:178](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L178)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:164](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L164)
+Defined in: [JSON.ts:164](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L164)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:150](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L150)
+Defined in: [JSON.ts:150](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L150)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:157](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L157)
+Defined in: [JSON.ts:157](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L157)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:171](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L171)
+Defined in: [JSON.ts:171](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L171)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:143](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L143)
+Defined in: [JSON.ts:143](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L143)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:185](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L185)
+Defined in: [JSON.ts:185](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L185)
 
 ___
 
@@ -162,7 +162,7 @@ ___
 
 **Returns:** *boolean*
 
-Defined in: [JSON.ts:136](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L136)
+Defined in: [JSON.ts:136](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L136)
 
 ## Methods
 
@@ -179,7 +179,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [JSON.ts:333](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L333)
+Defined in: [JSON.ts:333](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L333)
 
 ___
 
@@ -195,7 +195,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Value*](json.value.md)
 
-Defined in: [JSON.ts:344](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L344)
+Defined in: [JSON.ts:344](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L344)
 
 ___
 
@@ -211,7 +211,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Arr*](json.arr.md)
 
-Defined in: [JSON.ts:395](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L395)
+Defined in: [JSON.ts:395](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L395)
 
 ___
 
@@ -227,7 +227,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Bool*](json.bool.md)
 
-Defined in: [JSON.ts:387](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L387)
+Defined in: [JSON.ts:387](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L387)
 
 ___
 
@@ -243,7 +243,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Float*](json.float.md)
 
-Defined in: [JSON.ts:371](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L371)
+Defined in: [JSON.ts:371](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L371)
 
 ___
 
@@ -259,7 +259,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Integer*](json.integer.md)
 
-Defined in: [JSON.ts:379](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L379)
+Defined in: [JSON.ts:379](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L379)
 
 ___
 
@@ -275,7 +275,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Num*](json.num.md)
 
-Defined in: [JSON.ts:363](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L363)
+Defined in: [JSON.ts:363](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L363)
 
 ___
 
@@ -291,7 +291,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Str*](json.str.md)
 
-Defined in: [JSON.ts:355](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L355)
+Defined in: [JSON.ts:355](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L355)
 
 ___
 
@@ -307,7 +307,7 @@ Name | Type |
 
 **Returns:** *null* \| [*Value*](json.value.md)
 
-Defined in: [JSON.ts:351](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L351)
+Defined in: [JSON.ts:351](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L351)
 
 ___
 
@@ -323,7 +323,7 @@ Name | Type |
 
 **Returns:** bool
 
-Defined in: [JSON.ts:340](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L340)
+Defined in: [JSON.ts:340](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L340)
 
 ___
 
@@ -346,7 +346,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [JSON.ts:324](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L324)
+Defined in: [JSON.ts:324](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L324)
 
 ___
 
@@ -358,7 +358,7 @@ ___
 
 Overrides: [Value](json.value.md)
 
-Defined in: [JSON.ts:309](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L309)
+Defined in: [JSON.ts:309](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L309)
 
 ___
 
@@ -368,7 +368,7 @@ ___
 
 **Returns:** *Map*<*string*, [*Value*](json.value.md)\>
 
-Defined in: [JSON.ts:319](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L319)
+Defined in: [JSON.ts:319](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L319)
 
 ___
 
@@ -380,7 +380,7 @@ ___
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:129](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L129)
+Defined in: [JSON.ts:129](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L129)
 
 ___
 
@@ -398,7 +398,7 @@ Name | Type |
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:123](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L123)
+Defined in: [JSON.ts:123](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L123)
 
 ___
 
@@ -416,7 +416,7 @@ Name | Type |
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:117](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L117)
+Defined in: [JSON.ts:117](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L117)
 
 ___
 
@@ -434,7 +434,7 @@ Name | Type |
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:120](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L120)
+Defined in: [JSON.ts:120](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L120)
 
 ___
 
@@ -446,7 +446,7 @@ ___
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:126](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L126)
+Defined in: [JSON.ts:126](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L126)
 
 ___
 
@@ -464,7 +464,7 @@ Name | Type |
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:114](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L114)
+Defined in: [JSON.ts:114](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L114)
 
 ___
 
@@ -476,7 +476,7 @@ ___
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:132](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L132)
+Defined in: [JSON.ts:132](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L132)
 
 ___
 
@@ -494,4 +494,4 @@ Name | Type |
 
 Inherited from: [Value](json.value.md)
 
-Defined in: [JSON.ts:111](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/JSON.ts#L111)
+Defined in: [JSON.ts:111](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/JSON.ts#L111)

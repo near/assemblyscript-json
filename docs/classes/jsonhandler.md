@@ -1,4 +1,4 @@
-[assemblyscript-json](../README.md) / [Exports](../modules.md) / JSONHandler
+[assemblyscript-json](../README.md) / JSONHandler
 
 # Class: JSONHandler
 
@@ -45,7 +45,7 @@ Default implementation traverses whole object tree and does nothing.
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:22](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L22)
+Defined in: [decoder.ts:22](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L22)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:28](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L28)
+Defined in: [decoder.ts:28](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L28)
 
 ___
 
@@ -71,7 +71,7 @@ Name | Type |
 
 **Returns:** bool
 
-Defined in: [decoder.ts:18](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L18)
+Defined in: [decoder.ts:18](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L18)
 
 ___
 
@@ -87,7 +87,7 @@ Name | Type |
 
 **Returns:** bool
 
-Defined in: [decoder.ts:24](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L24)
+Defined in: [decoder.ts:24](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L24)
 
 ___
 
@@ -104,7 +104,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:10](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L10)
+Defined in: [decoder.ts:10](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L10)
 
 ___
 
@@ -121,7 +121,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:16](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L16)
+Defined in: [decoder.ts:16](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L16)
 
 ___
 
@@ -138,7 +138,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:14](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L14)
+Defined in: [decoder.ts:14](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L14)
 
 ___
 
@@ -154,7 +154,7 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:12](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L12)
+Defined in: [decoder.ts:12](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L12)
 
 ___
 
@@ -171,4 +171,4 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [decoder.ts:8](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L8)
+Defined in: [decoder.ts:8](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L8)

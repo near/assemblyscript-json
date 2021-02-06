@@ -1,4 +1,4 @@
-[assemblyscript-json](../README.md) / [Exports](../modules.md) / DecoderState
+[assemblyscript-json](../README.md) / DecoderState
 
 # Class: DecoderState
 
@@ -40,7 +40,7 @@ Name | Type |
 
 **Returns:** [*DecoderState*](decoderstate.md)
 
-Defined in: [decoder.ts:106](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L106)
+Defined in: [decoder.ts:106](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L106)
 
 ## Properties
 
@@ -54,7 +54,7 @@ ___
 
 • **lastKey**: *string*= ""
 
-Defined in: [decoder.ts:105](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L105)
+Defined in: [decoder.ts:105](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L105)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 • **readIndex**: *number*= 0
 
-Defined in: [decoder.ts:106](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L106)
+Defined in: [decoder.ts:106](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L106)
 
 ## Accessors
 
@@ -72,7 +72,7 @@ Defined in: [decoder.ts:106](https://github.com/torch2424/assemblyscript-json/bl
 
 **Returns:** *number*
 
-Defined in: [decoder.ts:109](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L109)
+Defined in: [decoder.ts:109](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L109)
 
 ## Methods
 
@@ -89,4 +89,4 @@ Name | Type | Default value |
 
 **Returns:** *string*
 
-Defined in: [decoder.ts:113](https://github.com/torch2424/assemblyscript-json/blob/e1cd6c1/assembly/decoder.ts#L113)
+Defined in: [decoder.ts:113](https://github.com/torch2424/assemblyscript-json/blob/d5af3b8/assembly/decoder.ts#L113)

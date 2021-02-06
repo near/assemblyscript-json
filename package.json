@@ -8,7 +8,8 @@
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized",
     "lint": "eslint --max-warnings 0 --ext ts \"assembly/**/*.ts\"",
     "lint:fix": "yarn lint --fix",
-    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs --tsconfig assembly/tsconfig.json --exclude \"node_modules/**/*\" assembly/index.ts",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out temp-docs --tsconfig assembly/tsconfig.json --exclude \"node_modules/**/*\" --readme none assembly/index.ts",
+    "docs:deploy": "cp -r temp-docs/* docs",
     "test": "asp"
   },
   "husky": {
