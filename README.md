@@ -138,6 +138,10 @@ decoder.deserialize(jsonBuffer); // This will send events to MyJSONEventsHandler
 
 Feel free to look through the [tests](https://github.com/nearprotocol/assemblyscript-json/tree/master/assembly/__tests__) for more usage examples.
 
+## Reference Documentation
+
+Reference API Documentation can be found in the [docs directory](./docs).
+
 ## License
 
 [MIT](./LICENSE)
