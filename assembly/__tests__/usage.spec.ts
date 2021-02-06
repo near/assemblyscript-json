@@ -54,6 +54,7 @@ describe("README Usage Examples", () => {
     let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse('{"hello": "world", "value": 24}'));
 
     // We can then use the .getX functions to read from the object if you know it's type
+    // This will return the appropriate JSON.X value if the key exists, or null if the key does not exist
     let worldOrNull: JSON.Str | null = jsonObj.getString("hello"); // This will return a JSON.Str or null
     if (worldOrNull != null) {
       // use .valueOf() to turn the high level JSON.Str type into a string
