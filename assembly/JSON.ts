@@ -309,9 +309,43 @@ export class Obj extends Value {
     toString(): string {
       const objs: string[] = [];
       for (let i: i32 = 0; i < this.keys.length; i++) {
-        objs.push(
-          '"' + this.keys[i] + '":' + this._obj.get(this.keys[i]).toString()
-        );
+        let keyValueString = '"' + this.keys[i] + '": ';
+
+        // Cast our value into it's appropriate type
+        let value: Value | null = this._obj.get(this.keys[i]);
+        
+        // Check for null values
+        if (value == null || value.isNull) {
+          objs.push(keyValueString += "null");
+          continue;
+        }
+
+        // Cast to our proper type
+        if (value.isString) {
+          let castedValue = changetype<Str>(value);
+          keyValueString += '"' + castedValue.toString() + '"';
+        } else if (value.isNum) {
+          let castedValue = changetype<Num>(value);
+          keyValueString += castedValue.toString();
+        } else if (value.isFloat) {
+          let castedValue = changetype<Float>(value);
+          keyValueString += castedValue.toString();
+        } else if (value.isInteger) {
+          let castedValue = changetype<Integer>(value);
+          keyValueString += castedValue.toString();
+        } else if (value.isBool) {
+          let castedValue = changetype<Bool>(value);
+          keyValueString += castedValue.toString();
+        } else if (value.isArr) {
+          let castedValue = changetype<Arr>(value);
+          keyValueString += castedValue.toString();
+        } else if (value.isObj) {
+          let castedValue = changetype<Obj>(value);
+          keyValueString += castedValue.toString();
+        }
+
+        // Push the keyValueString
+        objs.push(keyValueString);
       }
       return "{" + objs.join(",") + "}";
     }
@@ -396,6 +430,14 @@ export class Obj extends Value {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isArr) {
         return changetype<Arr>(jsonValue);
+      }
+      return null;
+    }
+
+    getObj(key: string): Obj | null {
+      let jsonValue = this.get(key);
+      if (jsonValue != null && jsonValue.isObj) {
+        return changetype<Obj>(jsonValue);
       }
       return null;
     }
