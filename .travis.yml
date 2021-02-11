@@ -3,6 +3,17 @@ node_js:
   - "node"
   - "lts/*"
 
-script:
-  - yarn test
-  - yarn docs
+jobs:
+  include:
+    - name: yarn
+      script:
+      - yarn test
+      - yarn docs
+
+    - name: fossa
+      before_script:
+        - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/fc60c6631a5d372d5a45fea35e31665b338f260d/install.sh | sudo bash"
+      script:
+        - fossa init
+        - fossa analyze --server-scan
+        - fossa test
