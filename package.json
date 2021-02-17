@@ -21,7 +21,7 @@
     "@as-pect/cli": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
-    "assemblyscript": "^0.15.0",
+    "assemblyscript": "^0.18.9",
     "eslint": "^7.17.0",
     "husky": "^4.3.7",
     "typedoc": "^0.20.21",
