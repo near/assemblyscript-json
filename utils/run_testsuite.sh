@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+# Helper scipt to run JSONTestSuite in CI
+
+
 set -e
 set -x
 

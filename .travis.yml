@@ -22,4 +22,4 @@ jobs:
       before_script:
         - "curl https://wasmtime.dev/install.sh -sSf | bash"
       script:
-        - bash utils/testsuite_travis.sh
+        - bash utils/run_testsuite.sh
