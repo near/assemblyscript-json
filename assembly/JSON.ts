@@ -1,7 +1,7 @@
 import { Buffer } from "./util";
-import { JSONDecoder } from "./decoder";
+import { JSONDecoder, JSONHandler } from './decoder';
 
-class Handler {
+class Handler extends JSONHandler {
   stack: Value[] = new Array<Value>();
 
   reset(): void {
