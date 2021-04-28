@@ -257,12 +257,12 @@ array-union@^2.1.0:
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
-assemblyscript@^0.15.0:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.15.2.tgz#601ee527d8baeeb76b21a36511e6a07505b7ecee"
-  integrity sha512-o4tjNWzE1i1d38Ga8uXQLJoO6wuz+WKL45Vg8uWZcfrbAO+K9pfjBGg+XveBU9lqjxQ/ScaX7V9k2LXnuokpmw==
+assemblyscript@^0.18.29:
+  version "0.18.29"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.18.29.tgz#b6adff3a5f4742da23f78fec46524a16c0e9bde1"
+  integrity sha512-fHj5LN0QrsuViF26UQPI5jPxh+o5vpWS1oj3Dv1tD2t4G9Av480t8qWE2ycZ7v4ZEBmC1Ha9QvT+sAUhI141Nw==
   dependencies:
-    binaryen "97.0.0-nightly.20201008"
+    binaryen "100.0.0-nightly.20210413"
     long "^4.0.0"
 
 astral-regex@^2.0.0:
@@ -280,10 +280,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-binaryen@97.0.0-nightly.20201008:
-  version "97.0.0-nightly.20201008"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-97.0.0-nightly.20201008.tgz#b9dc6fa3b92b764b66956d079190b48d2e22065f"
-  integrity sha512-GWV30FOQqz+vBIZRbc7GSasLNhh8BNLKH+2u2j5BjqM0WOEqqaP5iSj0mq72We2aVYqpBajJPI/CORY6o2RBxA==
+binaryen@100.0.0-nightly.20210413:
+  version "100.0.0-nightly.20210413"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-100.0.0-nightly.20210413.tgz#b7f2a5bb1f76b2d6f9c67486ca218714b3766790"
+  integrity sha512-EeGLIxQmJS0xnYl+SH34mNBqVMoixKd9nsE7S7z+CtS9A4eoWn3Qjav+XElgunUgXIHAI5yLnYT2TUGnLX2f1w==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
