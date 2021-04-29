@@ -1,0 +1,105 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "13:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: widen
+  ignore:
+  - dependency-name: assemblyscript
+    versions:
+    - 0.18.0
+    - 0.18.10
+    - 0.18.11
+    - 0.18.12
+    - 0.18.13
+    - 0.18.14
+    - 0.18.15
+    - 0.18.16
+    - 0.18.18
+    - 0.18.19
+    - 0.18.21
+    - 0.18.22
+    - 0.18.23
+    - 0.18.24
+    - 0.18.25
+    - 0.18.26
+    - 0.18.27
+    - 0.18.28
+    - 0.18.3
+    - 0.18.4
+    - 0.18.6
+    - 0.18.7
+    - 0.18.9
+  - dependency-name: typedoc-plugin-markdown
+    versions:
+    - 3.5.0
+    - 3.6.0
+    - 3.6.1
+    - 3.7.1
+  - dependency-name: eslint
+    versions:
+    - 7.18.0
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.14.1
+    - 4.14.2
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.1
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: typedoc
+    versions:
+    - 0.20.24
+    - 0.20.25
+    - 0.20.27
+    - 0.20.28
+    - 0.20.29
+    - 0.20.30
+    - 0.20.32
+    - 0.20.33
+    - 0.20.34
+    - 0.20.35
+  - dependency-name: husky
+    versions:
+    - 4.3.8
+    - 5.0.9
+    - 5.1.0
+    - 5.1.1
+    - 5.1.2
+    - 5.1.3
+    - 5.2.0
+  - dependency-name: "@as-pect/cli"
+    versions:
+    - 5.0.1
+    - 6.0.0
+  - dependency-name: typescript
+    versions:
+    - 4.1.4
+    - 4.1.5
