@@ -17,3 +17,9 @@ jobs:
         - fossa init
         - fossa analyze --server-scan
         - fossa test
+
+    - name: JSON Test Suite
+      before_script:
+        - "curl https://wasmtime.dev/install.sh -sSf | bash"
+      script:
+        - bash utils/run_testsuite.sh
