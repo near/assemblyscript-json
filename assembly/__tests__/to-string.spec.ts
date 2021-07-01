@@ -1,6 +1,3 @@
-import { JSONDecoder } from "../decoder";
-import { JSONEncoder } from "../encoder";
-import { Buffer } from "../util";
 import * as JSON from "../JSON";
 
 let primObj: JSON.Obj;
@@ -25,7 +22,7 @@ describe("JSON.Value.toString()", () => {
 
   it("Str", () => {
     let value = primObj.getString("Str");
-    expect(value!.toString()).toBe("Hello");
+    expect(value!.toString()).toBe(`"Hello"`);
   });
 
   it("Num", () => {
@@ -56,11 +53,11 @@ describe("JSON.Value.toString()", () => {
 
   it("Obj", () => {
     let value = primObj.getObj("Obj");
-    expect(value!.toString()).toBe('{"isChild": true}');
+    expect(value!.toString()).toBe('{"isChild":true}');
   });
 
   it("Entire Object", () => {
-    expect(primObj.toString()).toBe("{\"Str\": \"Hello\",\"Num\": 42.24,\"Float\": 42.24,\"Integer\": 42,\"Bool\": true,\"Arr\": [1,2,3],\"Obj\": {\"isChild\": true}}");
+    expect(primObj.toString()).toBe(`{"Str":"Hello","Num":42.24,"Float":42.24,"Integer":42,"Bool":true,"Arr":[1,2,3],"Obj":{"isChild":true}}`);
   });
 });
 

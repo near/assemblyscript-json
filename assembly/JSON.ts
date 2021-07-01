@@ -298,20 +298,22 @@ export class Arr extends Value {
 
 export class Obj extends Value {
     _obj: Map<string, Value>;
-    keys: Array<string>;
 
     constructor() {
       super();
       this._obj = new Map();
-      this.keys = new Array();
     }
 
     toString(): string {
-      const objs: string[] = new Array<string>(this.keys.length);
-      for (let i: i32 = 0; i < this.keys.length; i++) {
-        const key = this.keys[i];
-        const value = this._obj.get(key) || Value.Null();
-        objs[i] = `"${key}":${value}`;
+      const keys = this._obj.keys();
+      const objs: string[] = new Array<string>(keys.length);
+      for (let i: i32 = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = this._obj.get(key);
+        // Currently must get the string value before interpolation 
+        // see: https://github.com/AssemblyScript/assemblyscript/issues/1944
+        const valStr = value.toString();
+        objs[i] = `"${key}":${valStr}`;
       }
 
       return `{${objs.join(",")}}`;
@@ -321,21 +323,14 @@ export class Obj extends Value {
       return this._obj;
     }
 
-
     set<T>(key: string, value: T): void {
       if (isReference<T>(value)) {
         if (value instanceof Value) {
-          this._set(key, <Value>value);
+          this._obj.set(key, <Value>value);
           return;
         }
       }
-      this._set(key, from<T>(value));
-    }
-    private _set(key: string, value: Value): void {
-      if (!this._obj.has(key)) {
-        this.keys.push(key);
-      }
-      this._obj.set(key, value);
+      this._obj.set(key, from<T>(value));
     }
 
     has(key: string): bool {
