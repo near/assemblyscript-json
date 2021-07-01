@@ -107,6 +107,9 @@ namespace _JSON {
   }
 }
 
+// @ts-ignore
+@lazy const NULL: Null = new Null();
+
 export abstract class Value {
   static String(str: string): Str {
     return new Str(str);
@@ -124,7 +127,7 @@ export abstract class Value {
     return new Bool(b);
   }
   static Null(): Null {
-    return new Null();
+    return NULL;
   }
   static Array(): Arr {
     return new Arr();
@@ -189,10 +192,7 @@ export abstract class Value {
     return false;
   }
 
-  toString(): string {
-    throw new Error("Values must be casted to their JSON type for .toString()");
-    return "";
-  }
+  abstract toString(): string;
 }
 
 export class Str extends Value {
@@ -201,7 +201,7 @@ export class Str extends Value {
   }
 
   toString(): string {
-    return this._str;
+    return `"${this._str}"`;
   }
 
   valueOf(): string {
@@ -307,47 +307,14 @@ export class Obj extends Value {
     }
 
     toString(): string {
-      const objs: string[] = [];
+      const objs: string[] = new Array<string>(this.keys.length);
       for (let i: i32 = 0; i < this.keys.length; i++) {
-        let keyValueString = '"' + this.keys[i] + '": ';
-
-        // Cast our value into it's appropriate type
-        let value: Value | null = this._obj.get(this.keys[i]);
-        
-        // Check for null values
-        if (value == null || value.isNull) {
-          objs.push(keyValueString += "null");
-          continue;
-        }
-
-        // Cast to our proper type
-        if (value.isString) {
-          let castedValue = changetype<Str>(value);
-          keyValueString += '"' + castedValue.toString() + '"';
-        } else if (value.isNum) {
-          let castedValue = changetype<Num>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isFloat) {
-          let castedValue = changetype<Float>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isInteger) {
-          let castedValue = changetype<Integer>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isBool) {
-          let castedValue = changetype<Bool>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isArr) {
-          let castedValue = changetype<Arr>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isObj) {
-          let castedValue = changetype<Obj>(value);
-          keyValueString += castedValue.toString();
-        }
-
-        // Push the keyValueString
-        objs.push(keyValueString);
+        const key = this.keys[i];
+        const value = this._obj.get(key) || Value.Null();
+        objs[i] = `"${key}":${value}`;
       }
-      return "{" + objs.join(",") + "}";
+
+      return `{${objs.join(",")}}`;
     }
 
     valueOf(): Map<string, Value> {
