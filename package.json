@@ -18,11 +18,11 @@
     }
   },
   "devDependencies": {
-    "@as-pect/cli": "^4.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.13.0",
-    "@typescript-eslint/parser": "^4.13.0",
-    "assemblyscript": "^0.15.0",
-    "eslint": "^7.17.0",
+    "@as-pect/cli": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.0",
+    "@typescript-eslint/parser": "^4.16.0",
+    "assemblyscript": "^0.18.0",
+    "eslint": "^7.21.0",
     "husky": "^4.3.7",
     "typedoc": "^0.20.21",
     "typedoc-plugin-markdown": "^3.4.5",
