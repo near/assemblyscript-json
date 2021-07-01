@@ -256,11 +256,11 @@ array-union@^2.1.0:
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
 assemblyscript@^0.18.0:
-  version "0.18.15"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.18.15.tgz#b66a4d96c7de14e311303fb7c8ccf14b9d689e8f"
-  integrity sha512-s1N1qwdBhen2SLQApYCtRIPWm1Am3oAbW58GCEKbeN6ZbQRh7nq0pv4RDqKw6CgK7dySn/F2S1D6p0scyRbQRw==
+  version "0.18.32"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.18.32.tgz#cbb76076bd4d9702f4baae0a2910c9755c8e4ecd"
+  integrity sha512-Py6zremwGhO3nSoI/VxyVUzTZfNhTjzNzFDaUdG4JhPJHeG+FzVlEoNCrw4bE5nPc7F+P2DJ8tZQCqIt15ceKw==
   dependencies:
-    binaryen "100.0.0"
+    binaryen "100.0.0-nightly.20210413"
     long "^4.0.0"
 
 astral-regex@^2.0.0:
@@ -278,10 +278,10 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-binaryen@100.0.0:
-  version "100.0.0"
-  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-100.0.0.tgz#8ed91955eff14eb4758d68d593869cbc1a9a0dff"
-  integrity sha512-nxOt8d8/VXAuSVEtAWUdKrqpqCy365QqD223EzzB1GzS5himiZAfM/R5lXx+M/5q8TB8cYp3tYxv5rTjNTJveQ==
+binaryen@100.0.0-nightly.20210413:
+  version "100.0.0-nightly.20210413"
+  resolved "https://registry.yarnpkg.com/binaryen/-/binaryen-100.0.0-nightly.20210413.tgz#b7f2a5bb1f76b2d6f9c67486ca218714b3766790"
+  integrity sha512-EeGLIxQmJS0xnYl+SH34mNBqVMoixKd9nsE7S7z+CtS9A4eoWn3Qjav+XElgunUgXIHAI5yLnYT2TUGnLX2f1w==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
