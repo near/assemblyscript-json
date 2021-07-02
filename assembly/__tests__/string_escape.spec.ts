@@ -16,21 +16,21 @@ describe('Escaped characters', () => {
     ];
     strings.forEach((str) => {
       const jsonStr = new JSON.Str(str);
-      expect(jsonStr.toString()).toBe('"' + str + '"');
+      expect(jsonStr.stringify()).toBe('"' + str + '"');
     });
   });
   it('Escapes quotes and backslashes', () => {
     const strings = ['"', '\\', '"\\"', '\\"\\"'];
     strings.forEach((str) => {
       const jsonStr = new JSON.Str(str);
-      expect(jsonStr.toString()).toBe('"' + escaped(str) + '"');
+      expect(jsonStr.stringify()).toBe('"' + escaped(str) + '"');
     });
   });
   it('Escapes control characters', () => {
     const strings = ['\n', '\r', '\r\n', '\b', '\f', '\t', '\v', '\b\f\t\v\r'];
     strings.forEach((str) => {
       const jsonStr = new JSON.Str(str);
-      expect(jsonStr.toString()).toBe('"' + escaped(str) + '"');
+      expect(jsonStr.stringify()).toBe('"' + escaped(str) + '"');
     });
   });
 });

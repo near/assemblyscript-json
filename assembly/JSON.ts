@@ -192,7 +192,7 @@ export abstract class Value {
     return false;
   }
 
-  abstract toString(): string;
+  abstract stringify(): string;
 }
 
 export class Str extends Value {
@@ -200,7 +200,7 @@ export class Str extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     let escaped: i32[] = [];
     for (let i = 0; i < this._str.length; i++) {
       const charCode = this._str.charCodeAt(i);
@@ -226,7 +226,7 @@ export class Num extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._num.toString();
   }
 
@@ -243,7 +243,7 @@ export class Integer extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._num.toString();
   }
 
@@ -257,7 +257,7 @@ export class Null extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return "null";
   }
 
@@ -271,7 +271,7 @@ export class Bool extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._bool.toString();
   }
 
@@ -291,12 +291,12 @@ export class Arr extends Value {
       this._arr.push(obj);
     }
 
-    toString(): string {
+    stringify(): string {
       return (
         "[" +
         this._arr
           .map<string>((val: Value, i: i32, _arr: Value[]): string =>
-            val.toString()
+            val.stringify()
           )
           .join(",") +
         "]"
@@ -316,7 +316,7 @@ export class Obj extends Value {
       this._obj = new Map();
     }
 
-    toString(): string {
+    stringify(): string {
       const keys = this._obj.keys();
       const objs: string[] = new Array<string>(keys.length);
       for (let i: i32 = 0; i < keys.length; i++) {
@@ -324,7 +324,7 @@ export class Obj extends Value {
         const value = this._obj.get(key);
         // Currently must get the string value before interpolation 
         // see: https://github.com/AssemblyScript/assemblyscript/issues/1944
-        const valStr = value.toString();
+        const valStr = value.stringify();
         objs[i] = `"${key}":${valStr}`;
       }
 

@@ -39,12 +39,13 @@ if (numOrNull != null) {
 // If you don't know the value type, get the parent JSON.Value
 let valueOrNull: JSON.Value | null = jsonObj.getValue("hello");
   if (valueOrNull != null) {
-  let value: JSON.Value = changetype<JSON.Value>(valueOrNull);
+  let value = <JSON.Value>valueOrNull;
 
   // Next we could figure out what type we are
   if(value.isString) { 
     // value.isString would be true, so we can cast to a string
-    let stringValue: string = changetype<JSON.Str>(value).toString();
+    let innerString = (<JSON.Str>value).valueOf();
+    let jsonString = (<JSON.Str>value).stringify();
 
     // Do something with string value
   }
@@ -70,7 +71,7 @@ encoder.popObject();
 let json: Uint8Array = encoder.serialize();
 
 // Or get serialized data as string
-let jsonString: string = encoder.toString();
+let jsonString: string = encoder.stringify();
 
 assert(jsonString, '"obj": {"int": 10, "str": ""}'); // True!
 ```
