@@ -316,6 +316,10 @@ export class Obj extends Value {
       this._obj = new Map();
     }
 
+    get keys(): string[] {
+      return this._obj.keys();
+    }
+
     stringify(): string {
       const keys = this._obj.keys();
       const objs: string[] = new Array<string>(keys.length);
