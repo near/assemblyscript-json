@@ -192,7 +192,18 @@ export abstract class Value {
     return false;
   }
 
+  /**
+   * @returns A valid JSON string of the value
+   */
   abstract stringify(): string;
+
+  /**
+   * 
+   * @returns A AS string corresponding to the value. 
+   */
+  toString(): string {
+    return this.stringify();
+  }
 }
 
 export class Str extends Value {
@@ -214,6 +225,10 @@ export class Str extends Value {
       escaped.push(charCode);
     }
     return "\"" + String.fromCharCodes(escaped) + "\"";
+  }
+
+  toString(): string {
+    return this._str;
   }
 
   valueOf(): string {
