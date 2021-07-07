@@ -7,7 +7,7 @@ let primObj: JSON.Obj;
 let primArr: JSON.Arr;
 
 function parseToString(input: string): string {
-  return JSON.parse(input).toString();
+  return JSON.parse(input).stringify();
 }
 
 describe("JSON.parse", () => {
@@ -68,13 +68,13 @@ describe("JSON.parse", () => {
 
     it("should handle strings", () => {
       expect(parseToString('"hello"')).toStrictEqual(
-        JSON.from("hello").toString()
+        JSON.from("hello").stringify()
       );
     });
 
     it("should handle booleans", () => {
-      expect(parseToString("true")).toStrictEqual(JSON.from(true).toString());
-      expect(parseToString("false")).toStrictEqual(JSON.from(false).toString());
+      expect(parseToString("true")).toStrictEqual(JSON.from(true).stringify());
+      expect(parseToString("false")).toStrictEqual(JSON.from(false).stringify());
     });
 
     // TODO: JSON.from(null) should equal JSON.NUll();
@@ -86,24 +86,24 @@ describe("JSON.parse", () => {
   describe("Arrays", () => {
     it("should handle empty ones", () => {
       expect(parseToString("[]")).toStrictEqual(
-        JSON.from<i32[]>([]).toString()
+        JSON.from<i32[]>([]).stringify()
       );
     });
 
     it("should handle non-empty ones", () => {
-      expect(parseToString("[42]")).toStrictEqual(primArr.toString());
+      expect(parseToString("[42]")).toStrictEqual(primArr.stringify());
     });
 
     it("should handle nested ones", () => {
       const outterArr = JSON.Value.Array();
       outterArr.push(primArr);
-      expect(parseToString("[[42]]")).toStrictEqual(outterArr.toString());
+      expect(parseToString("[[42]]")).toStrictEqual(outterArr.stringify());
     });
   });
 
   describe("Objects", () => {
     it("should handle empty objects", () => {
-      expect(parseToString("{}")).toStrictEqual(JSON.Value.Object().toString());
+      expect(parseToString("{}")).toStrictEqual(JSON.Value.Object().stringify());
     });
 
     it("should handle primitive values", () => {
@@ -113,7 +113,7 @@ describe("JSON.parse", () => {
           "boolean": true, 
           "string": "Hello"
         }`)
-      ).toStrictEqual(primObj.toString());
+      ).toStrictEqual(primObj.stringify());
     });
 
     it("should handle nested objects", () => {
@@ -133,7 +133,7 @@ describe("JSON.parse", () => {
     it("should handle arrays", () => {
       const obj = JSON.Value.Object();
       obj.set("arr", primArr);
-      expect(parseToString('{"arr": [42]}')).toStrictEqual(obj.toString());
+      expect(parseToString('{"arr": [42]}')).toStrictEqual(obj.stringify());
     });
   });
 });

@@ -107,6 +107,9 @@ namespace _JSON {
   }
 }
 
+// @ts-ignore
+@lazy const NULL: Null = new Null();
+
 export abstract class Value {
   static String(str: string): Str {
     return new Str(str);
@@ -124,7 +127,7 @@ export abstract class Value {
     return new Bool(b);
   }
   static Null(): Null {
-    return new Null();
+    return NULL;
   }
   static Array(): Arr {
     return new Arr();
@@ -134,70 +137,70 @@ export abstract class Value {
   }
 
   get isString(): boolean {
-    if (this instanceof Str) {
-      return true;
-    }
-    return false;
+    return this instanceof Str;
   }
 
   get isNum(): boolean {
-    if (this instanceof Num) {
-      return true;
-    }
-    return false;
+    return this instanceof Num;
   }
 
   get isFloat(): boolean {
-    if (this instanceof Float) {
-      return true;
-    }
-    return false;
+    return this instanceof Float;
   }
 
   get isInteger(): boolean {
-    if (this instanceof Integer) {
-      return true;
-    }
-    return false;
+    return this instanceof Integer;
   }
 
   get isBool(): boolean {
-    if (this instanceof Bool) {
-      return true;
-    }
-    return false;
+    return this instanceof Bool;
   }
 
   get isNull(): boolean {
-    if (this instanceof Null) {
-      return true;
-    }
-    return false;
+    return this instanceof Null;
   }
 
   get isArr(): boolean {
-    if (this instanceof Arr) {
-      return true;
-    }
-    return false;
+    return this instanceof Arr;
   }
 
   get isObj(): boolean {
-    if (this instanceof Obj) {
-      return true;
-    }
-    return false;
+    return this instanceof Obj;
   }
 
+  /**
+   * @returns A valid JSON string of the value
+   */
+  abstract stringify(): string;
+
+  /**
+   * 
+   * @returns A AS string corresponding to the value. 
+   */
   toString(): string {
-    throw new Error("Values must be casted to their JSON type for .toString()");
-    return "";
+    return this.stringify();
   }
 }
 
 export class Str extends Value {
   constructor(public _str: string) {
     super();
+  }
+
+  stringify(): string {
+    let escaped: i32[] = [];
+    for (let i = 0; i < this._str.length; i++) {
+      const charCode = this._str.charCodeAt(i);
+      if (
+        charCode == 0x22 || // "    quotation mark  U+0022
+        charCode == 0x5C || // \    reverse solidus U+005C
+        charCode < 0x20 // control characters
+      ) {
+        escaped.push(0x5c); // add a reverse solidus (backslash) to escape reserved chars 
+      }
+      escaped.push(charCode);
+    }
+    return "\"" + String.fromCharCodes(escaped) + "\"";
   }
 
   toString(): string {
@@ -214,7 +217,7 @@ export class Num extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._num.toString();
   }
 
@@ -231,7 +234,7 @@ export class Integer extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._num.toString();
   }
 
@@ -245,7 +248,7 @@ export class Null extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return "null";
   }
 
@@ -259,7 +262,7 @@ export class Bool extends Value {
     super();
   }
 
-  toString(): string {
+  stringify(): string {
     return this._bool.toString();
   }
 
@@ -279,12 +282,12 @@ export class Arr extends Value {
       this._arr.push(obj);
     }
 
-    toString(): string {
+    stringify(): string {
       return (
         "[" +
         this._arr
           .map<string>((val: Value, i: i32, _arr: Value[]): string =>
-            val.toString()
+            val.stringify()
           )
           .join(",") +
         "]"
@@ -298,77 +301,43 @@ export class Arr extends Value {
 
 export class Obj extends Value {
     _obj: Map<string, Value>;
-    keys: Array<string>;
 
     constructor() {
       super();
       this._obj = new Map();
-      this.keys = new Array();
     }
 
-    toString(): string {
-      const objs: string[] = [];
-      for (let i: i32 = 0; i < this.keys.length; i++) {
-        let keyValueString = '"' + this.keys[i] + '": ';
+    get keys(): string[] {
+      return this._obj.keys();
+    }
 
-        // Cast our value into it's appropriate type
-        let value: Value | null = this._obj.get(this.keys[i]);
-        
-        // Check for null values
-        if (value == null || value.isNull) {
-          objs.push(keyValueString += "null");
-          continue;
-        }
-
-        // Cast to our proper type
-        if (value.isString) {
-          let castedValue = changetype<Str>(value);
-          keyValueString += '"' + castedValue.toString() + '"';
-        } else if (value.isNum) {
-          let castedValue = changetype<Num>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isFloat) {
-          let castedValue = changetype<Float>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isInteger) {
-          let castedValue = changetype<Integer>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isBool) {
-          let castedValue = changetype<Bool>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isArr) {
-          let castedValue = changetype<Arr>(value);
-          keyValueString += castedValue.toString();
-        } else if (value.isObj) {
-          let castedValue = changetype<Obj>(value);
-          keyValueString += castedValue.toString();
-        }
-
-        // Push the keyValueString
-        objs.push(keyValueString);
+    stringify(): string {
+      const keys = this._obj.keys();
+      const objs: string[] = new Array<string>(keys.length);
+      for (let i: i32 = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = this._obj.get(key);
+        // Currently must get the string value before interpolation 
+        // see: https://github.com/AssemblyScript/assemblyscript/issues/1944
+        const valStr = value.stringify();
+        objs[i] = `"${key}":${valStr}`;
       }
-      return "{" + objs.join(",") + "}";
+
+      return `{${objs.join(",")}}`;
     }
 
     valueOf(): Map<string, Value> {
       return this._obj;
     }
 
-
     set<T>(key: string, value: T): void {
       if (isReference<T>(value)) {
         if (value instanceof Value) {
-          this._set(key, <Value>value);
+          this._obj.set(key, <Value>value);
           return;
         }
       }
-      this._set(key, from<T>(value));
-    }
-    private _set(key: string, value: Value): void {
-      if (!this._obj.has(key)) {
-        this.keys.push(key);
-      }
-      this._obj.set(key, value);
+      this._obj.set(key, from<T>(value));
     }
 
     has(key: string): bool {
@@ -389,7 +358,7 @@ export class Obj extends Value {
     getString(key: string): Str | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isString) {
-        return changetype<Str>(jsonValue);
+        return <Str>jsonValue;
       }
       return null;
     }
@@ -397,7 +366,7 @@ export class Obj extends Value {
     getNum(key: string): Num | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isNum) {
-        return changetype<Num>(jsonValue);
+        return <Num>jsonValue;
       }
       return null;
     }
@@ -405,7 +374,7 @@ export class Obj extends Value {
     getFloat(key: string): Float | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isFloat) {
-        return changetype<Float>(jsonValue);
+        return <Float>jsonValue;
       }
       return null;
     }
@@ -413,7 +382,7 @@ export class Obj extends Value {
     getInteger(key: string): Integer | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isInteger) {
-        return changetype<Integer>(jsonValue);
+        return <Integer>jsonValue;
       }
       return null;
     }
@@ -421,7 +390,7 @@ export class Obj extends Value {
     getBool(key: string): Bool | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isBool) {
-        return changetype<Bool>(jsonValue);
+        return <Bool>jsonValue;
       }
       return null;
     }
@@ -429,7 +398,7 @@ export class Obj extends Value {
     getArr(key: string): Arr | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isArr) {
-        return changetype<Arr>(jsonValue);
+        return <Arr>jsonValue;
       }
       return null;
     }
@@ -437,7 +406,7 @@ export class Obj extends Value {
     getObj(key: string): Obj | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isObj) {
-        return changetype<Obj>(jsonValue);
+        return <Obj>jsonValue;
       }
       return null;
     }

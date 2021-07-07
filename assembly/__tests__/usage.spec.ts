@@ -75,7 +75,7 @@ describe("README Usage Examples", () => {
       // Next we could figure out what type we are
       if(value.isString) { 
         // value.isString would be true, so we can cast to a string
-        let stringValue: string = changetype<JSON.Str>(value).toString();
+        let stringValue: string = changetype<JSON.Str>(value).stringify();
         
         // Do something with string value
       }

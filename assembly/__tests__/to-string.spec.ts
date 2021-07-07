@@ -1,6 +1,3 @@
-import { JSONDecoder } from "../decoder";
-import { JSONEncoder } from "../encoder";
-import { Buffer } from "../util";
 import * as JSON from "../JSON";
 
 let primObj: JSON.Obj;
@@ -25,42 +22,49 @@ describe("JSON.Value.toString()", () => {
 
   it("Str", () => {
     let value = primObj.getString("Str");
-    expect(value!.toString()).toBe("Hello");
+    expect(value!.stringify()).toBe(`"Hello"`);
   });
 
   it("Num", () => {
     let value = primObj.getNum("Num");
-    expect(value!.toString()).toBe(testFloat.toString());
+    expect(value!.stringify()).toBe(testFloat.toString());
   });
 
   it("Float", () => {
     let value = primObj.getFloat("Float");
-    expect(value!.toString()).toBe(testFloat.toString());
+    expect(value!.stringify()).toBe(testFloat.toString());
 
   });
 
   it("Integer", () => {
     let value = primObj.getInteger("Integer");
-    expect(value!.toString()).toBe(testInteger.toString());
+    expect(value!.stringify()).toBe(testInteger.toString());
   });
 
   it("Bool", () => {
     let value = primObj.getBool("Bool");
-    expect(value!.toString()).toBe(testBool.toString());
+    expect(value!.stringify()).toBe(testBool.toString());
   });
 
   it("Arr", () => {
     let value = primObj.getArr("Arr");
-    expect(value!.toString()).toBe("[" + testArray.toString() + "]");
+    expect(value!.stringify()).toBe("[" + testArray.toString() + "]");
+  });
+
+  it("String Arr", () => {
+    let value = JSON.Value.Array();
+    value.push(JSON.Value.String("hello"));
+    value.push(JSON.Value.String("world"));
+    expect(value.stringify()).toBe(`["hello","world"]`);
   });
 
   it("Obj", () => {
     let value = primObj.getObj("Obj");
-    expect(value!.toString()).toBe('{"isChild": true}');
+    expect(value!.stringify()).toBe('{"isChild":true}');
   });
 
   it("Entire Object", () => {
-    expect(primObj.toString()).toBe("{\"Str\": \"Hello\",\"Num\": 42.24,\"Float\": 42.24,\"Integer\": 42,\"Bool\": true,\"Arr\": [1,2,3],\"Obj\": {\"isChild\": true}}");
+    expect(primObj.stringify()).toBe(`{"Str":"Hello","Num":42.24,"Float":42.24,"Integer":42,"Bool":true,"Arr":[1,2,3],"Obj":{"isChild":true}}`);
   });
 });
 
