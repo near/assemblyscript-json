@@ -137,59 +137,35 @@ export abstract class Value {
   }
 
   get isString(): boolean {
-    if (this instanceof Str) {
-      return true;
-    }
-    return false;
+    return this instanceof Str;
   }
 
   get isNum(): boolean {
-    if (this instanceof Num) {
-      return true;
-    }
-    return false;
+    return this instanceof Num;
   }
 
   get isFloat(): boolean {
-    if (this instanceof Float) {
-      return true;
-    }
-    return false;
+    return this instanceof Float;
   }
 
   get isInteger(): boolean {
-    if (this instanceof Integer) {
-      return true;
-    }
-    return false;
+    return this instanceof Integer;
   }
 
   get isBool(): boolean {
-    if (this instanceof Bool) {
-      return true;
-    }
-    return false;
+    return this instanceof Bool;
   }
 
   get isNull(): boolean {
-    if (this instanceof Null) {
-      return true;
-    }
-    return false;
+    return this instanceof Null;
   }
 
   get isArr(): boolean {
-    if (this instanceof Arr) {
-      return true;
-    }
-    return false;
+    return this instanceof Arr;
   }
 
   get isObj(): boolean {
-    if (this instanceof Obj) {
-      return true;
-    }
-    return false;
+    return this instanceof Obj;
   }
 
   /**
@@ -382,7 +358,7 @@ export class Obj extends Value {
     getString(key: string): Str | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isString) {
-        return changetype<Str>(jsonValue);
+        return <Str>jsonValue;
       }
       return null;
     }
@@ -390,7 +366,7 @@ export class Obj extends Value {
     getNum(key: string): Num | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isNum) {
-        return changetype<Num>(jsonValue);
+        return <Num>jsonValue;
       }
       return null;
     }
@@ -398,7 +374,7 @@ export class Obj extends Value {
     getFloat(key: string): Float | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isFloat) {
-        return changetype<Float>(jsonValue);
+        return <Float>jsonValue;
       }
       return null;
     }
@@ -406,7 +382,7 @@ export class Obj extends Value {
     getInteger(key: string): Integer | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isInteger) {
-        return changetype<Integer>(jsonValue);
+        return <Integer>jsonValue;
       }
       return null;
     }
@@ -414,7 +390,7 @@ export class Obj extends Value {
     getBool(key: string): Bool | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isBool) {
-        return changetype<Bool>(jsonValue);
+        return <Bool>jsonValue;
       }
       return null;
     }
@@ -422,7 +398,7 @@ export class Obj extends Value {
     getArr(key: string): Arr | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isArr) {
-        return changetype<Arr>(jsonValue);
+        return <Arr>jsonValue;
       }
       return null;
     }
@@ -430,7 +406,7 @@ export class Obj extends Value {
     getObj(key: string): Obj | null {
       let jsonValue = this.get(key);
       if (jsonValue != null && jsonValue.isObj) {
-        return changetype<Obj>(jsonValue);
+        return <Obj>jsonValue;
       }
       return null;
     }

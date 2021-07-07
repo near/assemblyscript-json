@@ -55,7 +55,7 @@ describe("JSON.Value.toString()", () => {
     let value = JSON.Value.Array();
     value.push(JSON.Value.String("hello"));
     value.push(JSON.Value.String("world"));
-    expect(value!.stringify()).toBe(`["hello","world"]`);
+    expect(value.stringify()).toBe(`["hello","world"]`);
   });
 
   it("Obj", () => {
