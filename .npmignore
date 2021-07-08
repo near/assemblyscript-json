@@ -1,0 +1,6 @@
+utils/**/*
+assembly/__tests__/
+docs/
+as-pect.config.js
+utils/testsuite_helper/
+utils/testsuite_helper/yarn.lock
