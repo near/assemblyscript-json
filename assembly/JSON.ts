@@ -183,24 +183,30 @@ export abstract class Value {
 }
 
 export class Str extends Value {
+  private escape_map:Map<string, string> = new Map<string, string>();
+
   constructor(public _str: string) {
     super();
+    const from: Array<string> = ['"', "\\", "\b", "\n", "\r", "\t", '\f', '\v'];
+    const to: Array<string> = ['\\"', "\\\\", "\\b", "\\n", "\\r", "\\t", "\\f", "\\u000b"];
+    
+    for(let i=0; i < from.length;i++){
+      this.escape_map.set(from[i], to[i]);
+    }
   }
 
   stringify(): string {
-    let escaped: i32[] = [];
+    let escaped: string[] = [];
     for (let i = 0; i < this._str.length; i++) {
-      const charCode = this._str.charCodeAt(i);
-      if (
-        charCode == 0x22 || // "    quotation mark  U+0022
-        charCode == 0x5C || // \    reverse solidus U+005C
-        charCode < 0x20 // control characters
-      ) {
-        escaped.push(0x5c); // add a reverse solidus (backslash) to escape reserved chars 
+      const char = this._str.at(i);
+
+      if ( this.escape_map.has(char) ) {
+        escaped.push(this.escape_map.get(char));
+      }else{
+        escaped.push(char);
       }
-      escaped.push(charCode);
     }
-    return "\"" + String.fromCharCodes(escaped) + "\"";
+    return `"${escaped.join('')}"`;
   }
 
   toString(): string {
