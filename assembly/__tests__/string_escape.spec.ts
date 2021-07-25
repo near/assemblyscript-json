@@ -22,7 +22,9 @@ describe('Escaped characters', () => {
 
   it('Escapes quotes and backslashes', () => {
     const strings = ['"', '\\', '"\\"', '\\"\\"'];
+    // Computed using javascript's JSON as implemented in mozilla firefox 90.0 (64-bit)
     const expected = ["\"\\\"\"", "\"\\\\\"", "\"\\\"\\\\\\\"\"", "\"\\\\\\\"\\\\\\\"\""];
+    
     for(let i=0; i<strings.length; i++){
       const jsonStr = new JSON.Str(strings[i]);
       expect(jsonStr.stringify()).toBe(expected[i]);
@@ -31,6 +33,7 @@ describe('Escaped characters', () => {
 
   it('Escapes control characters', () => {
     const strings = ['\n', '\r', '\r\n', '\b', '\f', '\t', '\v', '\b\f\t\v\r'];
+    // Computed using javascript's JSON as implemented in mozilla firefox 90.0 (64-bit)
     const expected = ["\"\\n\"","\"\\r\"","\"\\r\\n\"","\"\\b\"","\"\\f\"","\"\\t\"","\"\\u000b\"","\"\\b\\f\\t\\u000b\\r\""];
 
     for(let i=0; i<strings.length; i++){
