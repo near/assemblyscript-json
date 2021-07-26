@@ -183,15 +183,23 @@ export abstract class Value {
 }
 
 export class Str extends Value {
-  private escape_map:Map<string, string> = new Map<string, string>();
 
   constructor(public _str: string) {
     super();
-    const from: Array<string> = ['"', "\\", "\b", "\n", "\r", "\t", '\f', '\v'];
-    const to: Array<string> = ['\\"', "\\\\", "\\b", "\\n", "\\r", "\\t", "\\f", "\\u000b"];
-    
-    for(let i=0; i < from.length;i++){
-      this.escape_map.set(from[i], to[i]);
+  }
+
+  private escapeChar(char:string):string{
+    const charCode:i32 = char.charCodeAt(0);
+    switch(charCode){
+      case 0x22: return '\\"';
+      case 0x5C: return "\\\\";
+      case 0x08: return "\\b";
+      case 0x0A: return "\\n";
+      case 0x0D: return "\\r";
+      case 0x09: return "\\t";
+      case 0x0C: return "\\f";
+      case 0x0B: return "\\u000b";
+      default: return char;
     }
   }
 
@@ -199,12 +207,7 @@ export class Str extends Value {
     let escaped: string[] = [];
     for (let i = 0; i < this._str.length; i++) {
       const char = this._str.at(i);
-
-      if ( this.escape_map.has(char) ) {
-        escaped.push(this.escape_map.get(char));
-      }else{
-        escaped.push(char);
-      }
+      escaped.push(this.escapeChar(char));
     }
     return `"${escaped.join('')}"`;
   }
