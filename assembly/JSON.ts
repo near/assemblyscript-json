@@ -188,9 +188,9 @@ export class Str extends Value {
     super();
   }
 
-  private escapeChar(char:string):string{
-    const charCode:i32 = char.charCodeAt(0);
-    switch(charCode){
+  private escapeChar(char: string): string {
+    const charCode = char.charCodeAt(0);
+    switch (charCode) {
       case 0x22: return '\\"';
       case 0x5C: return "\\\\";
       case 0x08: return "\\b";
