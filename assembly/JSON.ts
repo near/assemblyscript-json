@@ -204,10 +204,10 @@ export class Str extends Value {
   }
 
   stringify(): string {
-    let escaped: string[] = [];
+    let escaped: string[] = new Array(this._str.length);
     for (let i = 0; i < this._str.length; i++) {
       const char = this._str.at(i);
-      escaped.push(this.escapeChar(char));
+      escaped[i] = this.escapeChar(char);
     }
     return `"${escaped.join('')}"`;
   }
