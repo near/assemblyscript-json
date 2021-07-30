@@ -182,32 +182,32 @@ export abstract class Value {
   }
 }
 
+function escapeChar(char: string): string {
+  const charCode = char.charCodeAt(0);
+  switch (charCode) {
+    case 0x22: return '\\"';
+    case 0x5C: return "\\\\";
+    case 0x08: return "\\b";
+    case 0x0A: return "\\n";
+    case 0x0D: return "\\r";
+    case 0x09: return "\\t";
+    case 0x0C: return "\\f";
+    case 0x0B: return "\\u000b";
+    default: return char;
+  }
+}
+
 export class Str extends Value {
 
   constructor(public _str: string) {
     super();
   }
 
-  private escapeChar(char: string): string {
-    const charCode = char.charCodeAt(0);
-    switch (charCode) {
-      case 0x22: return '\\"';
-      case 0x5C: return "\\\\";
-      case 0x08: return "\\b";
-      case 0x0A: return "\\n";
-      case 0x0D: return "\\r";
-      case 0x09: return "\\t";
-      case 0x0C: return "\\f";
-      case 0x0B: return "\\u000b";
-      default: return char;
-    }
-  }
-
   stringify(): string {
     let escaped: string[] = new Array(this._str.length);
     for (let i = 0; i < this._str.length; i++) {
       const char = this._str.at(i);
-      escaped[i] = this.escapeChar(char);
+      escaped[i] = escapeChar(char);
     }
     return `"${escaped.join('')}"`;
   }
