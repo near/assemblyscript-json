@@ -182,25 +182,34 @@ export abstract class Value {
   }
 }
 
+function escapeChar(char: string): string {
+  const charCode = char.charCodeAt(0);
+  switch (charCode) {
+    case 0x22: return '\\"';
+    case 0x5C: return "\\\\";
+    case 0x08: return "\\b";
+    case 0x0A: return "\\n";
+    case 0x0D: return "\\r";
+    case 0x09: return "\\t";
+    case 0x0C: return "\\f";
+    case 0x0B: return "\\u000b";
+    default: return char;
+  }
+}
+
 export class Str extends Value {
+
   constructor(public _str: string) {
     super();
   }
 
   stringify(): string {
-    let escaped: i32[] = [];
+    let escaped: string[] = new Array(this._str.length);
     for (let i = 0; i < this._str.length; i++) {
-      const charCode = this._str.charCodeAt(i);
-      if (
-        charCode == 0x22 || // "    quotation mark  U+0022
-        charCode == 0x5C || // \    reverse solidus U+005C
-        charCode < 0x20 // control characters
-      ) {
-        escaped.push(0x5c); // add a reverse solidus (backslash) to escape reserved chars 
-      }
-      escaped.push(charCode);
+      const char = this._str.at(i);
+      escaped[i] = escapeChar(char);
     }
-    return "\"" + String.fromCharCodes(escaped) + "\"";
+    return `"${escaped.join('')}"`;
   }
 
   toString(): string {

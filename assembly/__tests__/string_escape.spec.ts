@@ -16,38 +16,29 @@ describe('Escaped characters', () => {
     ];
     strings.forEach((str) => {
       const jsonStr = new JSON.Str(str);
-      expect(jsonStr.stringify()).toBe('"' + str + '"');
+      expect(jsonStr.stringify()).toBe(`"${str}"`);
     });
   });
+
   it('Escapes quotes and backslashes', () => {
     const strings = ['"', '\\', '"\\"', '\\"\\"'];
-    strings.forEach((str) => {
-      const jsonStr = new JSON.Str(str);
-      expect(jsonStr.stringify()).toBe('"' + escaped(str) + '"');
-    });
+    // Computed using javascript's JSON as implemented in mozilla firefox 90.0 (64-bit)
+    const expected = ["\"\\\"\"", "\"\\\\\"", "\"\\\"\\\\\\\"\"", "\"\\\\\\\"\\\\\\\"\""];
+    
+    for(let i=0; i<strings.length; i++){
+      const jsonStr = new JSON.Str(strings[i]);
+      expect(jsonStr.stringify()).toBe(expected[i]);
+    }
   });
+
   it('Escapes control characters', () => {
     const strings = ['\n', '\r', '\r\n', '\b', '\f', '\t', '\v', '\b\f\t\v\r'];
-    strings.forEach((str) => {
-      const jsonStr = new JSON.Str(str);
-      expect(jsonStr.stringify()).toBe('"' + escaped(str) + '"');
-    });
+    // Computed using javascript's JSON as implemented in mozilla firefox 90.0 (64-bit)
+    const expected = ["\"\\n\"","\"\\r\"","\"\\r\\n\"","\"\\b\"","\"\\f\"","\"\\t\"","\"\\u000b\"","\"\\b\\f\\t\\u000b\\r\""];
+
+    for(let i=0; i<strings.length; i++){
+      const jsonStr = new JSON.Str(strings[i]);
+      expect(jsonStr.stringify()).toBe(expected[i]);
+    }
   });
 });
-
-function escaped(str: string): string {
-  const escapedChars: i32[] = [];
-  for (let i = 0; i < str.length; i++) {
-    const charCode = str.charCodeAt(i);
-    if (
-      charCode < 0x20 || // control characters
-      charCode == 0x22 || // double quote (")
-      charCode == 0x5c
-    ) {
-      // backslash / reverse solidus (\)
-      escapedChars.push(0x5c);
-    }
-    escapedChars.push(charCode);
-  }
-  return String.fromCharCodes(escapedChars);
-}
