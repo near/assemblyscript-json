@@ -307,9 +307,9 @@ array-union@^2.1.0:
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
 assemblyscript@^0.19.5:
-  version "0.19.8"
-  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.19.8.tgz#525684e7092d728aabb977e5c8ee92a0bbc0c587"
-  integrity sha512-lXJHNbp9mQV8pG+l7SPBSeeLNvXbqD5l0AkJTj1xX0FMaU2QqlelIziZB7pXzgC1OQZEPXYAKKSDHWmg69ieGQ==
+  version "0.19.11"
+  resolved "https://registry.yarnpkg.com/assemblyscript/-/assemblyscript-0.19.11.tgz#11e61d385b9f0c7cc5ed70a3536540889b0bcf5f"
+  integrity sha512-Z121H4rHkrHhOswQQ6Nvv0y3UVqBm3Z6ZSYKF7dNDoR608Axd/gJPkPLGI6fVnqZT+fH6s3/erx4P2vUseMa7w==
   dependencies:
     binaryen "101.0.0-nightly.20210723"
     long "^4.0.0"
