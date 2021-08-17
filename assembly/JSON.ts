@@ -260,10 +260,6 @@ export class Null extends Value {
   stringify(): string {
     return "null";
   }
-
-  valueOf(): null {
-    return null;
-  }
 }
 
 export class Bool extends Value {
