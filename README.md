@@ -20,7 +20,7 @@ Special thanks to https://github.com/MaxGraey/bignum.wasm for basic unit testing
 import { JSON } from "assemblyscript-json"; 
 
 // Parse an object using the JSON object
-let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse('{"hello": "world", "value": 24}'));
+let jsonObj: JSON.Obj = <JSON.Obj>(JSON.parse('{"hello": "world", "age": 24, "temperature": 36.8}'));
 
 // We can then use the .getX functions to read from the object if you know it's type
 // This will return the appropriate JSON.X value if the key exists, or null if the key does not exist
@@ -30,10 +30,16 @@ if (worldOrNull != null) {
   let world: string = worldOrNull.valueOf();
 }
 
-let numOrNull: JSON.Num | null = jsonObj.getNum("value");
-if (numOrNull != null) {
-  // use .valueOf() to turn the high level JSON.Num type into a f64
-  let value: f64 = numOrNull.valueOf();
+let intOrNull: JSON.Integer | null = jsonObj.getInteger("age");
+if (intOrNull != null) {
+  // use .valueOf() to turn the high level JSON.Integer type into a i64
+  let age: i64 = intOrNull.valueOf();
+}
+
+let floatOrNull: JSON.Float | null = jsonObj.getFloat("temperature");
+if (floatOrNull != null) {
+  // use .valueOf() to turn the high level JSON.Float type into a f64
+  let temperature: f64 = floatOrNull.valueOf();
 }
 
 // If you don't know the value type, get the parent JSON.Value
