@@ -71,9 +71,9 @@ encoder.popObject();
 let json: Uint8Array = encoder.serialize();
 
 // Or get serialized data as string
-let jsonString: string = encoder.stringify();
+let jsonString: string = encoder.toString();
 
-assert(jsonString, '"obj": {"int": 10, "str": ""}'); // True!
+assert(jsonString == '\"obj\":{\"int\":10,\"str\":\"\"}'); // True!
 ```
 
 ### Custom JSON Deserializers
