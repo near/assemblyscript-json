@@ -174,8 +174,8 @@ export abstract class Value {
   abstract stringify(): string;
 
   /**
-   * 
-   * @returns A AS string corresponding to the value. 
+   *
+   * @returns A AS string corresponding to the value.
    */
   toString(): string {
     return this.stringify();
@@ -209,7 +209,7 @@ export class Str extends Value {
       const char = this._str.at(i);
       escaped[i] = escapeChar(char);
     }
-    return `"${escaped.join('')}"`;
+    return '"' + escaped.join('') + '"';
   }
 
   toString(): string {
@@ -326,13 +326,13 @@ export class Obj extends Value {
       for (let i: i32 = 0; i < keys.length; i++) {
         const key = keys[i];
         const value = this._obj.get(key);
-        // Currently must get the string value before interpolation 
+        // Currently must get the string value before interpolation
         // see: https://github.com/AssemblyScript/assemblyscript/issues/1944
         const valStr = value.stringify();
-        objs[i] = `"${key}":${valStr}`;
+        objs[i] = '"' + key + '":' + valStr;
       }
 
-      return `{${objs.join(",")}}`;
+      return "{" + objs.join(",") + "}";
     }
 
     valueOf(): Map<string, Value> {
