@@ -1,6 +1,8 @@
 utils/**/*
 assembly/__tests__/
+assembly/__benches__/
 docs/
 as-pect.config.js
+as-tral/
 utils/testsuite_helper/
 utils/testsuite_helper/yarn.lock

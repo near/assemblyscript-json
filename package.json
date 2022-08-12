@@ -10,7 +10,8 @@
     "lint:fix": "yarn lint --fix",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out temp-docs --tsconfig assembly/tsconfig.json --exclude \"node_modules/**/*\" --readme none assembly/index.ts",
     "docs:deploy": "cp -r temp-docs/* docs",
-    "test": "asp"
+    "test": "asp",
+    "bench": "astral"
   },
   "husky": {
     "hooks": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@as-pect/cli": "^6.2.4",
+    "@as-tral/cli": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^4.16.0",
     "@typescript-eslint/parser": "^4.16.0",
     "assemblyscript": "^0.19.5",
