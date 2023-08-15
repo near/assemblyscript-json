@@ -4,5 +4,6 @@ temp-docs/
 tests/build
 utils/testsuite_helper/build
 .DS_Store
-
+.idea/
+*.wasm
 *.wat
