@@ -13,6 +13,6 @@
     "assemblyscript": "^0.18.15"
   },
   "dependencies": {
-    "as-wasi": "^0.4.4"
+    "as-wasi": "^0.6.0"
   }
 }
